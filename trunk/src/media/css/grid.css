@@ -1,0 +1,249 @@
+/* A container should group all your columns. */
+div#container {
+  width: 950px;
+  margin: 0 auto;
+  
+  height: auto !important;
+  min-height: 100%;
+  position: relative;
+}
+
+/* Use this class on any div.span / container to see the grid. */
+.showgrid { 
+  background: url(../img/grid.png); 
+}
+
+/* Body margin for a sensile default look. */
+html, body {
+	margin:1.5em 0;
+  
+	margin: 0pt;
+	padding: 0pt;
+	
+	font-family: arial, sans-serif;
+	height: 100%;
+}
+
+a:hover {
+	color: #94DA3A;
+}
+a:link, a:visited {
+	color: #092E20;
+}
+
+div#content {
+	padding: 1em 0pt 5em;
+	
+	text-align: justify;
+	color: #333;
+	font-size: 80%;
+	background: #FFF;
+}
+
+div#header {
+	display: block;
+	height: 70px;
+	
+	text-align: left;
+	background: #DDD;
+}
+
+h1#sitename {
+	padding-left: 20px;
+	padding-top: 20px;
+	font-family:"Trebuchet MS",sans-serif;
+	font-size: 200%;
+	font-weight: bold;
+}
+
+div#teaser {
+	background: transparent url(../img/teaserbg.png) no-repeat scroll left center;
+	display: block;
+	height: 160px;
+	font-family: verdana;
+	padding-left: 20px;
+	text-align: left;
+}
+
+div#teaser h1 {
+	padding-top: 20px;
+	font-size: 140%;
+	color: #FFF;
+}
+
+div#teaser h2 {
+	font-size: 100%;
+	color: #FFF;
+}
+
+div#footer {
+	bottom: 0pt;
+	height: 5em;
+	position: absolute;
+}
+
+#footer #copy {
+	border-top: 1px solid #C4C4C4;
+	color: #7C7C7C;
+	font-size: .8em;
+	padding: 1em;
+	text-align: center;
+}
+
+#menu ul
+{
+	position: absolute;
+	margin: 0px;
+	display: inline;
+	right: 0px;
+	top: 0px;
+}
+
+#menu ul li
+{
+	display: inline;
+	list-style-type: none;
+}
+
+#menu ul li a
+{
+	display: block;
+	float: left;
+	font-family: 'Trebuchet MS', Verdana, sans-serif;
+	font-size: 13px;
+	text-decoration: none;
+	color: #6F6963;
+	padding: 40px 20px 14px 8px;
+	border-left: 1px solid #c4c4c4;
+	text-transform: uppercase;
+	line-height: 16px;
+}
+
+#menu ul li a:hover
+{
+	background-color: #e5ff80;
+	color: #4C4844;
+	border-left: 1px solid #4C4844;
+}
+
+#menu ul li a.active
+{
+	background-color: #c6e9af;
+	color: #4C4844;
+}
+
+
+p {
+	margin-bottom: 8px;
+}
+
+/* Columns
+-------------------------------------------------------------- */
+
+/* Sets up basic grid floating and margin. */
+div.span-1, div.span-2, div.span-3, div.span-4 {float:left;margin-right: 10px;}
+
+/* The last column in a row needs this class. */
+div.last { margin-right: 0; }
+
+/* Use these classes to set the width of a column. */
+.span-1  { width: 230px;}
+.span-2  { width: 470px;}
+.span-3  { width: 710px;}
+.span-4, div.span-4 { width: 950px; margin: 0; }
+
+
+/* Add these to a column to append empty cols. */
+.append-1  { padding-right: 240px;}
+.append-2  { padding-right: 480px;}
+.append-3  { padding-right: 720px;}
+
+
+/* Add these to a column to prepend empty cols. */
+.prepend-1  { padding-left: 240px;}
+.prepend-2  { padding-left: 480px;}
+.prepend-3  { padding-left: 720px;}
+
+
+
+/* Border on right hand side of a column. */
+div.border {
+  padding-right: 4px;
+  margin-right: 5px;
+  border-right: 1px solid #ccc;
+}
+
+/* Border with more whitespace, spans one column. */
+div.colborder {
+  padding-right:228px;
+  margin-right:225px;
+  border-right: 1px solid #eee;
+}
+
+/* Use these classes on an element to push it into the 
+   next column, or to pull it into the previous column.  */
+
+.pull-1 { margin-left: -240px;}
+.pull-2 { margin-left: -480px;}
+.pull-3 { margin-left: -720px;}
+.pull-4 { margin-left: -960px;}
+
+.pull-1, .pull-2, .pull-3, .pull-4 {float:left;position:relative;}
+
+
+.push-1 { margin: 0 -240px 1.5em 240px;}
+.push-2 { margin: 0 -480px 1.5em 480px;}
+.push-3 { margin: 0 -720px 1.5em 720px;}
+.push-4 { margin: 0 -960px 1.5em 960px;}
+
+.push-1, .push-2, .push-3, .push-4 {float:right;position:relative;}
+
+
+
+/* Misc classes and elements
+-------------------------------------------------------------- */
+
+/* Use a .box to create a padded box inside a column.  */ 
+.box { 
+  padding: 1.5em; 
+  margin-bottom: 1.5em; 
+  background: #E5ECF9; 
+}
+
+/* Use this to create a horizontal ruler across a column. */
+hr {
+  background: #ddd; 
+  color: #ddd;
+  clear: both; 
+  float: none; 
+  width: 100%; 
+  height: .1em;
+  margin: 0 0 1.45em;
+  border: none; 
+}
+hr.space {
+  background: #fff;
+  color: #fff;
+}
+
+
+/* Clearing floats without extra markup
+   Based on How To Clear Floats Without Structural Markup by PiE
+   [http://www.positioniseverything.net/easyclearing.html] */
+
+.clearfix:after, .container:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+.clearfix, .container {display: inline-block;}
+* html .clearfix,
+* html .container {height: 1%;}
+.clearfix, .container {display: block;}
+
+/* Regular clearing
+   apply to column that should drop below previous ones. */
+
+.clear { clear:both; }
