@@ -1,4 +1,5 @@
 #summary So, What's a Block?
+#labels Featured,Phase-Design
 
 = Introduction =
 
