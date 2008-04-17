@@ -1,4 +1,9 @@
-import os
+# this file maybe be replaced by blocks.core.db_settings module that will store
+# all manageble settings in the database and call the settings.configure().
+# see: http://www.djangoproject.com/documentation/settings/#using-settings-without-setting-django-settings-module
+# of course that DATABASE settings need to be here.
+
+import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -15,16 +20,26 @@ DATABASE_NAME = os.path.join(os.path.dirname(__file__), "db/blocks.db")
 SITE_ID = 1
 USE_I18N = True
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/Lisbon'
+
+# src/python/blocks => src/
+ROOT_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))));
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "media")
+MEDIA_ROOT = os.path.join(ROOT_PATH, "media")
 ADMIN_MEDIA_PREFIX = "%sadmin/" % (MEDIA_URL)
-TEMPLATE_DIRS = [os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "templates")]
+TEMPLATE_DIRS = [os.path.join(ROOT_PATH, "templates")]
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'blocks.core.context_processors.media',
 )
 
 MIDDLEWARE_CLASSES = (
