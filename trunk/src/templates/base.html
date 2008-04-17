@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 	<head>
 		<title>{% block title %}{% endblock %}</title>
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="/media/css/reset.css" />
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="/media/css/grid.css" />
-		<!--[if IE]><link rel="stylesheet" type="text/css" media="screen, projection" href="/media/css/ie.css" /><![endif]-->
-		{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" media="screen, projection" href="{% block stylesheet_rtl %}/media/css/rtl.css{% endblock %}" />{% endif %}
-		<link rel="stylesheet" type="text/css" media="print" href="/media/css/print.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/reset.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/grid.css" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/ie.css" /><![endif]-->
+		{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" media="screen, projection" href="{% block stylesheet_rtl %}{{ MEDIA_URL }}css/rtl.css{% endblock %}" />{% endif %}
+		<link rel="stylesheet" type="text/css" media="print" href="{{ MEDIA_URL }}css/print.css" />
 		{% block extrastyle %}{% endblock %}
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
@@ -20,13 +20,10 @@
 				{% block branding %}{% endblock %}
 				<div id="menu">
 					<ul>
-						<li><a href="#" class="active">Home</a></li>
-						<li><a href="#">Features</a></li>
-						<li><a href="#">Screenshots</a></li>
-					
-						<li><a href="#">Download</a></li>
-						<li><a href="#">History</a></li>
-						<li><a href="#">Contact</a></li>
+						<li><a href="/"{% ifequal BLOCKS_URL "/" %} class="active"{% endifequal %}>Home</a></li>
+						<li><a href="/downloads/"{% ifequal BLOCKS_URL "/downloads/" %} class="active"{% endifequal %}>Download</a></li>
+						<li><a href="/gallery/"{% ifequal BLOCKS_URL "/gallery/" %} class="active"{% endifequal %}>Screenshots</a></li>
+						<li><a href="/docs/"{% ifequal BLOCKS_URL "/docs/" %} class="active"{% endifequal %}>Documentation</a></li>
 					</ul>
 				</div>
 			</div>
