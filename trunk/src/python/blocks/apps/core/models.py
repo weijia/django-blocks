@@ -24,7 +24,18 @@ class BaseContentModel(models.Model):
 		db_table = 'blocks_content'
 		ordering = ('title',)
 
+## Template Model
+# syncdb will execute the sql/template.sql that populates table with default data
+#
 class Template(BaseModel):
+	
+	def delete(self):
+		# TODO: validate if is system Template
+		if self.name == "Default":
+		  return
+		else:
+		  super(Template, self).delete()
+			
 	class Meta:
 		db_table = 'blocks_template'
 	
@@ -35,7 +46,7 @@ class Page(BaseModel):
 	title = models.CharField(_('title'), max_length=200)
 	
 	url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL], db_index=True,
-		help_text=_("Example: '/about/contact/'. Make sure to have leading and trailing slashes."))
+		help_text=_("Example: '/about/'. Make sure to have leading and trailing slashes."))
 	
 	template = models.OneToOneField(Template, verbose_name=_('template'),
 		help_text=_("You must provide a template to be used in this page"))
@@ -68,9 +79,9 @@ class View(BaseModel):
 		pass
 		
 
-class StaticContent(BaseContentModel):
+class StaticPage(BaseContentModel):
 	url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL], db_index=True,
-		help_text=_("Example: '/about/contact/'. Make sure to have leading and trailing slashes."))
+		help_text=_("Example: '/about/'. Make sure to have leading and trailing slashes."))
 	
 	class Meta:
 		db_table = 'blocks_content_page'
