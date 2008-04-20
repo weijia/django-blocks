@@ -5,7 +5,7 @@
 from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
-from base import STATUS_CHOICES
+from base import *
 import logging
 
 log = logging.getLogger("core.models")
@@ -20,13 +20,21 @@ class BaseModel(models.Model):
 		ordering = ('name',)
 
 class BaseContentModel(models.Model):
-	title = models.CharField(_('title'), max_length=80, unique=True)
+	# content
+	title = models.CharField(_('title'), max_length=200, unique=True)
 	lead = models.TextField(_('lead'))
 	body = models.TextField(_('body'))
 	
+	# publishing options
+	status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+	publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"))
+	unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"))
+	promoted = models.BooleanField(_('promoted'), help_text=_("promoted to frontpage or section"))
+	weight = models.IntegerField(choices=WEIGHT_CHOICES)
+	
 	class Meta:
 		db_table = 'blocks_content'
-		ordering = ('title',)
+		ordering = ('weight', 'publish_date',)
 
 ## Template Model
 # syncdb will execute the sql/template.sql that populates table with default data
@@ -50,7 +58,7 @@ class Page(BaseModel):
 	title = models.CharField(_('title'), max_length=200)
 	
 	url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL], db_index=True,
-		help_text=_("Example: '/about/'. Make sure to have leading and trailing slashes."))
+		help_text=_("URL by which this page would be accessed. For example, type '/about/' when writing an about page. Use a relative path make sure to have leading and trailing slashes."))
 	
 	template = models.OneToOneField(Template, verbose_name=_('template'),
 		help_text=_("You must provide a template to be used in this page"))
@@ -79,16 +87,5 @@ class View(BaseModel):
 	class Meta:
 		db_table = 'blocks_view'
 	
-	class Admin:
-		pass
-		
-
-class StaticPage(BaseContentModel):
-	url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL], db_index=True,
-		help_text=_("Example: '/about/'. Make sure to have leading and trailing slashes."))
-	
-	class Meta:
-		db_table = 'blocks_content_page'
-
 	class Admin:
 		pass

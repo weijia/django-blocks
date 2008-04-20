@@ -66,6 +66,7 @@ INSTALLED_APPS = (
 	
 	# blocks applications
 	'blocks.apps.core',
+    'blocks.apps.contenttypes',
 )
 
 CACHE_MIDDLEWARE_SECONDS = 1 #60 * 5 # 5 minutes
