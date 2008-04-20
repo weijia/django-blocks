@@ -6,6 +6,10 @@ from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 from base import STATUS_CHOICES
+import logging
+
+log = logging.getLogger("core.models")
+log.debug("loading core models")
 
 class BaseModel(models.Model):
 	name = models.CharField(_('name'), max_length=80, unique=True)

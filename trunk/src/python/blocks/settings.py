@@ -74,3 +74,4 @@ CACHE_MIDDLEWARE_GZIP = True
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 BLOCKS_MEDIA_SERVE = True
+BLOCKS_LOGGING_FILE = os.path.join(os.path.dirname(__file__), "db/blocks.log")
