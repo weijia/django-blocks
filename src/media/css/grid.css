@@ -8,11 +8,6 @@ div#container {
   position: relative;
 }
 
-/* Use this class on any div.span / container to see the grid. */
-.showgrid { 
-  background: url(../img/grid.png); 
-}
-
 /* Body margin for a sensile default look. */
 html, body {
 	margin:1.5em 0;

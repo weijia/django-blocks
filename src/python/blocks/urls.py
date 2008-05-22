@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 urlpatterns = patterns('',
-	(r'', include('blocks.apps.core.urls')),
+	(r'^r/', include('django.conf.urls.shortcut')),
 )
 
 if settings.BLOCKS_MEDIA_SERVE and settings.MEDIA_URL.startswith('/'):
@@ -17,4 +17,5 @@ if settings.BLOCKS_MEDIA_SERVE and settings.MEDIA_URL.startswith('/'):
 
 urlpatterns += patterns('',
 	(r'^admin/', include('django.contrib.admin.urls')),
+	(r'', include('blocks.apps.core.urls')),
 )
