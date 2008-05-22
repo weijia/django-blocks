@@ -5,8 +5,10 @@
 from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 from base import *
 import logging
+from blocks.apps.wiki import wiki
 
 log = logging.getLogger("core.models")
 log.debug("loading core models")
@@ -22,15 +24,23 @@ class BaseModel(models.Model):
 class BaseContentModel(models.Model):
 	# content
 	title = models.CharField(_('title'), max_length=200, unique=True)
-	lead = models.TextField(_('lead'))
-	body = models.TextField(_('body'))
+	lead_wiki = models.TextField(_('lead'))
+	body_wiki = models.TextField(_('body'))
 	
 	# publishing options
-	status = models.CharField(max_length=1, choices=STATUS_CHOICES)
-	publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"))
-	unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"))
+	status = models.CharField(max_length=1, choices=STATUS_CHOICES, blank=True, default='N')
+	publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"), null=True, blank=True)
+	unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"), null=True, blank=True)
 	promoted = models.BooleanField(_('promoted'), help_text=_("promoted to frontpage or section"))
-	weight = models.IntegerField(choices=WEIGHT_CHOICES)
+	weight = models.IntegerField(choices=WEIGHT_CHOICES, null=True, blank=True)
+	
+	def _get_lead(self):
+		return mark_safe(wiki.parse(self.lead_wiki))
+	lead = property(_get_lead)
+	
+	def _get_body(self):
+		return mark_safe(wiki.parse(self.body_wiki))
+	body = property(_get_body)
 	
 	class Meta:
 		db_table = 'blocks_content'
@@ -40,7 +50,9 @@ class BaseContentModel(models.Model):
 # syncdb will execute the sql/template.sql that populates table with default data
 #
 class Template(BaseModel):
-	
+	template = models.CharField(_('template'), max_length=70,
+					help_text=_("Example: 'templates/homepate.html'. If this isn't provided, the system will use 'templates/default.html'."))
+
 	def delete(self):
 		# TODO: validate if is system Template
 		if self.name == "Default":
@@ -52,7 +64,10 @@ class Template(BaseModel):
 		db_table = 'blocks_template'
 	
 	class Admin:
-		pass
+		search_fields = ('template', 'name', 'description')
+	
+	def __unicode__(self):
+		return self.name
 
 class Page(BaseModel):
 	title = models.CharField(_('title'), max_length=200)
