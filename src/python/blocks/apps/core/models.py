@@ -61,7 +61,8 @@ class Template(BaseModel):
 		  super(Template, self).delete()
 			
 	class Meta:
-		db_table = 'blocks_template'
+		#db_table = 'blocks_template'
+		app_label = 'blocks'
 	
 	class Admin:
 		search_fields = ('template', 'name', 'description')
