@@ -1,0 +1,65 @@
+a:link, a:visited {
+	color: #299;
+}
+
+a:hover {
+	color: #666;
+}
+
+#contents .block
+{
+	background: #fff url(../img/admin/blockbg.png) repeat-x scroll 0 0;
+	padding: 1em;
+}
+
+dl
+{
+	padding: 1em;
+	padding-top: 0em;
+}
+
+dt span
+{
+	font-size: .8em;
+}
+
+dd
+{
+	padding-bottom: 1em;
+	color: #666;
+}
+
+#sidebar .module
+{
+}
+
+#sidebar .module h2,
+#contents h1
+{
+	background-color: #666;
+	color: #fff;
+	padding: 3px 10px 3px 10px;
+	line-height: 20px;
+	height: 20px;
+}
+
+div#footer
+{
+	padding-top: 2em;
+	height: 5em;
+}
+
+#footer #copy {
+	border-top: 1px solid #250;
+	color: #7C7C7C;
+	font-size: .9em;
+	padding: 1em;
+	text-align: center;
+}
+
+#content-main .block.span-1
+{
+	border: 1px solid #D9EAF5;
+	width: 320px;
+	margin-bottom: 10px;
+}

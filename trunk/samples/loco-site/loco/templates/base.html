@@ -4,12 +4,21 @@
 		<title>{% block title %}{% endblock %}</title>
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/reset.css" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/grid.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/typography.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/site.css" />
 		<!--[if IE]><link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/ie.css" /><![endif]-->
 		{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" media="screen, projection" href="{% block stylesheet_rtl %}{{ MEDIA_URL }}css/rtl.css{% endblock %}" />{% endif %}
 		<link rel="stylesheet" type="text/css" media="print" href="{{ MEDIA_URL }}css/print.css" />
 		{% block extrastyle %}{% endblock %}
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+		<!--[if gte IE 5.5]>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
+		<style type="text/css">
+			.iepngfix { behavior: expression(IEPNGFIX.fix(this)); }
+			img { behavior: expression(IEPNGFIX.fix(this)); }
+		</style>
+		<![endif]-->
 	</head>
 
 	<body>
@@ -17,7 +26,9 @@
 		<div id="container">
 
 			<div id="header" class="span-4 last">
-				{% block branding %}{% endblock %}
+				
+				<img id="sitelogo" src="{{ MEDIA_URL }}img/logo.png" width="296" height="87" />
+				
 				<div id="menu">
 					<ul>
 						<li><a href="/"{% ifequal BLOCKS_URL "/" %} class="active"{% endifequal %}>Home</a></li>
@@ -27,26 +38,49 @@
 					</ul>
 				</div>
 			</div>
-			
-			<div id="teaser" class="span-4 last">
-				<h1>The CMS Framework for perfectionists with deadlines</h1>
-				<h2>Django Blocks its even easier to build Web apps more quickly and with almost no code.</h2>
-			</div>
 				
 			<div id="content" class="span-4 last">
-				<div class="span-2">
-					{% block content %}{% endblock %}
+				<div id="contents" class="span-2">
+					{% block content %}No content provided{% endblock %}
 				</div>
 				
-				<div class="span-1">
-					<p>Mauris sollicitudin suscipit orci. Donec laoreet eros. Donec eu urna sed massa porttitor gravida. Vivamus pulvinar sagittis est. Vivamus rhoncus, est ac varius posuere, risus libero gravida sapien, sed elementum dolor augue ut neque. Nunc blandit. Nulla nibh. Fusce mauris massa, viverra et, varius nec, semper ac, nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque ullamcorper est quis velit eleifend cursus. Ut felis est, ultricies in, mattis quis, mollis ullamcorper, felis. Sed turpis. Morbi a turpis. Fusce urna nunc, sodales ac, elementum non, interdum ac, pede. Sed feugiat viverra leo. Morbi ut nibh vel ligula tristique cursus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+				{% block teaser %}
+				{% endblock %}				
+				
+				<div class="span-1" id="secmenu">
+					{% block menu %}
+					<a href="/about/"><img src="{{ MEDIA_URL }}img/beginers.png" width="230" height="56" border="0" /></a>
+					<ul>
+						<li><a href="/about/">Quem Somos</a></li>
+						<li><a href="/about/">Como Participar</a></li>
+						<li><a href="/about/">Notícias</a></li>
+						<li><a href="/about/">Outros Conteúdos</a></li>
+						<li><a href="/about/">Contactos</a></li>
+					</ul>
+					<a href="/about/"><img src="{{ MEDIA_URL }}img/ubuntupub.png" width="230" height="135" border="0" /></a>
+					{% endblock %}
 				</div>
 		
 				<div class="span-1 last">
-					<p>Mauris sollicitudin suscipit orci. Donec laoreet eros. Donec eu urna sed massa porttitor gravida. Vivamus pulvinar sagittis est. Vivamus rhoncus, est ac varius posuere, risus libero gravida sapien, sed elementum dolor augue ut neque. Nunc blandit. Nulla nibh. Fusce mauris massa, viverra et, varius nec, semper ac, nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque ullamcorper est quis velit eleifend cursus. Ut felis est, ultricies in, mattis quis, mollis ullamcorper, felis. Sed turpis. Morbi a turpis. Fusce urna nunc, sodales ac, elementum non, interdum ac, pede. Sed feugiat viverra leo. Morbi ut nibh vel ligula tristique cursus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+					<div class="block news">
+						<h2>Ùltimas</h2>
+						<p>
+							{% load aggregator %}
+							{% get_feed_list as feed_list %}
+							{% for item in feed_list %}
+							<p>
+								<span class="feed">{{ item.feed}}</span><span class="date">{{ item.date_modified|date:"j F Y" }}</span><br />
+								<a class="title" href="/planet/{{ item.id }}">{{ item.title }}</a>
+							</p>
+							{% endfor %}
+						</p>
+					</div>
 				</div>
+								
+				{% block help %}
+				{% endblock %}
 				
-				<div class="clear last" />
+				<div class="span-4 last" />
 			</div>
 			
 			<div id="footer" class="span-4 last">
