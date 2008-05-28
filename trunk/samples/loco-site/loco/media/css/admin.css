@@ -57,9 +57,8 @@ div#footer
 	text-align: center;
 }
 
-#content-main .block.span-1
+#content-main .block
 {
 	border: 1px solid #D9EAF5;
-	width: 320px;
 	margin-bottom: 10px;
 }

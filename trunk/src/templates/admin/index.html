@@ -5,15 +5,12 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-	<div id="content-main">
-	{% load adminapplist %}
-	
+	<div id="content-main">	
 	<p>{% trans 'Welcome to the administration section. Here you may control how your site functions.' %}</p>
 	
-	{% get_admin_app_list as app_list %}
 	{% if app_list %}
 		{% for app in app_list %}
-			<div class="block span-1">
+			<div class="block">
 				<h2>{% blocktrans with app.name as name %}{{ name }}{% endblocktrans %}</h2>
 				<ul>
 				{% for model in app.models %}
