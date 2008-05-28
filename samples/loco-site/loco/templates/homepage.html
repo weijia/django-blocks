@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}homepage{% endblock %}
+
+{% block content %}
+<div class="span-2 last textblock">
+	<h1>{{page.title}}</h1>
+	<p>{{page.lead}}</p>
+	<p>{{page.body}}</p>
+	
+	<a href="/about/"><img src="{{ MEDIA_URL }}img/ubuntudwld.png" width="469" height="187" border="0" /></a>
+</div>
+
+<div class="span-1 block">
+	<h2>Quem é Quem?</h2>
+	<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam eget nisi? Donec egestas iaculis nibh. Nulla nec augue. Quisque lobortis facilisis tortor. Curabitur vitae lectus. Proin eget lectus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis ac metus. Pellentesque nunc sapien, adipiscing quis, feugiat non, blandit non, sem. Integer sed ante eu nulla laoreet placerat. Fusce metus ipsum, consectetuer eget, laoreet eget, pretium eu, eros.</p>
+</div>
+
+<div class="span-1 last block">
+	<h2>O Que Será?</h2>
+	<p>Nunc blandit. Nulla nibh. Fusce mauris massa, viverra et, varius nec, semper ac, nisl. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque ullamcorper est quis velit eleifend cursus. Ut felis est, ultricies in, mattis quis, mollis ullamcorper, felis. Sed turpis. Morbi a turpis. Fusce urna nunc, sodales ac, elementum non, interdum ac, pede. Sed feugiat viverra leo. Morbi ut nibh vel ligula tristique cursus.</p>
+</div>
+
+{% endblock %}
+
+{% block teaser %}
+<div class="span-2 last">
+	<img style="position: absolute; top: 94px; right: 260px;" src="{{ MEDIA_URL }}img/hardybird.png" width="195" height="326" />
+	<a href="/download/"><img src="{{ MEDIA_URL }}img/teaserbg.png" width="467" height="200" border="0" /></a>
+</div>
+{% endblock %}
+
+{% block help %}
+<div class="span-2 tborder last">
+	<div class="span-1">
+		<a href="/about/quicktour/"><img src="{{ MEDIA_URL }}img/quicktour.png" width="225" height="62" border="0" /></a>
+	</div>
+	<div class="span-1 last">
+		<a href="/about/video/"><img src="{{ MEDIA_URL }}img/video.png" width="225" height="62" border="0" /></a>
+	</div>
+	<div class="span-1">
+		<a href="/about/help/"><img src="{{ MEDIA_URL }}img/help.png" width="225" height="62" border="0" /></a>
+	</div>
+	<div class="span-1 last">
+		<a href="/about/faqs/"><img src="{{ MEDIA_URL }}img/faqs.png" width="225" height="62" border="0" /></a>
+	</div>
+</div>
+{% endblock %}

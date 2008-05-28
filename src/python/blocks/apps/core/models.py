@@ -3,6 +3,7 @@
 # see: http://code.djangoproject.com/wiki/QuerysetRefactorBranch
 #
 from django.db import models
+from django.contrib import admin
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
@@ -59,16 +60,18 @@ class Template(BaseModel):
 		  return
 		else:
 		  super(Template, self).delete()
-			
-	class Meta:
-		#db_table = 'blocks_template'
-		app_label = 'blocks'
-	
-	class Admin:
-		search_fields = ('template', 'name', 'description')
 	
 	def __unicode__(self):
 		return self.name
+	
+	class Meta:
+		db_table = 'blocks_template'
+		app_label = 'blocks'
+
+class TemplateAdmin(admin.ModelAdmin):
+	search_fields = ('template', 'name', 'description')
+
+admin.site.register(Template, TemplateAdmin)
 
 class Page(BaseModel):
 	title = models.CharField(_('title'), max_length=200)
@@ -84,24 +87,29 @@ class Page(BaseModel):
 	
 	class Meta:
 		db_table = 'blocks_page'
+		app_label = 'blocks'
 		
-	class Admin:
-		fields = (
-			(None, {'fields': ('name', 'url')}),
-			(_('Advanced options'), {'classes': 'collapse', 'fields': ('registration_required', 'template')}),
-		)
-		list_filter = ('template',)
-		search_fields = ('url', 'title')
-
 	def __unicode__(self):
 		return u"%s -- %s" % (self.url, self.title)
 
 	def get_absolute_url(self):
 		return self.url
 
+class PageAdmin(admin.ModelAdmin):
+	fields = (
+		(None, {'fields': ('name', 'url')}),
+		(_('Advanced options'), {'classes': 'collapse', 'fields': ('registration_required', 'template')}),
+	)
+	list_filter = ('template',)
+	search_fields = ('url', 'title')
+
+
+admin.site.register(Page, PageAdmin)
+
+
 class View(BaseModel):
 	class Meta:
 		db_table = 'blocks_view'
-	
-	class Admin:
-		pass
+		app_label = 'blocks'
+
+admin.site.register(View)
