@@ -1,5 +1,5 @@
 """
-Update feeds for Django community page.  Requires Mark Pilgrim's excellent
+Requires Mark Pilgrim's excellent
 Universal Feed Parser (http://feedparser.org)
 """
 

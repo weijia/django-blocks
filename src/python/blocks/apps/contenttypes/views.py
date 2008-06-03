@@ -7,7 +7,7 @@ from django.core.xheaders import populate_xheaders
 
 from blocks.apps.contenttypes.models import StaticPage
 
-DEFAULT_TEMPLATE = 'templates/default.html'
+DEFAULT_TEMPLATE = 'default.html'
 
 def staticpage(request, url):
     if not url.startswith('/'):
@@ -23,12 +23,6 @@ def staticpage(request, url):
         t = loader.select_template((f.template.template, DEFAULT_TEMPLATE))
     else:
         t = loader.get_template(DEFAULT_TEMPLATE)
-
-    # To avoid having to always use the "|safe" filter in flatpage templates,
-    # mark the title and content as already safe (since they are raw HTML
-    # content in the first place).
-    f.title = mark_safe(f.title)
-    #f.content = mark_safe(f.content)
 
     c = RequestContext(request, {'page': f, })
     

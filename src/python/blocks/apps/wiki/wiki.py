@@ -1,60 +1,17 @@
-import re
-import cgi
-import string
-	
+from django import template
+from django.conf import settings
+from django.utils.encoding import smart_str, force_unicode
+from django.utils.safestring import mark_safe
+
 def parse(content):
-    out = ""
-    for rt in string.split(content, "\n"):
-        rt = rt.replace('&', '&amp;')
-        rt = rt.replace('<', '&lt;')
-        rt = rt.replace('>', '&gt;')
-        rt = rt.replace('"', '&quot;')
-        rt = rt.replace("'", '&#39;')
-        # link  [[URL]] 
-        try:
-            rt = re.sub('\[\[([^\]|]*)\]\]', '<a href="\\1">\\1</a>', rt)
-        except:pass
-        
-        # link with title [[URL|TITLE]]
-        try:
-            rt = re.sub('\[\[([^\]|]*)\|([^\]]*)\]\]', '<a href="\\1">\\2</a>', rt)
-        except:pass
-        
-        # bold **TEXT**
-        try: 
-            rt = re.sub('\*\*([^\*]*)\*\*', '<strong>\\1</strong>', rt)
-        except:pass
-        
-        # italic //TEXT//
-        try: 
-            rt = re.sub('//([^\*]*)//', '<emp>\\1</emp>', rt)
-        except:pass
-        
-        # image {{IMG}}
-        try: 
-            rt = re.sub('\{\{([^\]|]*)\}\}', '<img src="\\1" alt=""/>', rt)
-        except:pass
-        
-        # h5 ==H5==
-        try:
-            rt = re.sub('^==([^=]*)==$', '<h5>\\1</h5>', rt)
-        except:pass
-        
-        # h4 ===H4===
-        try:
-            rt = re.sub('^===([^=]*)===$', '<h4>\\1</h4>', rt)
-        except:pass
-        
-        # h3  ====H3====
-        try:
-            rt = re.sub('^====([^=]*)====$', '<h3>\\1</h3>', rt)
-        except:pass
-        
-        # code [code]SOME CODE[/code]
-        try:
-            rt = re.sub('^\[code\]([^\]]*)\[/code\]$', '<code>\\1</code>', rt)
-        except:pass
-        
-        out += "<p>" + rt + "</p>"
-    return out
+    try:
+        from docutils.core import publish_parts
+    except ImportError:
+        if settings.DEBUG:
+            raise template.TemplateSyntaxError, "Error in {% restructuredtext %} filter: The Python docutils library isn't installed."
+        return force_unicode(value)
+    else:
+        docutils_settings = getattr(settings, "RESTRUCTUREDTEXT_FILTER_SETTINGS", {})
+        parts = publish_parts(source=smart_str(content), writer_name="html4css1", settings_overrides=docutils_settings)
+        return mark_safe(force_unicode(parts["fragment"]))
 
