@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
+{% load admin %}
 
 {% block bodyclass %}dashboard{% endblock %}
 {% block breadcrumbs %}{% endblock %}
@@ -12,13 +13,14 @@
 		{% for app in app_list %}
 			<div class="block">
 				<h2>{% blocktrans with app.name as name %}{{ name }}{% endblocktrans %}</h2>
-				<ul>
+				<dl>
 				{% for model in app.models %}
 					{% if model.perms.add and model.perms.change %}
-					<li>{% if model.perms.change %}<a href="{{ model.admin_url }}" class="changelink">{% endif %}{{ model.name }}{% if model.perms.change %}</a>{% endif %}{% if model.perms.add %} | <a href="{{ model.admin_url }}add/" class="addlink">{% trans 'Add' %}</a>{% endif %}</li>
+					<dt>{% if model.perms.change %}<a href="{{ model.admin_url }}" class="changelink">{% endif %}{{ model.name }}{% if model.perms.change %}</a>{% endif %}{% if model.perms.add %} | <a href="{{ model.admin_url }}add/" class="addlink">{% trans 'Add' %}</a>{% endif %}</li>
+					<dd>{% get_admin_help model %}</dd>
 	            {% endif %}
 	        {% endfor %}
-	        </ul>
+	        </dl>
 	        </div>
 	    {% endfor %}
 	{% else %}

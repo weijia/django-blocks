@@ -2,9 +2,7 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
 
-urlpatterns = patterns('',
-	(r'^r/', include('django.conf.urls.shortcut')),
-)
+urlpatterns = []
 
 if settings.MEDIA_URL.startswith('/'):
 	media_url = settings.MEDIA_URL
@@ -18,5 +16,5 @@ if settings.MEDIA_URL.startswith('/'):
 
 urlpatterns += patterns('',
 	(r'^admin/(.*)', admin.site.root),
-	(r'', include('blocks.apps.core.urls')),
+	(r'', include('blocks.apps.contenttypes.urls')),
 )

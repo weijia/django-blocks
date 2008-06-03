@@ -25,7 +25,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "media")
 ADMIN_MEDIA_PREFIX = "%sadmin/" % (MEDIA_URL)
 TEMPLATE_DIRS = (
-    '/home/rossa/Develop/linux/python/django/djcode/django-blocks/src/templates',
     os.path.join(os.path.dirname(__file__), "templates")
 )
 
@@ -46,6 +45,14 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.cache.CacheMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS =(
+    'django.core.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media'
+)
+
+
 ROOT_URLCONF = 'loco.urls'
 
 
@@ -60,8 +67,8 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 #	'django.contrib.sitemaps',
 	
-    'blocks.apps.core',
     'blocks.apps.contenttypes',
+    'blocks.apps.admin',
 	'blocks.apps.wiki',
     'blocks.apps.aggregator',
 )
