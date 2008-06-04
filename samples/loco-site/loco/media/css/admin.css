@@ -12,6 +12,23 @@ a:hover {
 	padding: 1em;
 }
 
+.admin.block
+{
+	border: none;
+	width: 328px;
+}
+
+.left
+{
+	
+	float: left;
+}
+
+.right
+{
+	float: right;
+}
+
 dl
 {
 	padding: 1em;

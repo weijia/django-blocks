@@ -1,10 +1,24 @@
 from django import template
 from django.template import resolve_variable
-from django.db.models import loading
+from django.conf import settings
 
 register = template.Library()
 
-class get_admin_help(template.Node):
+class get_app_help(template.Node):
+    def __init__(self, app_label):
+        self.app_label = app_label
+
+    def render(self, context):
+        app = resolve_variable(self.app_label, context);        
+        
+        try:
+            help = settings.BLOCKS_ADMIN_HELP[app['name'].lower()]
+            return help['__help__']
+        except KeyError:
+            return ''
+        return ''
+    
+class get_model_help(template.Node):
     def __init__(self, model_label):
         self.model_label = model_label
 
@@ -15,18 +29,14 @@ class get_admin_help(template.Node):
         mod = url[1];
         
         try:
-            models = loading.cache.app_models[app]
-            m = models[mod]
-            if (m):
-                try:
-                    return m.help_text
-                except AttributeError:
-                    return ''
+            helps = settings.BLOCKS_ADMIN_HELP[app]
+            m = helps[mod]
+            return m
         except KeyError:
             return ''
         return ''
 
-class DoGetAdminHelp:
+class DoGetAppHelp:
     def __init__(self, tag_name):
         self.tag_name = tag_name
 
@@ -35,6 +45,18 @@ class DoGetAdminHelp:
         if len(tokens) < 1:
             raise template.TemplateSyntaxError, "'%s' statements require one arguments" % self.tag_name
         
-        return get_admin_help(tokens[1])
+        return get_app_help(tokens[1])
+    
+class DoGetModelHelp:
+    def __init__(self, tag_name):
+        self.tag_name = tag_name
 
-register.tag('get_admin_help', DoGetAdminHelp('get_admin_help'))
+    def __call__(self, parser, token):
+        tokens = token.contents.split()
+        if len(tokens) < 1:
+            raise template.TemplateSyntaxError, "'%s' statements require one arguments" % self.tag_name
+        
+        return get_model_help(tokens[1])
+
+register.tag('get_app_help',   DoGetAppHelp('get_app_help'))
+register.tag('get_model_help', DoGetModelHelp('get_model_help'))
