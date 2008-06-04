@@ -116,12 +116,10 @@ class StaticPage(BaseContentModel):
     template = models.ForeignKey(Template, verbose_name=_('template'),
         help_text=_("You must provide a template to be used in this page"))
     
-    help_text = "A static page is a ..."
-    
     class Meta:
         db_table = 'blocks_content_page'
-        verbose_name = _('static page')
-        verbose_name_plural = _('static pages')
+        verbose_name = _('static Page')
+        verbose_name_plural = _('static Pages')
         app_label = 'blocks'
         
     def __unicode__(self):

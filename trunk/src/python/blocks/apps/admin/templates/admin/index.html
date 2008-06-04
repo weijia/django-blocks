@@ -11,13 +11,14 @@
 	
 	{% if app_list %}
 		{% for app in app_list %}
-			<div class="block">
+			<div class="admin block {% cycle 'left' 'right' %}">
 				<h2>{% blocktrans with app.name as name %}{{ name }}{% endblocktrans %}</h2>
+				<p>{% get_app_help app %}</p>
 				<dl>
 				{% for model in app.models %}
 					{% if model.perms.add and model.perms.change %}
-					<dt>{% if model.perms.change %}<a href="{{ model.admin_url }}" class="changelink">{% endif %}{{ model.name }}{% if model.perms.change %}</a>{% endif %}{% if model.perms.add %} | <a href="{{ model.admin_url }}add/" class="addlink">{% trans 'Add' %}</a>{% endif %}</li>
-					<dd>{% get_admin_help model %}</dd>
+					<dt><a href="{{ model.admin_url }}" class="changelink">{{ model.name }}</a></li>
+					<dd>{% get_model_help model %}<br /><a href="{{ model.admin_url }}" class="changelink">{% trans 'List' %}</a> | <a href="{{ model.admin_url }}add/" class="addlink">{% trans 'Add' %}</a></dd>
 	            {% endif %}
 	        {% endfor %}
 	        </dl>

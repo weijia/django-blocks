@@ -57,7 +57,6 @@ ROOT_URLCONF = 'loco.urls'
 
 
 INSTALLED_APPS = (
-#	'django.contrib.sites',
 	'django.contrib.auth',
 	'django.contrib.admin',
 	'django.contrib.contenttypes',
