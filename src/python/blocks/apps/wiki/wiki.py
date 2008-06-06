@@ -8,7 +8,7 @@ def parse(content):
         from docutils.core import publish_parts
     except ImportError:
         if settings.DEBUG:
-            raise template.TemplateSyntaxError, "Error in {% restructuredtext %} filter: The Python docutils library isn't installed."
+            raise template.TemplateSyntaxError, "Error in wiki filter: The Python docutils library isn't installed."
         return force_unicode(value)
     else:
         docutils_settings = getattr(settings, "RESTRUCTUREDTEXT_FILTER_SETTINGS", {})
