@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from base import *
 from blocks.apps.wiki import wiki
 
-
 class BaseModel(models.Model):
     name = models.CharField(_('name'), max_length=80, unique=True)
     description = models.CharField(_('description'), max_length=255)
@@ -39,12 +38,9 @@ class BaseContentModel(models.Model):
         db_table = 'blocks_content'
         ordering = ('weight', 'publish_date',)
 
-## Template Model
-# syncdb will execute the sql/template.sql that populates table with default data
-#
 class Template(BaseModel):
     template = models.CharField(_('template'), max_length=70,
-                    help_text=_("Example: 'templates/homepate.html'. If this isn't provided, the system will use 'templates/default.html'."))
+                    help_text=_("Example: 'homepage.html'. If this isn't provided, the system will use 'default.html'."))
 
     def delete(self):
         # TODO: validate if is system Template
@@ -58,7 +54,7 @@ class Template(BaseModel):
     
     class Meta:
         db_table = 'blocks_template'
-        app_label = 'blocks'
+
 
 class TemplateAdmin(admin.ModelAdmin):
     search_fields = ('template', 'name', 'description')
@@ -66,47 +62,44 @@ class TemplateAdmin(admin.ModelAdmin):
 admin.site.register(Template, TemplateAdmin)
 
 
-class Page(BaseModel):
-    title = models.CharField(_('title'), max_length=200)
-    
-    url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL], db_index=True,
-        help_text=_("URL by which this page would be accessed. For example, type '/about/' when writing an about page. Use a relative path make sure to have leading and trailing slashes."))
-    
-    template = models.OneToOneField(Template, verbose_name=_('template'),
-        help_text=_("You must provide a template to be used in this page"))
-    
-    registration_required = models.BooleanField(_('registration required'),
-        help_text=_("If this is checked, only logged-in users will be able to view the page."))
-    
-    class Meta:
-        db_table = 'blocks_page'
-        app_label = 'blocks'
-        
-    def __unicode__(self):
-        return u"%s -- %s" % (self.url, self.title)
-
-    def get_absolute_url(self):
-        return self.url
-
-class PageAdmin(admin.ModelAdmin):
-    fields = (
-        (None, {'fields': ('name', 'url')}),
-        (_('Advanced options'), {'classes': 'collapse', 'fields': ('registration_required', 'template')}),
-    )
-    list_filter = ('template',)
-    search_fields = ('url', 'title')
-
-
-admin.site.register(Page, PageAdmin)
+#class Page(BaseModel):
+#    title = models.CharField(_('title'), max_length=200)
+#    
+#    url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL], db_index=True,
+#        help_text=_("URL by which this page would be accessed. For example, type '/about/' when writing an about page. Use a relative path make sure to have leading and trailing slashes."))
+#    
+#    template = models.OneToOneField(Template, verbose_name=_('template'),
+#        help_text=_("You must provide a template to be used in this page"))
+#    
+#    registration_required = models.BooleanField(_('registration required'),
+#        help_text=_("If this is checked, only logged-in users will be able to view the page."))
+#    
+#    class Meta:
+#        db_table = 'blocks_page'
+#        
+#    def __unicode__(self):
+#        return u"%s -- %s" % (self.url, self.title)
+#
+#    def get_absolute_url(self):
+#        return self.url
+#
+#class PageAdmin(admin.ModelAdmin):
+#    fields = (
+#        (None, {'fields': ('name', 'url')}),
+#        (_('Advanced options'), {'classes': 'collapse', 'fields': ('registration_required', 'template')}),
+#    )
+#    list_filter = ('template',)
+#    search_fields = ('url', 'title')
+#
+#admin.site.register(Page, PageAdmin)
 
 
-class View(BaseModel):
-    class Meta:
-        db_table = 'blocks_view'
-        app_label = 'blocks'
-
-admin.site.register(View)
-
+#class View(BaseModel):
+#    class Meta:
+#        db_table = 'blocks_view'
+#        app_label = 'blocks'
+#
+#admin.site.register(View)
 
 
 class StaticPage(BaseContentModel):
@@ -120,7 +113,6 @@ class StaticPage(BaseContentModel):
         db_table = 'blocks_content_page'
         verbose_name = _('static Page')
         verbose_name_plural = _('static Pages')
-        app_label = 'blocks'
         
     def __unicode__(self):
         return u"%s -- %s" % (self.url, self.title)
@@ -133,9 +125,9 @@ class StaticPage(BaseContentModel):
         super(StaticPage, self).save()
 
 class StaticPageAdmin(admin.ModelAdmin):
-    fields = (
-        (None, {'fields': ('url', 'title', 'lead_wiki', 'body_wiki')}),
-        (_('Advanced options'), {'classes': 'collapse', 'fields': ('template',)}),
+    fieldsets = (
+       (None, {'fields': ('url', 'title', 'lead_wiki', 'body_wiki')}),
+       (_('Advanced options'), {'fields': ('template',), 'classes': ('collapse',)}),
         #(_('Publishing options'), {'classes': 'collapse', 'fields': ('status', 'publish_date', 'unpublish_date', 'weight', 'promoted')}),
     )
     list_filter = ('template',)

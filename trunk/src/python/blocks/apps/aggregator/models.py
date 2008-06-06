@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 
 class Feed(models.Model):
     title = models.CharField(max_length=500)
@@ -9,11 +10,13 @@ class Feed(models.Model):
     class Meta:
         db_table = 'aggregator_feeds'
 
-    class Admin:
-        pass
-
     def __unicode__(self):
         return self.title
+
+class FeedAdmin(admin.ModelAdmin):
+    search_fields = ('title',)
+
+admin.site.register(Feed, FeedAdmin)
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
