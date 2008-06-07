@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+	<head>
+		<title>zlabls | {% block title %}{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/reset.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/grid.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/typography.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/site.css" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/ie.css" /><![endif]-->
+		{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" media="screen, projection" href="{% block stylesheet_rtl %}{{ MEDIA_URL }}css/rtl.css{% endblock %}" />{% endif %}
+		<link rel="stylesheet" type="text/css" media="print" href="{{ MEDIA_URL }}css/print.css" />
+		{% block extrastyle %}{% endblock %}
+		{% block extrahead %}{% endblock %}
+		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+		<!--[if gte IE 5.5]>
+		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
+		<style type="text/css">
+			.iepngfix { behavior: expression(IEPNGFIX.fix(this)); }
+			img { behavior: expression(IEPNGFIX.fix(this)); }
+		</style>
+		<![endif]-->
+	</head>
+
+	<body>
+	
+		<div id="container">
+
+			<div id="header" class="span-4 last">
+				<div id="menu">
+					<ul>
+						<li><div{% ifequal BLOCKS_URL "/" %} class="active"{% endifequal %}><a href="/">{{ "Home"|upper }}</a></div></li>
+						<li><div{% ifequal BLOCKS_URL "/feeds/" %} class="active"{% endifequal %}><a href="/feeds/">{{ "Feeds"|upper }}</a></div></li>
+						<li><div{% ifequal BLOCKS_URL "/projects/" %} class="active"{% endifequal %}><a href="/projects/">{{ "Projects"|upper }}</a></div></li>
+					</ul>
+				</div>
+				<div id="heading">
+					<div id="branding">
+						<img id="sitelogo" src="{{ MEDIA_URL }}img/logo.png" width="56" height="60" />
+						<div id="sitesection">{{ "Home"|upper }}</div>
+					</div>
+				</div>
+			</div>
+				
+			<div id="content" class="span-4 last">
+				<div id="contents" class="span-3">
+					{% block content %}No content provided{% endblock %}
+				</div>
+				
+				{% block teaser %}
+				{% endblock %}				
+		
+				<div class="span-1 last">
+					<div class="block news">
+						<h2>Feeds</h2>
+						<p>
+							{% load aggregator %}
+							{% get_feed_list as feed_list %}
+							{% if feed_list %}
+								{% for item in feed_list %}
+							<p>
+								<span class="feed">{{ item.feed}}</span><span class="date">{{ item.date_modified|date:"j F Y" }}</span><br />
+								<a class="title" href="/planet/{{ item.id }}">{{ item.title }}</a>
+							</p>
+								{% endfor %}
+							{% else %}
+								<p>no feeds</p>
+							{% endif %}
+						</p>
+					</div>
+				</div>
+								
+				{% block help %}
+				{% endblock %}
+				
+				<div class="span-4 last" />
+			</div>
+			
+			<div id="footer" class="span-4 last">
+				<div id="copy">
+					<p class="credits">
+						Design by <a title="Designer" href="mailto:kimus.linuxus@gmail.com">kimus.linuxus</a> |
+						Powered by <a title="django blocks" href="http://code.google.com/p/django-blocks/">Django Blocks</a> |
+						<a title="Validate XHTML code" href="http://validator.w3.org/check?uri=referer">W3C XHTML 1.0</a> |
+						<a title="Validate CSS code" href="http://jigsaw.w3.org/css-validator/">W3C CSS 2.0</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	
+	</body>
+</html>
