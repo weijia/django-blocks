@@ -10,8 +10,8 @@ import datetime
 import feedparser
 
 def update_feeds(verbose=False):
-    from loco.apps.aggregator.models import Feed, FeedItem
-    for feed in Feed.objects.filter(is_defunct=False):
+    from blocks.apps.aggregator.models import Feed, FeedItem
+    for feed in Feed.objects.all():
         if verbose:
             print feed
         parsed_feed = feedparser.parse(feed.feed_url)
@@ -41,6 +41,7 @@ def update_feeds(verbose=False):
                 elif parsed_feed.has_key('modified'):
                     date_modified = datetime.datetime.fromtimestamp(time.mktime(parsed_feed.modified))
                 else:
+                    print "no date field found"
                     date_modified = datetime.datetime.now()
             except TypeError:
                 date_modified = datetime.datetime.now()
