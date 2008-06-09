@@ -1,11 +1,30 @@
 {% extends "base.html" %}
 
-{% block title %}HOME{% endblock %}
-
 {% block content %}
 <div class="span-3 last textblock">
 	<h1>{{page.title}}</h1>
 	<p>{{page.lead}}</p>
 	<p>{{page.body}}</p>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="block feeds clear">
+	<h2>Latest Feeds</h2>
+	<div class="bbody">
+		{% load aggregator %}
+		{% get_feed_list as feed_list limit 5 %}
+		{% if feed_list %}
+			{% for item in feed_list %}
+		<p>
+			<span class="feed"><a href="{% url feed-detail item.feed.id %}">{{ item.feed.title }}</a></span><br />
+			<span class="date">{{ item.date_modified|date:"j F Y H:m" }}</span><br />
+			<a class="title" href="{% url feed-item-detail item.feed.id,item.id %}" target="_new">{{ item.title }}</a>
+		</p>
+			{% endfor %}
+		{% else %}
+		<p>no feeds</p>
+		{% endif %}
+	</div>
 </div>
 {% endblock %}

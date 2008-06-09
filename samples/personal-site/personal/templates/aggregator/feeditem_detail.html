@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="span-3 last textblock">	
+	{% if object %}
+
+	<div class="block last">
+		<h2>{{ object.title }}</h2>
+		<div class="bbody">
+			<span class="feed"><a href="{% url feeds-detail object.feed.id %}">{{ object.feed.title }}</a></span>
+			<span class="date">{{ object.date_modified|date:"j F Y H:m" }}</span>
+			<span class="link"><a href="{{ object.link }}" target="_new">original</a></span>
+		</div>
+		<div class="bbody">
+			{{ object.summary|safe }}
+		</div>
+	</div>
+	
+	{% else %}
+	<p>invalid feed</p>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="block feeds clear">
+	<h2>Feeds</h2>
+	<div class="bbody">
+		{% if feed_list %}
+			{% for item in feed_list %}
+		<p><span class="feed"><a href="{% url feed-detail item.id %}">{{ item.title }}</a></span></p>
+			{% endfor %}
+		{% else %}
+		<p>no feeds</p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

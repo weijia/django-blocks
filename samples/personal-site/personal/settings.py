@@ -33,6 +33,14 @@ SECRET_KEY = '_z9v#(dwasd$w0a-asda&r8d^w2_savxykqc#0p)%hbd*+j@$ylr+z#o'
 
 ROOT_URLCONF = 'personal.urls'
 
+MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.CacheMiddleware',
+    'django.middleware.http.SetRemoteAddrFromForwardedFor',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.common.CommonMiddleware',
+)
+
 TEMPLATE_CONTEXT_PROCESSORS =(
     'django.core.context_processors.auth',
     'django.core.context_processors.debug',
@@ -54,7 +62,5 @@ INSTALLED_APPS = (
     'blocks.apps.aggregator',
 )
 
-CACHE_MIDDLEWARE_SECONDS = 1 #60 * 5 # 5 minutes
-CACHE_MIDDLEWARE_KEY_PREFIX = 'djangoblocks'
-CACHE_MIDDLEWARE_GZIP = True
-CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
+#CACHE_BACKEND = 'locmem:///'
+#CACHE_MIDDLEWARE_SECONDS = 60 * 5 # 5 minutes

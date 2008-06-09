@@ -5,7 +5,6 @@ class Feed(models.Model):
     title = models.CharField(max_length=500)
     feed_url = models.URLField(unique=True, max_length=500)
     public_url = models.URLField(max_length=500)
-    is_defunct = models.BooleanField()
 
     class Meta:
         db_table = 'aggregator_feeds'
@@ -13,10 +12,11 @@ class Feed(models.Model):
     def __unicode__(self):
         return self.title
 
-class FeedAdmin(admin.ModelAdmin):
-    search_fields = ('title',)
+#class FeedAdmin(admin.ModelAdmin):
+    class Admin:
+        search_fields = ('title',)
 
-admin.site.register(Feed, FeedAdmin)
+#admin.site.register(Feed, FeedAdmin)
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)

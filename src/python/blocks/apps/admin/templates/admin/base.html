@@ -43,6 +43,7 @@
 				</div>
 				{% endif %}
 				
+				{% if not is_popup %}
 				<div id="sidebar" class="span-1">
 					{% if user.is_authenticated and user.is_staff %}
 					<div id="menu" class="module">
@@ -60,6 +61,7 @@
 					
 					{% block sidebar %}{% endblock %}
 				</div>
+				{% endif %}
 				
 				<div id="contents" class="span-3 last">
 					{% block pretitle %}{% endblock %}
