@@ -1,5 +1,6 @@
 h1,h2,h3,h4,h5,h6 { font-weight: bold; color: #668000; }
 
+a { color: #668000; }
 a:hover {
 	color: #ad0;
 }
@@ -196,6 +197,26 @@ div#footer {
 .block span.link
 {
 	margin-left: .8em;
+}
+
+.section h1 a,
+.section h2 a,
+.section h3 a,
+.section h4 a,
+.section h5 a,
+.section h6 a
+{
+	text-decoration: none;
+}
+
+.section h1 a:hover,
+.section h2 a:hover,
+.section h3 a:hover,
+.section h4 a:hover,
+.section h5 a:hover,
+.section h6 a:hover
+{
+	color: #668000;
 }
 
 /* FEED SPECIFIC */

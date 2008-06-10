@@ -72,7 +72,8 @@ class NullStream(object):
     writelines = write
         
 RESTRUCTUREDTEXT_FILTER_SETTINGS = {
-    'doctitle_xform': False,
+    'doctitle_xform': True,
+    'initial_header_level': 2,
     'cloak_email_addresses': True,
     'file_insertion_enabled': False,
     'raw_enabled': False,
