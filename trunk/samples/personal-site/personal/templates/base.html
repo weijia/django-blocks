@@ -12,6 +12,9 @@
 		{% block extrastyle %}{% endblock %}
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+		
+		<link rel="alternate" type="application/rss+xml" title="Latest feeds" href="/feeds/rss/" />
+		
 		<!--[if gte IE 5.5]>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
 		<style type="text/css">
@@ -60,6 +63,15 @@
 					</div>
 					
 					{% block sidebar %}{% endblock %}
+					
+					<div class="block syndication">
+						<h2>Syndication</h2>
+						<div class="bbody">
+							<ul>
+								<li><a class="rss" href="{% url feed-list %}rss/">Subscribe Latest Feeds (RSS)</a></li>
+							</ul>
+						</div>
+					</div>
 				</div>
 								
 				
