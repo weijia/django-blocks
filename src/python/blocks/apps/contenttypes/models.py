@@ -1,9 +1,8 @@
 from django.db import models
-from django.contrib import admin
 from django.core import validators
-from django.utils.translation import ugettext_lazy as _
-from base import *
+from base import STATUS_CHOICES, WEIGHT_CHOICES, _
 from blocks.apps.wiki import wiki
+#from django.contrib import admin
 
 class BaseModel(models.Model):
     name = models.CharField(_('name'), max_length=80, unique=True)
@@ -38,7 +37,11 @@ class BaseContentModel(models.Model):
         db_table = 'blocks_content'
         ordering = ('weight', 'publish_date',)
 
-class Template(BaseModel):
+#class Template(BaseModel):
+class Template(models.Model):
+    name = models.CharField(_('name'), max_length=80, unique=True)
+    description = models.CharField(_('description'), max_length=255)
+    
     template = models.CharField(_('template'), max_length=70,
                     help_text=_("Example: 'homepage.html'. If this isn't provided, the system will use 'default.html'."))
 
@@ -53,6 +56,7 @@ class Template(BaseModel):
         return self.name
     
     class Meta:
+        ordering = ('name',)
         db_table = 'blocks_template'
 
 
@@ -124,6 +128,7 @@ class StaticPage(models.Model):
     
     def _get_body(self):
         return wiki.parse(self.body_wiki)
+    
     body = property(_get_body)
     
     def __unicode__(self):

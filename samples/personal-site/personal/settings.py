@@ -58,7 +58,6 @@ INSTALLED_APPS = (
 	
     'blocks.apps.contenttypes',
     'blocks.apps.admin',
-	'blocks.apps.wiki',
     'blocks.apps.aggregator',
 )
 

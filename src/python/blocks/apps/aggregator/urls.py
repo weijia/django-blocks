@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import *
-from blocks.apps.aggregator.models import FeedItem
 
 urlpatterns = patterns('blocks.apps.aggregator.views',
     url(r'^$', 'feed_list', None, "feed-list"),
