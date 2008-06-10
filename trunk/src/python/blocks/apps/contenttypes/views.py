@@ -1,7 +1,6 @@
 from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.core.xheaders import populate_xheaders
 
