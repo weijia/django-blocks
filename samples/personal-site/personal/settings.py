@@ -12,7 +12,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = os.path.join(os.path.dirname(__file__), "../db/loco.db")
+DATABASE_NAME = os.path.join(os.path.dirname(__file__), "../db/private.db")
 
 
 TIME_ZONE = 'Europe/Lisbon'
@@ -34,7 +34,7 @@ SECRET_KEY = '_z9v#(dwasd$w0a-asda&r8d^w2_savxykqc#0p)%hbd*+j@$ylr+z#o'
 ROOT_URLCONF = 'personal.urls'
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.CacheMiddleware',
+#    'django.middleware.cache.CacheMiddleware',
     'django.middleware.http.SetRemoteAddrFromForwardedFor',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -64,3 +64,17 @@ INSTALLED_APPS = (
 
 #CACHE_BACKEND = 'locmem:///'
 #CACHE_MIDDLEWARE_SECONDS = 60 * 5 # 5 minutes
+
+class NullStream(object):
+    def write(*args, **kwdargs):
+        pass
+    writeline = write
+    writelines = write
+        
+RESTRUCTUREDTEXT_FILTER_SETTINGS = {
+    'doctitle_xform': False,
+    'cloak_email_addresses': True,
+    'file_insertion_enabled': False,
+    'raw_enabled': False,
+    'warning_stream': NullStream()
+}
