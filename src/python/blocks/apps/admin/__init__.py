@@ -29,4 +29,10 @@ settings.BLOCKS_ADMIN_HELP = {
     '__help__':     _('Manage your site\'s feeds.'),
     'feed':         _('Add you feeds here.'),
     },
+    
+'blog': {
+    '__label__':    _('Weblog'),
+    '__help__':     _('Manage your site\'s blogs.'),
+    'blogentry':    _('Add you blogs here.'),
+    },
 }

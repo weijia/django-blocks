@@ -110,10 +110,10 @@ img#sitelogo
 	background-color: #ad0;
 }
 
-div#footer {
+div#footer
+{
+	margin-top: 2em;
 	height: 5em;
-	/*bottom: 0pt;
-	position: absolute;*/
 }
 
 #footer #copy {
@@ -175,10 +175,26 @@ div#footer {
 
 .block span.feed
 {
-	background: transparent url(../img/feed.png) no-repeat scroll 0 1px;
+	background: transparent url(../img/feed.png) no-repeat scroll left center;
 	padding-left: 15px;
 	font-weight: bold;
 	margin-right: .8em;
+}
+
+.block.syndication ul
+{
+	margin: 0px;
+}
+
+.block.syndication ul li
+{
+	list-style-type: none;
+}
+
+a.rss
+{
+	background: transparent url(../img/feed-icon.png) no-repeat scroll left center;
+	padding-left: 20px;
 }
 
 .block span.feed a:hover,

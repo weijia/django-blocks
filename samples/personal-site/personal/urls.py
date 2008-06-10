@@ -18,6 +18,7 @@ urlpatterns += patterns('',
 	#(r'^admin/(.*)', admin.site.root),
 	(r'^admin/', include('django.contrib.admin.urls')),
 
+    (r'^blog/', include('blocks.apps.blog.urls')),
 	(r'^feeds/', include('blocks.apps.aggregator.urls')),
 	(r'', include('blocks.apps.contenttypes.urls')),
 )

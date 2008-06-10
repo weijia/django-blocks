@@ -1,0 +1,15 @@
+{% extends "base_weblog.html" %}
+
+{% block content %}
+	{% load comments comment_utils %}
+
+	{% if latest %}
+		{% for object in latest %}
+    <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+    <p>{{ object.lead }}</p>
+    <p class="date small">Posted by <strong>AUTHOR</strong> on {{ object.publish_date|date:"F j, Y" }}</p>
+		{% endfor %}
+	{% else %}
+		<p>no blog entries</p>
+	{% endif %}
+{% endblock %}
