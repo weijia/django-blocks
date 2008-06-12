@@ -55,7 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
-#    'django.contrib.sites',
+    'django.contrib.sites',
 
 	'comment_utils',
     

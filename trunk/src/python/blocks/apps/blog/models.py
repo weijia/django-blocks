@@ -14,6 +14,8 @@ class BlogEntry(models.Model):
     publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"), blank=True)
     promoted = models.BooleanField(_('promoted'), help_text=_("promoted to frontpage or section"))
     
+    comments_enabled = models.BooleanField(_('comments enabled'), help_text=_("enable comments for this entry"))
+    
     def _get_lead(self):
         return wiki.parse(self.lead_wiki)
     lead = property(_get_lead)
@@ -34,7 +36,7 @@ class BlogEntry(models.Model):
     class Admin:
         fields = (
            (None, {'fields': ('title', 'lead_wiki', 'body_wiki')}),
-           (_('Publishing options'), {'fields': ('status', 'publish_date', 'promoted'), 'classes': 'collapse'}),
+           (_('Publishing options'), {'fields': ('status', 'publish_date', 'promoted', 'comments_enabled'), 'classes': 'collapse'}),
         )
         list_filter = ('title',)
         list_display = ('publish_date', 'title')

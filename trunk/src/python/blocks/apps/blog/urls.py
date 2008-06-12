@@ -4,13 +4,23 @@ from models import BlogEntry
 info_dict = {
     'queryset': BlogEntry.objects.all(),
     'date_field': 'publish_date',
+}
+
+idx_info_dict = {
+    'queryset': BlogEntry.objects.all(),
+    'date_field': 'publish_date',
     'num_latest': 10,
 }
 
-urlpatterns = patterns('django.views.generic.date_based',
- #  (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/(?P<slug>[\w-]+)/$', 'object_detail', dict(info_dict, slug_field='slug')),
-   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\w{1,2})/$', 'archive_day', info_dict),
-   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', 'archive_month', info_dict),
-   (r'^(?P<year>\d{4})/$', 'archive_year', info_dict),
-   (r'^/?$', 'archive_index', info_dict),
+#feeds = { 'rss': LatestBlogEntriesFeed, }
+
+urlpatterns = patterns('',
+
+   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/(?P<slug>[\d]+)/$', 'django.views.generic.date_based.object_detail', dict(info_dict, slug_field='id')),
+   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/$', 'django.views.generic.date_based.archive_day', info_dict),
+   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', 'django.views.generic.date_based.archive_month', info_dict),
+   (r'^(?P<year>\d{4})/$', 'django.views.generic.date_based.archive_year', info_dict),
+   url(r'^$', 'django.views.generic.date_based.archive_index', idx_info_dict, 'blog-index'),
+   
+   #(r'^(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 )
