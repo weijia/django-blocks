@@ -39,6 +39,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
+    
+    'blocks.core.middleware.ThreadLocals',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =(
@@ -46,6 +48,7 @@ TEMPLATE_CONTEXT_PROCESSORS =(
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
+    
     'blocks.core.context_processors.media'
 )
 
