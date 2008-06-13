@@ -16,7 +16,7 @@ idx_info_dict = {
 
 urlpatterns = patterns('',
 
-   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/(?P<slug>[\d]+)/$', 'django.views.generic.date_based.object_detail', dict(info_dict, slug_field='id')),
+   url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/(?P<slug>[\d]+)/$', 'django.views.generic.date_based.object_detail', dict(info_dict, slug_field='id'), 'blog-details'),
    (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/$', 'django.views.generic.date_based.archive_day', info_dict),
    (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', 'django.views.generic.date_based.archive_month', info_dict),
    (r'^(?P<year>\d{4})/$', 'django.views.generic.date_based.archive_year', info_dict),

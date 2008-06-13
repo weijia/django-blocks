@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="span-3 last textblock">
-	<h1>{{page.title}}</h1>
-	<p>{{page.lead}}</p>
-	<p>{{page.body}}</p>
+<div class="span-3 last block">
+	<h2>{{page.title}}</h2>
+	<div class="bbody">
+		{{page.lead}}
+		{{page.body}}
+	</div>
+</div>
+
+{% load blog %}
+<div id="blogs" class="span-3 clear">
+{% get_blog_list as blog_list limit 2 %}
+	{% if blog_list %}
+		{% for item in blog_list %}
+		<div class="block last">
+			<h2><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h2>
+			<div class="bbody">Posted by <strong>{{ item.author }}</strong> on <span class="date">{{ item.publish_date|date:"F j, Y" }}</span></div>
+			<div class="bbody">{{ item.lead }}</div>
+			<div class="bbody links"><a href="{{ item.get_absolute_url }}">read more</a></div>
+		</div>
+		{% endfor %}
+	{% else %}
+	<p>no blog entries</p>
+	{% endif %}
 </div>
 {% endblock %}
 
@@ -22,6 +41,7 @@
 			<a class="title" href="{% url feed-item-detail item.feed.id,item.id %}" target="_new">{{ item.title }}</a>
 		</p>
 			{% endfor %}
+		<p><a href="{% url feed-list %}">see more</a></p>
 		{% else %}
 		<p>no feeds</p>
 		{% endif %}
