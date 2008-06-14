@@ -12,3 +12,10 @@ def get_url(view_name, args=None, default=''):
             return reverse(get_project_name() + '.' + view_name, args=args)
         except NoReverseMatch:
             return default
+
+def fix_url(url):
+    if not url.startswith('/'):
+        url = "/" + url
+    if not url.endswith('/'):
+        url = url + "/"
+    return url

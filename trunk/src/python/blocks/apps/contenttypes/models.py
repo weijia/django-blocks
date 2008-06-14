@@ -2,6 +2,8 @@ from django.db import models
 from django.core import validators
 from base import STATUS_CHOICES, WEIGHT_CHOICES, _
 from blocks.apps.wiki import wiki
+from blocks.core import middleware as ThreadLocals
+import datetime
 #from django.contrib import admin
 
 class BaseModel(models.Model):
@@ -110,25 +112,24 @@ class Template(models.Model):
 #class StaticPage(BaseContentModel):
 class StaticPage(models.Model):
     url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL],  unique=True, 
-        help_text=_("Example: '/about/'. Make sure to have leading and trailing slashes."))
+        help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
     # content
     title = models.CharField(_('title'), max_length=200)
-    lead_wiki = models.TextField(_('lead'))
     body_wiki = models.TextField(_('body'))
     
-    template = models.ForeignKey(Template, verbose_name=_('template'),
+    template = models.ForeignKey(Template, verbose_name=_('template'), related_name='template_id', blank=False,
         help_text=_("You must provide a template to be used in this page."))
     
     menu = models.BooleanField(_('Menu'),
         help_text=_("Appears in the main menu."))
     
-    def _get_lead(self):
-        return wiki.parse(self.lead_wiki)
-    lead = property(_get_lead)
+    # publishing options
+    publish_date = models.DateTimeField(_('publish date'), blank=True)
+    modified_date = models.DateTimeField(_('modified date'), blank=True)
+    author = models.CharField(_('author'), max_length=80, blank=True)
     
     def _get_body(self):
-        return wiki.parse(self.body_wiki)
-    
+        return wiki.parse(self.body_wiki)    
     body = property(_get_body)
     
     def __unicode__(self):
@@ -136,24 +137,42 @@ class StaticPage(models.Model):
 
     def get_absolute_url(self):
         return self.url
+    
+    def save(self):
+        from blocks.core.utils import fix_url
+        self.url = fix_url(self.url)
         
-#    def save(self):
-#        if not self.status or self.status == "": self.status = 'P'
-#        super(StaticPage, self).save()
+        if not self.author:
+            user = ThreadLocals.get_current_user()
+            author = ''
+            if user.first_name or user.last_name:
+                author = (user.first_name + ' ' + user.last_name).strip()
+            elif user.username:
+                author = user.username.strip()
+            
+            if author:
+                self.author = author
+            else:
+                self.author = 'anonymous'
+        if not self.publish_date:
+            self.publish_date = datetime.datetime.now()
+        self.modified_date = datetime.datetime.now()
+        super(StaticPage, self).save()
         
     class Meta:
         db_table = 'blocks_static_page'
-        verbose_name = _('static Page')
-        verbose_name_plural = _('static Pages')
+        verbose_name = _('Static Page')
+        verbose_name_plural = _('Static Pages')
 
 #class StaticPageAdmin(admin.ModelAdmin):    
     class Admin:
         fields = (
-           (None, {'fields': ('url', 'title', 'lead_wiki', 'body_wiki')}),
-           (_('Advanced options'), {'fields': ('template', 'menu',), 'classes': 'collapse'}),
-            #(_('Publishing options'), {'classes': 'collapse', 'fields': ('status', 'publish_date', 'unpublish_date', 'weight', 'promoted')}),
+           (None, {'fields': ('title', 'body_wiki')}),
+           (_('Display options'), {'fields': ('url', 'template', 'menu',),}),
+           (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author'), 'classes': 'collapse'}),
         )
         list_filter = ('template',)
         search_fields = ('template', 'title',)
+        list_display = ('url', 'title', 'author', 'publish_date', 'modified_date',)
 
 #admin.site.register(StaticPage, StaticPageAdmin)
