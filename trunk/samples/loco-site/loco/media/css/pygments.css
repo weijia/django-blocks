@@ -1,4 +1,4 @@
-.system-messages { display: none; }
+.system-messages, .system-messages { display: none; }
 
 .highlight  { background: #f0f0f0; }
 .highlight pre { padding: .5em; margin: .2em 0 .2em 0;}
