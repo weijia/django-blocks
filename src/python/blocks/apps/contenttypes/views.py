@@ -9,8 +9,9 @@ from blocks.apps.contenttypes.models import StaticPage
 DEFAULT_TEMPLATE = 'default.html'
 
 def staticpage(request, url):
-    if not url.startswith('/'):
-        url = "/" + url
+    from blocks.core.utils import fix_url
+    url = fix_url(url)
+        
     f = get_object_or_404(StaticPage, url__exact=url)
     
     # If registration is required for accessing this page, and the user isn't
