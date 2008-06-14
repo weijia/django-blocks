@@ -77,3 +77,18 @@ CACHE_MIDDLEWARE_SECONDS = 1 #60 * 5 # 5 minutes
 CACHE_MIDDLEWARE_KEY_PREFIX = 'djangoblocks'
 CACHE_MIDDLEWARE_GZIP = True
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
+
+class NullStream(object):
+    def write(*args, **kwdargs):
+        pass
+    writeline = write
+    writelines = write
+        
+RESTRUCTUREDTEXT_FILTER_SETTINGS = {
+    'doctitle_xform': True,
+    'initial_header_level': 2,
+    'cloak_email_addresses': True,
+    'file_insertion_enabled': False,
+    'raw_enabled': False,
+    'warning_stream': NullStream()
+}
