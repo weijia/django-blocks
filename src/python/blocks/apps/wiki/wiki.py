@@ -5,6 +5,13 @@ from django.utils.safestring import mark_safe
 
 def parse(content):
     try:
+        import pygments_directive
+    except ImportError:
+        if settings.DEBUG:
+            raise template.TemplateSyntaxError, "Error in wiki filter: The Python pygments library isn't installed."
+        pass
+        
+    try:
         from docutils.core import publish_parts
     except ImportError:
         if settings.DEBUG:
