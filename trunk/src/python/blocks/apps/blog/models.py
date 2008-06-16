@@ -43,10 +43,13 @@ class BlogEntry(models.Model):
         if not self.author:
             user = ThreadLocals.get_current_user()
             author = ''
-            if user.first_name or user.last_name:
-                author = (user.first_name + ' ' + user.last_name).strip()
-            elif user.username:
-                author = user.username.strip()
+            try:
+                if user.first_name or user.last_name:
+                    author = (user.first_name + ' ' + user.last_name).strip()
+                elif user.username:
+                    author = user.username.strip()
+            except AttributeError:
+                pass
             
             if author:
                 self.author = author

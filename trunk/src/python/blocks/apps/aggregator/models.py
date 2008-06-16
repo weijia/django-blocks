@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib import admin
 
 class Feed(models.Model):
-    title = models.CharField(max_length=500)
-    feed_url = models.URLField(unique=True, max_length=500)
-    public_url = models.URLField(max_length=500)
+    title = models.CharField(max_length=300)
+    feed_url = models.URLField(unique=True, max_length=300)
+    public_url = models.URLField(max_length=300)
 
     class Meta:
         db_table = 'aggregator_feeds'
@@ -20,11 +20,11 @@ class Feed(models.Model):
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
-    title = models.CharField(max_length=500)
-    link = models.URLField(max_length=500)
+    title = models.CharField(max_length=300)
+    link = models.URLField(max_length=300)
     summary = models.TextField(blank=True)
     date_modified = models.DateTimeField()
-    guid = models.CharField(max_length=500, unique=True, db_index=True)
+    guid = models.CharField(max_length=300, unique=True, db_index=True)
 
     class Meta:
         db_table = 'aggregator_feeditems'
