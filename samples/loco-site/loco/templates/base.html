@@ -13,13 +13,13 @@
 		{% block extrastyle %}{% endblock %}
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
-		<!--[if gte IE 5.5]>
+		<!--[if gte IE 5.5]><![if lt IE 7]>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
 		<style type="text/css">
 			.iepngfix { behavior: expression(IEPNGFIX.fix(this)); }
 			img { behavior: expression(IEPNGFIX.fix(this)); }
 		</style>
-		<![endif]-->
+		<![endif]><![endif]-->
 	</head>
 
 	<body>
@@ -64,24 +64,24 @@
 		
 				<div class="span-1 last">
 					<div class="block news">
-						<h2>Ùltimas</h2>
-						<p>
+						<h2>Últimas</h2>
+						<div>
 							{% load aggregator %}
-							{% get_feed_list as feed_list %}
+							{% get_feed_list as feed_list limit 8 %}
 							{% for item in feed_list %}
 							<p>
 								<span class="feed">{{ item.feed}}</span><span class="date">{{ item.date_modified|date:"j F Y" }}</span><br />
 								<a class="title" href="/planet/{{ item.id }}">{{ item.title }}</a>
 							</p>
 							{% endfor %}
-						</p>
+						</div>
 					</div>
 				</div>
 								
 				{% block help %}
 				{% endblock %}
 				
-				<div class="span-4 last" />
+				<div class="span-4 last clear" />
 			</div>
 			
 			<div id="footer" class="span-4 last">

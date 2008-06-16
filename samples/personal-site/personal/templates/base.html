@@ -17,13 +17,13 @@
 		<link rel="alternate" type="application/rss+xml" title="Latest feeds" href="{% url feed-list %}rss/" />
 		<link rel="alternate" type="application/rss+xml" title="Comments feeds" href="{% url comments-list %}rss/" />
 		
-		<!--[if gte IE 5.5]>
+		<!--[if gte IE 5.5]><![if lt IE 7]>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
 		<style type="text/css">
 			.iepngfix { behavior: expression(IEPNGFIX.fix(this)); }
 			img { behavior: expression(IEPNGFIX.fix(this)); }
 		</style>
-		<![endif]-->
+		<![endif]><![endif]-->
 	</head>
 
 	<body>
