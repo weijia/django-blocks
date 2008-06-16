@@ -184,3 +184,24 @@ div.news a.title
 	font-weight: bold;
 	color: #666;
 }
+
+.section h1 a,
+.section h2 a,
+.section h3 a,
+.section h4 a,
+.section h5 a,
+.section h6 a
+{
+	text-decoration: none;
+	color: #666;
+}
+
+.section h1 a:hover,
+.section h2 a:hover,
+.section h3 a:hover,
+.section h4 a:hover,
+.section h5 a:hover,
+.section h6 a:hover
+{
+	color: #666;
+}
