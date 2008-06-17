@@ -115,7 +115,8 @@ class StaticPage(models.Model):
         help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
     # content
     title = models.CharField(_('title'), max_length=200)
-    body_wiki = models.TextField(_('body'))
+    body_wiki = models.TextField(_('body'),
+         help_text=_("use reStructuredText Markup."))
     
     template = models.ForeignKey(Template, verbose_name=_('template'), related_name='template_id', blank=False,
         help_text=_("You must provide a template to be used in this page."))
@@ -166,6 +167,7 @@ class StaticPage(models.Model):
         db_table = 'blocks_static_page'
         verbose_name = _('Static Page')
         verbose_name_plural = _('Static Pages')
+        ordering = ('url',)
 
 #class StaticPageAdmin(admin.ModelAdmin):    
     class Admin:
