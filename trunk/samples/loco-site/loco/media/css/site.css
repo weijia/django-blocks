@@ -190,7 +190,8 @@ div.news a.title
 .section h3 a,
 .section h4 a,
 .section h5 a,
-.section h6 a
+.section h6 a,
+.contents.topic p a
 {
 	text-decoration: none;
 	color: #520;
@@ -201,7 +202,42 @@ div.news a.title
 .section h3 a:hover,
 .section h4 a:hover,
 .section h5 a:hover,
-.section h6 a:hover
+.section h6 a:hover,
+.contents.topic a:hover
 {
 	color: #520;
+}
+
+.contents.topic
+{
+	float: right;
+	border: 1px solid #999;
+	padding: 1em;
+}
+
+.contents.topic ul
+{
+	margin: 0;
+	list-style-type: none;
+}
+
+.contents.topic p
+{
+	padding: 0 0 .5em;
+}
+
+.contents.topic p a
+{
+	font-weight: bold;
+}
+
+table
+{
+	border-top: 1px solid #520;
+	border-bottom: 1px solid #520;
+}
+
+th
+{
+	background: #ED9;
 }

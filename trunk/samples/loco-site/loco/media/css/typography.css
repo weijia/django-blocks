@@ -78,7 +78,9 @@ dd          { margin-left: 1.5em;}
 -------------------------------------------------------------- */
 
 table       { margin-bottom: 1.4em; width:100%; }
-th          { font-weight: bold; background: #C3D9FF; }
+th          { font-weight: bold; background: #DE9; border-bottom: 1px solid #fff; }
+thead th    { border-bottom: 1px solid #fff; }
+tbody th    { background: #DEC; border-bottom: 1px solid #fff; }
 th,td       { padding: 4px 10px 4px 5px; }
 tr.even td  { background: #E5ECF9; }
 tfoot       { font-style: italic; }
