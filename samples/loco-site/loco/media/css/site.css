@@ -193,7 +193,7 @@ div.news a.title
 .section h6 a
 {
 	text-decoration: none;
-	color: #666;
+	color: #520;
 }
 
 .section h1 a:hover,
@@ -203,5 +203,5 @@ div.news a.title
 .section h5 a:hover,
 .section h6 a:hover
 {
-	color: #666;
+	color: #520;
 }

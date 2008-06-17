@@ -79,3 +79,20 @@ div#footer
 	border: 1px solid #D9EAF5;
 	margin-bottom: 10px;
 }
+
+#messagelist
+{
+	background-color: #C3D9FF;
+	border: 1px solid #299;
+	margin: .5em 0 .5em 0;
+}
+
+#messagelist ul
+{
+	margin: 0;
+}
+
+#toolbar
+{
+	margin-bottom: 1em;
+}
