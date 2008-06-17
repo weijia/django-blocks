@@ -33,11 +33,13 @@ SECRET_KEY = '_z9v#(dw$w0a-#hr8d^w2_savxykqc#0p)%hbd*+j@$ylr+z#o'
 
 
 MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.cache.CacheMiddleware',
 	'django.middleware.http.SetRemoteAddrFromForwardedFor',
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.middleware.common.CommonMiddleware',
+    
+    'blocks.core.middleware.ThreadLocals',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =(

@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import *
-from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = []
@@ -15,6 +14,6 @@ if settings.MEDIA_URL.startswith('/'):
     )
 
 urlpatterns += patterns('',
-	(r'^admin/(.*)', admin.site.root),
+	(r'^admin/', include('django.contrib.admin.urls')),
 	(r'', include('blocks.apps.contenttypes.urls')),
 )
