@@ -19,3 +19,8 @@ WEIGHT_CHOICES = (
 	( 9,  9),
 	(10, 10),
 )
+
+LEVEL_CHOICES = (
+	('P', _('primary')),
+	('S', _('secondary')),
+)

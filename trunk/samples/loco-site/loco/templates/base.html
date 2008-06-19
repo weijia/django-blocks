@@ -32,10 +32,11 @@
 				
 				<div id="menu">
 					<ul>
-						<li><a href="/"{% ifequal BLOCKS_URL "home" %} class="active"{% endifequal %}>Home</a></li>
-						<li><a href="/downloads/"{% ifequal BLOCKS_URL "downloads" %} class="active"{% endifequal %}>Downloads</a></li>
-						<li><a href="/gallery/"{% ifequal BLOCKS_URL "gallery" %} class="active"{% endifequal %}>Galeria</a></li>
-						<li><a href="/docs/"{% ifequal BLOCKS_URL "docs" %} class="active"{% endifequal %}>Documentação</a></li>
+						{% load contenttypes %}
+						{% get_menu_list primary as primary_list %}
+						{% for menu in primary_list %}
+						<li><a href="{{ menu.url }}"{% ifequal BLOCKS_URL menu.url %} class="active"{% endifequal %}>{{ menu.title }}</a></li>
+						{% endfor %}
 					</ul>
 				</div>
 			</div>

@@ -36,13 +36,7 @@
 			{% block breadcrumbs %}<div class="span-4 last breadcrumbs"><a href="/">{% trans 'Home' %}</a>{% if title %} &rsaquo; {{ title|escape }}{% endif %}</div>{% endblock %}
 			{% endif %}
 			
-			<div id="content" class="span-4 last">
-				{% if messages %}
-				<div id="messagelist" class="span-4 last">
-					<ul>{% for message in messages %}<li>{{ message|escape }}</li>{% endfor %}</ul>
-				</div>
-				{% endif %}
-				
+			<div id="content" class="span-4 last">				
 				{% if not is_popup %}
 				<div id="sidebar" class="span-1">
 					{% if user.is_authenticated and user.is_staff %}
@@ -59,15 +53,26 @@
 					</div>
 					{% endif %}
 					
+					<!-- div class="module">
+						<h2>{% trans 'Content' %}</h2>
+						{% block object-tools %}{% endblock %}
+					</div -->
+					
 					{% block sidebar %}{% endblock %}
 				</div>
 				{% endif %}
 				
-				<div id="contents" class="span-3 last">
+				<div id="contents" class="{% if not is_popup %}span-3{% else %}span-4{% endif %} module last">
 					{% block pretitle %}{% endblock %}
 					{% block content_title %}{% if title %}<h1>{{ title|escape }}</h1>{% endif %}{% endblock %}
+					
+					{% if messages %}
+					<div id="messagelist">
+						<ul>{% for message in messages %}<li>{{ message|escape }}</li>{% endfor %}</ul>
+					</div>
+					{% endif %}
+					
 					{% block content %}
-					{% block object-tools %}{% endblock %}
 					{{ content }}
 					{% endblock %}
 				</div>
