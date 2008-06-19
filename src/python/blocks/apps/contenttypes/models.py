@@ -1,6 +1,6 @@
 from django.db import models
 from django.core import validators
-from base import STATUS_CHOICES, WEIGHT_CHOICES, _
+from base import STATUS_CHOICES, WEIGHT_CHOICES, LEVEL_CHOICES, _
 from blocks.apps.wiki import wiki
 from blocks.core import middleware as ThreadLocals
 import datetime
@@ -121,9 +121,6 @@ class StaticPage(models.Model):
     template = models.ForeignKey(Template, verbose_name=_('template'), related_name='template_id', blank=False,
         help_text=_("You must provide a template to be used in this page."))
     
-    menu = models.BooleanField(_('Menu'),
-        help_text=_("Appears in the main menu."))
-    
     # publishing options
     publish_date = models.DateTimeField(_('publish date'), blank=True)
     modified_date = models.DateTimeField(_('modified date'), blank=True)
@@ -173,7 +170,7 @@ class StaticPage(models.Model):
     class Admin:
         fields = (
            (None, {'fields': ('title', 'body_wiki')}),
-           (_('Display options'), {'fields': ('url', 'template', 'menu',),}),
+           (_('Display options'), {'fields': ('url', 'template',),}),
            (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author'), 'classes': 'collapse'}),
         )
         list_filter = ('template',)
@@ -181,3 +178,34 @@ class StaticPage(models.Model):
         list_display = ('url', 'title', 'author', 'publish_date', 'modified_date',)
 
 #admin.site.register(StaticPage, StaticPageAdmin)
+
+
+class Menu(models.Model):
+    title = models.CharField(_('title'), max_length=200)
+    
+    url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL],  unique=True, 
+        help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
+    
+    weight = models.CharField(_('weight'), max_length=1, choices=WEIGHT_CHOICES, default='0',
+        help_text=_("menu weight"))
+
+    level = models.CharField(_('level'), max_length=1, choices=LEVEL_CHOICES, default='P',
+        help_text=_("menu level"))
+    
+    def save(self):
+        from blocks.core.utils import fix_url
+        self.url = fix_url(self.url)
+
+        super(Menu, self).save()
+        
+    class Meta:
+        db_table = 'blocks_menu'
+        verbose_name = _('Menu')
+        verbose_name_plural = _('Menus')
+        ordering = ('weight',)
+
+#class StaticPageAdmin(admin.ModelAdmin):    
+    class Admin:
+        list_filter = ('level',)
+        search_fields = ('title', 'url',)
+        list_display = ('title', 'url', 'weight', 'level',)

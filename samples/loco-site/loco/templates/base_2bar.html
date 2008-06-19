@@ -13,11 +13,11 @@
 			{% block menu %}
 			<a href="/about/"><img src="{{ MEDIA_URL }}img/beginers.png" width="230" height="56" border="0" /></a>
 			<ul>
-				<li><a href="/about/">Quem Somos</a></li>
-				<li><a href="/about/">Como Participar</a></li>
-				<li><a href="/about/">Notícias</a></li>
-				<li><a href="/about/">Outros Conteúdos</a></li>
-				<li><a href="/about/">Contactos</a></li>
+				{% load contenttypes %}
+				{% get_menu_list secondary as secondary_list %}
+				{% for menu in secondary_list %}
+				<li><a href="{{ menu.url }}">{{ menu.title }}</a></li>
+				{% endfor %}
 			</ul>
 			<a href="/about/"><img src="{{ MEDIA_URL }}img/ubuntupub.png" width="230" height="135" border="0" /></a>
 			{% endblock %}
