@@ -105,6 +105,17 @@ div#footer {
 .textblock h6 
 {
 	padding: 0 .2em 0 .2em;
+	color: #520;
+}
+
+.textblock h1 a,
+.textblock h2 a,
+.textblock h3 a,
+.textblock h4 a,
+.textblock h5 a,
+.textblock h6 a 
+{
+	color: #520;
 }
 
 .textblock p
@@ -129,6 +140,31 @@ div#footer {
 {
 	padding: 0 .8em .8em .8em;
 	margin: 0;
+}
+
+.textblock .block
+{
+	background:#FFFFFF url(../img/titlebg.png) repeat-x scroll 0pt 0pt;
+	margin-bottom: 2em;
+}
+
+.bbody
+{
+	padding: 1em;
+}
+
+.feed a
+{
+	background:#FFFFFF url(../img/feed.png) no-repeat scroll left center;
+	margin-bottom: 1.5em;
+	padding-left: 1.5em;
+	font-weight: bold;
+}
+
+.block span.date
+{
+	color:#999999;
+	font-family: Georgia,Garamond,Serif;
 }
 
 #secmenu
