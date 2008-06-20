@@ -31,12 +31,12 @@
 					{% get_feed_list as feed_list limit 5 %}
 					{% for item in feed_list %}
 					<p>
-						<span class="feed">{{ item.feed}}</span><span class="date">{{ item.date_modified|date:"j F Y" }}</span><br />
+						<span class="feed"><a href="{% url feeddetail item.feed.id %}">{{ item.feed}}</a></span><span class="date">{{ item.date_modified|date:"j F Y" }}</span><br />
 						<a class="title" href="{% url feed_itemdetail item.feed.id,item.id %}">{{ item.title }}</a>
 					</p>
 					{% endfor %}
 					<p>
-						<a class="title" href="{% url feed_list %}">ver mais</a>
+						<a class="title" href="/feeds/">ver mais</a>
 					</p>
 				</div>
 			</div>
