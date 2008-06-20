@@ -28,13 +28,16 @@
 				<h2>Últimas</h2>
 				<div>
 					{% load aggregator %}
-					{% get_feed_list as feed_list limit 8 %}
+					{% get_feed_list as feed_list limit 5 %}
 					{% for item in feed_list %}
 					<p>
 						<span class="feed">{{ item.feed}}</span><span class="date">{{ item.date_modified|date:"j F Y" }}</span><br />
 						<a class="title" href="{% url feed_itemdetail item.feed.id,item.id %}">{{ item.title }}</a>
 					</p>
 					{% endfor %}
+					<p>
+						<a class="title" href="{% url feed_list %}">ver mais</a>
+					</p>
 				</div>
 			</div>
 		</div>
