@@ -14,6 +14,8 @@ if settings.MEDIA_URL.startswith('/'):
     )
 
 urlpatterns += patterns('',
+	(r'^feeds/', include('blocks.apps.aggregator.urls')),
+	
 	(r'^admin/', include('django.contrib.admin.urls')),
 	(r'', include('blocks.apps.contenttypes.urls')),
 )

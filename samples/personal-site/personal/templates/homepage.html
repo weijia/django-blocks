@@ -37,7 +37,7 @@
 		<p>
 			<span class="feed"><a href="{% url feed-detail item.feed.id %}">{{ item.feed.title }}</a></span><br />
 			<span class="date">{{ item.date_modified|date:"j F Y H:m" }}</span><br />
-			<a class="title" href="{% url feed-item-detail item.feed.id,item.id %}" target="_new">{{ item.title }}</a>
+			<a class="title" href="{% url feed-item-detail item.feed.id, item.id %}" target="_new">{{ item.title }}</a>
 		</p>
 			{% endfor %}
 		<p><a href="{% url feed-list %}">see more</a></p>
