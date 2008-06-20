@@ -7,7 +7,7 @@
 	<div class="block last">
 		<h2><a href="{% url feed_itemdetail item.feed.id,item.id %}">{{ item.title }}</a></h2>
 		<div class="bbody">
-			<span class="feed"><a href="{% url feed-detail item.feed.id %}">{{ item.feed.title }}</a></span>
+			<span class="feed"><a href="{% url feeddetail item.feed.id %}">{{ item.feed.title }}</a></span>
 			<span class="date">{{ item.date_modified|date:"j F Y H:m" }}</span>
 			<span class="link"><a href="{{ item.link }}" target="_new">original</a></span>
 		</div>
