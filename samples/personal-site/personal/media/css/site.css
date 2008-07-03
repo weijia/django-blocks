@@ -110,6 +110,11 @@ img#sitelogo
 	background-color: #ad0;
 }
 
+#menu ul li.active a:hover
+{
+	background-color: #8a0;
+}
+
 div#footer
 {
 	margin-top: 2em;

@@ -65,6 +65,7 @@ class Template(models.Model):
 #class TemplateAdmin(admin.ModelAdmin):
     class Admin:
         search_fields = ('template', 'name', 'description')
+        list_display = ('name', 'template', 'description')
 
 #admin.site.register(Template, TemplateAdmin)
 
@@ -175,7 +176,7 @@ class StaticPage(models.Model):
         )
         list_filter = ('template',)
         search_fields = ('template', 'title',)
-        list_display = ('url', 'title', 'author', 'publish_date', 'modified_date',)
+        list_display = ('url', 'title', 'author', 'modified_date',)
 
 #admin.site.register(StaticPage, StaticPageAdmin)
 
