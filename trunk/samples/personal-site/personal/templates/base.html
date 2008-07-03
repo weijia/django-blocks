@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 	<head>
-		<title>zlabls | {{ BLOCKS_URL|upper }}</title>
+		<title>zlabls | {{ BLOCKS_TITLE|upper }}{% block extratitle %}{% endblock %}</title>
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/reset.css" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/grid.css" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/typography.css" />
@@ -33,16 +33,17 @@
 			<div id="header" class="span-4 last">
 				<div id="menu">
 					<ul>
-						<li{% ifequal BLOCKS_URL "home" %} class="active"{% endifequal %}><a href="/">{{ "Home"|upper }}</a></li>
-						<li{% ifequal BLOCKS_URL "blog" %} class="active"{% endifequal %}><a href="/blog/">{{ "Blog"|upper }}</a></li>
-						<li{% ifequal BLOCKS_URL "projects" %} class="active"{% endifequal %}><a href="/projects/">{{ "Projects"|upper }}</a></li>
-						<li{% ifequal BLOCKS_URL "feeds" %} class="active"{% endifequal %}><a href="/feeds/">{{ "Feeds"|upper }}</a></li>
+						{% load contenttypes %}
+						{% get_menu_list primary as primary_list %}
+						{% for menu in primary_list %}
+						<li{% ifequal BLOCKS_URL menu.url %} class="active"{% endifequal %}><a href="{{ menu.url }}">{{ menu.title|upper }}</a></li>
+						{% endfor %}
 					</ul>
 				</div>
 				<div id="heading">
 					<div id="branding">
 						<img id="sitelogo" src="{{ MEDIA_URL }}img/logo.png" width="56" height="60" />
-						<div id="sitesection"> {{ BLOCKS_URL|upper }}</div>
+						<div id="sitesection"> {{ BLOCKS_TITLE|upper }}</div>
 					</div>
 				</div>
 			</div>

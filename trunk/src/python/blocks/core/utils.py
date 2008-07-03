@@ -12,7 +12,30 @@ def get_url(view_name, args=None, default=''):
             return reverse(get_project_name() + '.' + view_name, args=args)
         except NoReverseMatch:
             return default
-
+    
+def get_page_title(url):
+    title = url
+    
+    url = fix_url(url)
+    feed = get_url('feed_list')
+    blog = get_url('blog-index')
+    
+    if (url == feed):
+        from blocks.apps.aggregator.models import FeedItem
+        pass
+    
+    elif (url == blog):
+        from blocks.apps.blog.models import BlogEntry
+        pass
+    
+    else:
+        from blocks.apps.contenttypes.models import StaticPage
+        lst = StaticPage.objects.filter(url__exact=url)
+        if (lst):
+            title = lst[0].title
+    
+    return title
+    
 def fix_url(url):
     if not url.startswith('/'):
         url = "/" + url

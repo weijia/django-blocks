@@ -10,7 +10,7 @@
 
 {% load blog %}
 <div id="blogs" class="span-3 clear">
-{% get_blog_list as blog_list limit 2 %}
+{% get_blog_list as blog_list limit 4 %}
 	{% if blog_list %}
 		{% for item in blog_list %}
 		<div class="block last">
@@ -35,12 +35,12 @@
 		{% if feed_list %}
 			{% for item in feed_list %}
 		<p>
-			<span class="feed"><a href="{% url feed-detail item.feed.id %}">{{ item.feed.title }}</a></span><br />
+			<span class="feed"><a href="{% url feeddetail item.feed.id %}">{{ item.feed.title }}</a></span><br />
 			<span class="date">{{ item.date_modified|date:"j F Y H:m" }}</span><br />
-			<a class="title" href="{% url feed-item-detail item.feed.id, item.id %}" target="_new">{{ item.title }}</a>
+			<a class="title" href="{% url feed_itemdetail item.feed.id,item.id %}" target="_new">{{ item.title }}</a>
 		</p>
 			{% endfor %}
-		<p><a href="{% url feed-list %}">see more</a></p>
+		<p><a href="/feeds/">see more</a></p>
 		{% else %}
 		<p>no feeds</p>
 		{% endif %}
