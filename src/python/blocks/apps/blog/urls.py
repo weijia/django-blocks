@@ -8,8 +8,9 @@ info_dict = {
 
 idx_info_dict = {
     'queryset': BlogEntry.objects.all(),
-    'date_field': 'publish_date',
-    'num_latest': 10,
+    'template_name': 'blog/blogentry_archive.html',
+    'template_object_name': 'latest',
+    'paginate_by': 8,
 }
 
 #feeds = { 'rss': LatestBlogEntriesFeed, }
@@ -20,7 +21,7 @@ urlpatterns = patterns('',
    (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/$', 'django.views.generic.date_based.archive_day', info_dict),
    (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', 'django.views.generic.date_based.archive_month', info_dict),
    (r'^(?P<year>\d{4})/$', 'django.views.generic.date_based.archive_year', info_dict),
-   url(r'^$', 'django.views.generic.date_based.archive_index', idx_info_dict, 'blog-index'),
+   url(r'^$', 'django.views.generic.list_detail.object_list', idx_info_dict, 'blog-index'),
    
    #(r'^(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 )
