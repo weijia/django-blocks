@@ -196,6 +196,25 @@ div#footer
 	list-style-type: none;
 }
 
+p img
+{
+	float: none;
+}
+
+blockquote,
+code
+{
+	background-color: #eee;
+}
+
+blockquote
+{
+	border: 1px solid #ccc;
+	border-left-width: 5px;
+	padding: 1em;
+	margin: 1em .5em 1em .5em;
+}
+
 a.rss
 {
 	background: transparent url(../img/feed-icon.png) no-repeat scroll left center;
@@ -240,6 +259,95 @@ a.rss
 	color: #668000;
 }
 
+.links a,
+.links span
+{
+	padding: 0.2em 0.5em;
+	margin-right: 0.1em;
+	border: 1px solid #8a0;
+	background: #fff;
+	text-decoration: none;
+}
+
+.links a:hover
+{
+	background-color: #8a0;
+	color: #fff;
+}
+
+
+/* Page Numbers */
+.pages
+{
+	padding: 1em;
+	margin: 1em 0;
+	clear: left;
+	font-size: 85%;
+}
+
+.pages a,
+.pages span
+{
+	display: block;
+	float: left;
+	padding: 0.2em 0.5em;
+	margin-right: 0.1em;
+	border: 1px solid #fff;
+	background: #fff;
+}
+
+.pages span.current
+{
+	border: 1px solid #8a0;
+	font-weight: bold;
+	background: #8a0;
+	color: #fff;
+}
+
+.pages a
+{
+	border: 1px solid #8a0;
+	text-decoration: none;
+}
+
+.pages a:hover
+{
+	background-color: #8a0;
+	color: #fff;
+}
+
+.pages a.nextprev
+{
+	font-weight: bold;
+}
+
+.pages span.nextprev
+{
+	color: #666;
+}
+
+.pages span.nextprev
+{
+	border: 1px solid #ddd;
+	color: #999;
+}
+
+.pages .nextprev-next 
+{
+	float: right;
+}
+
+.teaser
+{
+	background-image: none;
+	background-color: #8a0;
+	color: #fff;
+}
+.teaser h2
+{
+	color: #fff;
+}
+
 /* FEED SPECIFIC */
 .usn
 {
@@ -250,6 +358,8 @@ a.rss
 	white-space: pre;
 }
 
+.bbody h3,
+.related_post,
 .feedflare
 {
 	display: none;

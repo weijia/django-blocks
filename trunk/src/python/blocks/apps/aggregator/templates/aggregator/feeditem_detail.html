@@ -7,12 +7,15 @@
 	<div class="block last">
 		<h2>{{ object.title }}</h2>
 		<div class="bbody">
-			<span class="feed"><a href="{% url feeddetail object.feed.id %}">{{ object.feed.title }}</a></span>
+			<span class="feed"><a href="{{ object.feed.public_url }}">{{ object.feed.title }}</a></span>
 			<span class="date">{{ object.date_modified|date:"j F Y H:m" }}</span>
-			<span class="link"><a href="{{ object.link }}" target="_new">original</a></span>
 		</div>
 		<div class="bbody">
 			{{ object.summary|safe }}
+		</div>
+		<div class="bbody links">
+			<a href="{{ object.link }}">read original</a>
+			<a href="{% url feeddetail object.feed.id %}">read more from '{{ object.feed.title }}'</a>
 		</div>
 	</div>
 	

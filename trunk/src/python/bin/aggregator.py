@@ -8,12 +8,16 @@ import time
 import optparse
 import datetime
 import feedparser
+import re
 
 def update_feeds(verbose=False):
     from blocks.apps.aggregator.models import Feed, FeedItem
     for feed in Feed.objects.all():
         if verbose:
             print feed
+        
+        #feedparser._HTMLSanitizer.acceptable_attributes = ['align', 'alt', 'cols', 'colspan', 'height', 'href', 'rows', 'rowspan', 'span', 'src', 'valign', 'width']
+        
         parsed_feed = feedparser.parse(feed.feed_url)
         for entry in parsed_feed.entries:
             title = entry.title.encode(parsed_feed.encoding, "xmlcharrefreplace")
@@ -23,15 +27,20 @@ def update_feeds(verbose=False):
             if not guid:
                 guid = link
 
-            if hasattr(entry, "summary"):
-                content = entry.summary
-            elif hasattr(entry, "content"):
+            if hasattr(entry, "content"):
                 content = entry.content[0].value
+            elif hasattr(entry, "summary"):
+                content = entry.summary
             elif hasattr(entry, "description"):
                 content = entry.description
             else:
                 content = u""
             content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
+            
+            # fix content
+            nocomments = re.sub(r'<!--[\s\S\n]*-->', '', content)
+            noempypara = re.sub(r'<p>[\s\n]</p>', '', nocomments)
+            content = noempypara.strip()
 
             try:
                 if entry.has_key('modified_parsed'):

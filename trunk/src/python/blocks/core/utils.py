@@ -12,7 +12,19 @@ def get_url(view_name, args=None, default=''):
             return reverse(get_project_name() + '.' + view_name, args=args)
         except NoReverseMatch:
             return default
+
+def get_menu_title(url):
+    from blocks.apps.contenttypes.models import Menu
     
+    title = url
+    
+    url = fix_url(url)
+    lst = Menu.objects.filter(url__exact=url)
+    if (lst):
+        title = lst[0].title
+    
+    return title
+        
 def get_page_title(url):
     title = url
     

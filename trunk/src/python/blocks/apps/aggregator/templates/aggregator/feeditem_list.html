@@ -2,20 +2,51 @@
 
 {% block content %}
 <div class="span-3 last textblock">	
-	{% if object_list %}
+	{% if object_list %}		
 		{% for item in object_list %}
 	<div class="block last">
 		<h2><a href="{% url feed_itemdetail item.feed.id,item.id %}">{{ item.title }}</a></h2>
 		<div class="bbody">
-			<span class="feed"><a href="{% url feeddetail item.feed.id %}">{{ item.feed.title }}</a></span>
+			<span class="feed"><a href="{{ item.feed.public_url }}">{{ item.feed.title }}</a></span>
 			<span class="date">{{ item.date_modified|date:"j F Y H:m" }}</span>
-			<span class="link"><a href="{{ item.link }}" target="_new">original</a></span>
 		</div>
 		<div class="bbody">
-			{{ item.summary|safe }}
+			{{ item.summary|truncatewords:"100"|safe }}
+		</div>
+		<div class="bbody links">
+			<a href="{% url feed_itemdetail item.feed.id,item.id %}">read more</a>
+			<a href="{{ item.link }}">read original</a>
+			<a href="{% url feeddetail item.feed.id %}">read more from '{{ item.feed.title }}'</a>
 		</div>
 	</div>
-		{% endfor %}	
+		{% endfor %}
+		
+		{% if is_paginated %}
+		<div class="pages">
+		    {% if page_obj.has_previous %}
+		        <a title="goto previous page" href="?page={{ page_obj.previous_page_number }}{{ getvars }}" class="nextprev">&lsaquo;&lsaquo; previous</a>
+		    {% else %}
+		        <span class="nextprev">&lsaquo;&lsaquo; previous</span>
+		    {% endif %}
+		    {% for page in paginator.page_range %}
+		        {% if page %}
+		            {% ifequal page page_obj.number %}
+		                <span class="current">{{ page }}</span>
+		            {% else %}
+		                <a title="goto page {{ page }}" href="?page={{ page }}{{ getvars }}" class="page">{{ page }}</a>
+		            {% endifequal %}
+		        {% else %}
+		            ...
+		        {% endif %}
+		    {% endfor %}
+		    {% if page_obj.has_next %}
+		        <a title="goto next page" href="?page={{ page_obj.next_page_number }}{{ getvars }}" class="nextprev">next &rsaquo;&rsaquo;</a>
+		    {% else %}
+		        <span class="nextprev">next &rsaquo;&rsaquo;</span>
+		    {% endif %}
+		</div>
+		{% endif %}
+		
 	{% else %}
 	<p>no feeds</p>
 	{% endif %}
