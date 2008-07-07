@@ -28,7 +28,7 @@ settings.BLOCKS_ADMIN_HELP = {
     'freecomment':  _('Manage content comments.'),
     },
     
-'contenttypes': {
+'core': {
     '__label__':    _('Blocks'),
     '__help__':     _('Control how your site looks and feels.'),
     'page':         _('List, add and edit pages.'),

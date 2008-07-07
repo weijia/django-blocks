@@ -62,8 +62,8 @@ INSTALLED_APPS = (
 
 	'comment_utils',
     
-    'blocks.apps.contenttypes',
-    'blocks.apps.admin',
+    'blocks.apps.core',
+    'blocks.apps.administration',
     'blocks.apps.blog',
     'blocks.apps.aggregator',
 )

@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils.safestring import mark_safe
 from django.core.xheaders import populate_xheaders
 
-from blocks.apps.contenttypes.models import StaticPage
+from blocks.apps.core.models import StaticPage
 
 DEFAULT_TEMPLATE = 'default.html'
 

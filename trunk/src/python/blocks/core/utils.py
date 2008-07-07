@@ -14,7 +14,7 @@ def get_url(view_name, args=None, default=''):
             return default
 
 def get_menu_title(url):
-    from blocks.apps.contenttypes.models import Menu
+    from blocks.apps.core.models import Menu
     
     title = url
     
