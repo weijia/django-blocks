@@ -26,6 +26,12 @@ class FeedItem(models.Model):
     summary = models.TextField(blank=True)
     date_modified = models.DateTimeField()
     guid = models.CharField(max_length=300, unique=True, db_index=True)
+    
+    def _get_description(self):
+        from django.utils.text import truncate_words
+        from blocks.core.utils import strip_tags
+        return strip_tags(truncate_words(self.summary, 100), ('blockquote', 'code', 'img', 'script', 'style', 'iframe', 'object'))
+    description = property(_get_description)
 
     class Meta:
         db_table = 'aggregator_feeditems'
