@@ -1,5 +1,5 @@
 from django import template
-from blocks.apps.contenttypes.models import Menu
+from blocks.apps.core.models import Menu
 
 class PrimaryMenus(template.Node):
     def __init__(self, varname):

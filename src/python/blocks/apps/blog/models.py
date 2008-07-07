@@ -1,6 +1,6 @@
 from django.db import models
 from django.core import validators
-from blocks.apps.contenttypes.base import STATUS_CHOICES, WEIGHT_CHOICES, _
+from blocks.apps.core.base import STATUS_CHOICES, WEIGHT_CHOICES, _
 from blocks.apps.wiki import wiki
 from blocks.core import middleware as ThreadLocals
 import datetime

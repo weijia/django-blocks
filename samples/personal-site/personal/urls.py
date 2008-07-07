@@ -34,5 +34,5 @@ urlpatterns += patterns('',
 	url(r'^comments/$', 'django.views.generic.list_detail.object_list', comments_info_dict, 'comments-list'),
 	(r'^comments/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
    
-	(r'', include('blocks.apps.contenttypes.urls')),
+	(r'', include('blocks.apps.core.urls')),
 )
