@@ -38,8 +38,11 @@ def update_feeds(verbose=False):
             content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
             
             # fix content
-            nocomments = re.sub(r'<!--[\s\S\n]*-->', '', content)
-            noempypara = re.sub(r'<p>[\s\n]</p>', '', nocomments)
+            from blocks.core.utils import strip_tags
+            content = strip_tags(content)
+            content = re.sub(r'<!--[\s\S\n]*-->', '', content)
+            content = re.sub(r'<p>[\s\n]</p>', '', content)
+            content = re.sub(r'<p[\s]*/>', '', content)
             content = noempypara.strip()
 
             try:
