@@ -68,7 +68,7 @@ class StrippingParser(sgmllib.SGMLParser):
         sgmllib.SGMLParser.__init__(self)
         self.result = ""
         self.endTagList = [] 
-        if (invalid_tags)
+        if invalid_tags:
             self.invalid_tags = invalid_tags
         
     def handle_data(self, data):
