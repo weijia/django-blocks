@@ -64,11 +64,12 @@ class StrippingParser(sgmllib.SGMLParser):
 
     from htmlentitydefs import entitydefs # replace entitydefs from sgmllib
     
-    def __init__(self, invalid_tags):
+    def __init__(self, invalid_tags=None):
         sgmllib.SGMLParser.__init__(self)
         self.result = ""
         self.endTagList = [] 
-        self.invalid_tags = invalid_tags
+        if (invalid_tags)
+            self.invalid_tags = invalid_tags
         
     def handle_data(self, data):
         if data:
@@ -108,7 +109,7 @@ class StrippingParser(sgmllib.SGMLParser):
             self.result = self.result + self.endTagList[j]    
         
 
-def strip_tags(s, invalid_tags):
+def strip_tags(s, invalid_tags=None):
     """ Strip illegal HTML tags from string s """
     parser = StrippingParser(invalid_tags)
     parser.feed(s)
