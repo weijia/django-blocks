@@ -40,16 +40,20 @@ def update_feeds(verbose=False):
                 content = entry.content[0].value
             else:
                 content = summary
-            content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
-            
-            # fix content
-            from blocks.core.utils import strip_tags
-            content = strip_tags(content)
-            content = re.sub(r'<!--[\s\S\n]*-->', '', content)
-            content = re.sub(r'<p>[\s\n]</p>', '', content)
-            content = re.sub(r'<p[\s]*/>', '', content)
-            content = content.strip()
+            try:
+                # fix content
+                from blocks.core.utils import strip_tags
+                content = strip_tags(content)
+                content = re.sub(r'<!--[\s\S\n]*-->', '', content)
+                content = re.sub(r'<p>[\s\n]</p>', '', content)
+                content = re.sub(r'<p[\s]*/>', '', content)
+		content = content.strip()
 
+                content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
+            except UnicodeDecodeError, ex:
+		print "ERROR: couldn't encode feed content '%s'. %s" % (title, ex)
+		pass
+            
             try:
                 if entry.has_key('modified_parsed'):
                     date_modified = datetime.datetime.fromtimestamp(time.mktime(entry.modified_parsed))
