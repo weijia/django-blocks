@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 class Feed(models.Model):
     title = models.CharField(max_length=300)
@@ -12,27 +13,30 @@ class Feed(models.Model):
     def __unicode__(self):
         return self.title
 
-#class FeedAdmin(admin.ModelAdmin):
+class FeedAdmin(admin.ModelAdmin):
     class Admin:
         search_fields = ('title',)
         list_display = ('title', 'public_url',)
 
-#admin.site.register(Feed, FeedAdmin)
+admin.site.register(Feed, FeedAdmin)
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
     title = models.CharField(max_length=300)
     link = models.URLField(max_length=300)
-    summary = models.TextField(blank=True)
+    summary_html = models.TextField(blank=True)
+    content_html = models.TextField(blank=True)
     date_modified = models.DateTimeField()
     guid = models.CharField(max_length=300, unique=True, db_index=True)
-    
-    def _get_description(self):
-        from django.utils.text import truncate_words
-        from blocks.core.utils import strip_tags
-        return strip_tags(truncate_words(self.summary, 100), ('blockquote', 'code', 'img', 'script', 'style', 'iframe', 'object'))
-    description = property(_get_description)
 
+    def _get_summary(self):
+        return mark_safe(self.summary_html)
+    summary = property(_get_summary)
+    
+    def _get_content(self):
+        return mark_safe(self.content_html)
+    content = property(_get_content)
+    
     class Meta:
         db_table = 'aggregator_feeditems'
         ordering = ("-date_modified",)

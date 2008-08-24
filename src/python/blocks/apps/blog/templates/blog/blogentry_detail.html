@@ -2,14 +2,15 @@
 
 {% block title %}Weblog | {{ object.headline|escape }}{% endblock %}
 
+{% load humanize %}
 {% block content %}
-
+	
 	<div class="block last">
-		<h2>{{ object.title }}</h2>
-		<div class="bbody">Posted by <strong>{{ object.author }}</strong> on <span class="date">{{ object.publish_date|date:"F j, Y" }}</span></div>
+		<h2>{{ blog.title }}</h2>
+		<div class="bbody">Posted by <strong>{{ blog.author }}</strong> | <span class="date">{{ blog.publish_date|naturalday:"F j, Y" }} @ {{ blog.publish_date|date:"H:i" }}</span>{% if blog.tags %}<span class="tags"> | Filed under: {% for tag in blog.tags %}<a href="/blog/tag/{{tag.name|slugify}}/">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</span>{% endif %}</div>
 		<div class="bbody">
-			{{ object.lead }}
-			{{ object.body }}
+			{{ blog.lead }}
+			{{ blog.body }}
 		</div>
 	</div>
 

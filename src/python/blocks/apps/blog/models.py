@@ -1,8 +1,11 @@
 from django.db import models
+from django.contrib import admin
 from django.core import validators
 from blocks.apps.core.base import STATUS_CHOICES, WEIGHT_CHOICES, _
 from blocks.apps.wiki import wiki
 from blocks.core import middleware as ThreadLocals
+from tagging.fields import TagField
+from tagging.models import Tag
 import datetime
 
 class BlogEntry(models.Model):
@@ -19,6 +22,16 @@ class BlogEntry(models.Model):
     
     comments_enabled = models.BooleanField(_('comments enabled'), help_text=_("enable comments for this entry"))
     
+    tag_list = TagField(_('tag list'), help_text=_('tags for this entry'))
+    
+    def _get_tags(self):
+        return Tag.objects.get_for_object(self)
+    
+    def _set_tags(self, tag_list):
+        Tag.objects.update_tags(self, tag_list)
+    
+    tags = property(_get_tags, _set_tags)
+
     
     def _get_lead(self):
         return wiki.parse(self.lead_wiki)
@@ -66,6 +79,7 @@ class BlogEntry(models.Model):
         ordering = ('-publish_date',)
         get_latest_by = 'publish_date'
 
+class StaticBlogEntry(admin.ModelAdmin):
     class Admin:
         fields = (
            (None, {'fields': ('title', 'lead_wiki', 'body_wiki')}),
@@ -74,3 +88,4 @@ class BlogEntry(models.Model):
         list_filter = ('title',)
         list_display = ('title', 'author', 'publish_date')
 
+admin.site.register(BlogEntry, StaticBlogEntry)

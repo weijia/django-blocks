@@ -11,7 +11,7 @@
 			<span class="date">{{ object.date_modified|date:"j F Y H:m" }}</span>
 		</div>
 		<div class="bbody">
-			{{ object.summary|safe }}
+			{{ object.content }}
 		</div>
 		<div class="bbody links">
 			<a href="{{ object.link }}">read original</a>

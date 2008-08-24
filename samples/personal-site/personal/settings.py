@@ -59,11 +59,13 @@ INSTALLED_APPS = (
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.humanize',
 
+    'tagging',
 	'comment_utils',
     
     'blocks.apps.core',
-    'blocks.apps.administration',
+    #'blocks.apps.administration',
     'blocks.apps.blog',
     'blocks.apps.aggregator',
 )
