@@ -9,26 +9,29 @@
 
 {% block coltype %}flex{% endblock %}
 
-
 {% block content %}
+	{% block object-tools %}
+		{% if has_add_permission %}
+	<ul class="object-tools"><li><a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">{% blocktrans with cl.opts.verbose_name|escape as name %}Add {{ name }}{% endblocktrans %}</a></li></ul>
+		{% endif %}
+	{% endblock %}
 
-{% if has_add_permission %}
-<ul class="object-tools"><li><a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">{% blocktrans with cl.opts.verbose_name|escape as name %}Add {{ name }}{% endblocktrans %}</a></li></ul>
-{% endif %}
+	<div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+	{% block search %}{% search_form cl %}{% endblock %}
+	{% block date_hierarchy %}{% date_hierarchy cl %}{% endblock %}
+	</div>
 
-<div id="content-main">
-<div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
-{% block search %}{% search_form cl %}{% endblock %}
-{% block date_hierarchy %}{% date_hierarchy cl %}{% endblock %}
-
-{% block result_list %}{% result_list cl %}{% endblock %}
-{% block pagination %}{% pagination cl %}{% endblock %}
-</div>
-</div>
+	{% block result_list %}{% result_list cl %}{% endblock %}
+	{% block pagination %}{% pagination cl %}{% endblock %}
 {% endblock %}
 
 {% block sidebar %}
-<div class="module">
-{% block filters %}{% filters cl %}{% endblock %}
-</div>
+	{% if cl.has_filters %}
+	<div class="module">
+		<h2>{% trans 'Filter' %}</h2>
+		{% for spec in cl.filter_specs %}
+   		{% admin_list_filter cl spec %}
+		{% endfor %}
+	</div>
+	{% endif %}
 {% endblock %}

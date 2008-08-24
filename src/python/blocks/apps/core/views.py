@@ -1,8 +1,7 @@
 from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from django.utils.safestring import mark_safe
-from django.core.xheaders import populate_xheaders
+#from django.core.xheaders import populate_xheaders
 
 from blocks.apps.core.models import StaticPage
 
@@ -27,5 +26,5 @@ def staticpage(request, url):
     c = RequestContext(request, {'page': f, })
     
     response = HttpResponse(t.render(c))
-    populate_xheaders(request, response, StaticPage, f.id)
+    #populate_xheaders(request, response, StaticPage, f.id)
     return response
