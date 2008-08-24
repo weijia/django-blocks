@@ -81,7 +81,7 @@ class BlogEntry(models.Model):
 
 class StaticBlogEntry(admin.ModelAdmin):
     fieldsets = (
-       (None,                    {'fields': ('title', 'lead_wiki', 'body_wiki')}),
+       (None,                    {'fields': ('title', 'lead_wiki', 'body_wiki', 'tag_list')}),
        (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author', 'comments_enabled'), 'classes': ('collapse', )}),
     )
     list_filter = ('author',)
