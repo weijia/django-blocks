@@ -80,12 +80,11 @@ class BlogEntry(models.Model):
         get_latest_by = 'publish_date'
 
 class StaticBlogEntry(admin.ModelAdmin):
-    class Admin:
-        fields = (
-           (None, {'fields': ('title', 'lead_wiki', 'body_wiki')}),
-           (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author', 'comments_enabled'), 'classes': 'collapse'}),
-        )
-        list_filter = ('title',)
-        list_display = ('title', 'author', 'publish_date')
+    fieldsets = (
+       (None,                    {'fields': ('title', 'lead_wiki', 'body_wiki')}),
+       (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author', 'comments_enabled'), 'classes': ('collapse', )}),
+    )
+    list_filter = ('author',)
+    list_display = ('title', 'author', 'publish_date')
 
 admin.site.register(BlogEntry, StaticBlogEntry)

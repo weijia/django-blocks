@@ -24,6 +24,8 @@ comments_info_dict = {
 
 feeds = { 'rss': LatestFreeCommentsFeed, }
 
+admin.autodiscover()
+
 urlpatterns += patterns('',
 	(r'^admin/(.*)', admin.site.root),
 

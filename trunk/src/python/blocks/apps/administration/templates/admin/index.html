@@ -9,9 +9,6 @@
 	<div id="content-main">	
 	<p>{% trans 'Welcome to the administration section. Here you may control how your site functions.' %}</p>
 
-	{% load adminapplist %}
-	{% get_admin_app_list as app_list %}
-
 	{% if app_list %}
 		{% for app in app_list %}
 			<div class="admin block {% cycle 'left' 'right' %}">

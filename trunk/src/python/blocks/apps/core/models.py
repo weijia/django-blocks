@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from django.core import validators
 from base import STATUS_CHOICES, WEIGHT_CHOICES, LEVEL_CHOICES, _
 from blocks.apps.wiki import wiki
@@ -62,12 +63,11 @@ class Template(models.Model):
         db_table = 'blocks_template'
 
 
-#class TemplateAdmin(admin.ModelAdmin):
-    class Admin:
-        search_fields = ('template', 'name', 'description')
-        list_display = ('name', 'template', 'description')
+class TemplateAdmin(admin.ModelAdmin):
+    search_fields = ('template', 'name', 'description')
+    list_display = ('name', 'template', 'description')
 
-#admin.site.register(Template, TemplateAdmin)
+admin.site.register(Template, TemplateAdmin)
 
 
 #class Page(BaseModel):
@@ -167,18 +167,17 @@ class StaticPage(models.Model):
         verbose_name_plural = _('Static Pages')
         ordering = ('url',)
 
-#class StaticPageAdmin(admin.ModelAdmin):    
-    class Admin:
-        fields = (
-           (None, {'fields': ('title', 'body_wiki')}),
-           (_('Display options'), {'fields': ('url', 'template',),}),
-           (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author'), 'classes': 'collapse'}),
-        )
-        list_filter = ('template',)
-        search_fields = ('template', 'title',)
-        list_display = ('url', 'title', 'author', 'modified_date',)
+class StaticPageAdmin(admin.ModelAdmin):    
+    fieldsets = (
+       (None,                    {'fields': ('title', 'body_wiki')}),
+       (_('Display options'),    {'fields': ('url', 'template',),}),
+       (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author'), 'classes': ('collapse', )}),
+    )
+    list_filter = ('template', 'author')
+    search_fields = ('template', 'title',)
+    list_display = ('url', 'title', 'author', 'modified_date',)
 
-#admin.site.register(StaticPage, StaticPageAdmin)
+admin.site.register(StaticPage, StaticPageAdmin)
 
 
 class Menu(models.Model):
@@ -205,8 +204,9 @@ class Menu(models.Model):
         verbose_name_plural = _('Menus')
         ordering = ('weight',)
 
-#class StaticPageAdmin(admin.ModelAdmin):    
-    class Admin:
-        list_filter = ('level',)
-        search_fields = ('title', 'url',)
-        list_display = ('title', 'url', 'weight', 'level',)
+class MenuAdmin(admin.ModelAdmin):    
+    list_filter = ('level',)
+    search_fields = ('title', 'url',)
+    list_display = ('title', 'url', 'weight', 'level',)
+
+admin.site.register(Menu, MenuAdmin)

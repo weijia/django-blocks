@@ -14,9 +14,8 @@ class Feed(models.Model):
         return self.title
 
 class FeedAdmin(admin.ModelAdmin):
-    class Admin:
-        search_fields = ('title',)
-        list_display = ('title', 'public_url',)
+    search_fields = ('title',)
+    list_display = ('title', 'public_url',)
 
 admin.site.register(Feed, FeedAdmin)
 
