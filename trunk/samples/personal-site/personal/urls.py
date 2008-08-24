@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-#from django.contrib import admin
+from django.contrib import admin
 
 from django.contrib.comments.feeds import LatestFreeCommentsFeed
 from django.contrib.comments.models import FreeComment
@@ -25,8 +25,7 @@ comments_info_dict = {
 feeds = { 'rss': LatestFreeCommentsFeed, }
 
 urlpatterns += patterns('',
-	#(r'^admin/(.*)', admin.site.root),
-	(r'^admin/', include('django.contrib.admin.urls')),
+	(r'^admin/(.*)', admin.site.root),
 
     (r'^blog/', include('blocks.apps.blog.urls')),
 	(r'^feeds/', include('blocks.apps.aggregator.urls')),

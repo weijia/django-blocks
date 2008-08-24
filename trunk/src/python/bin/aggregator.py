@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Requires Mark Pilgrim's excellent
 Universal Feed Parser (http://feedparser.org)
@@ -26,15 +27,19 @@ def update_feeds(verbose=False):
 
             if not guid:
                 guid = link
+                
+            if hasattr(entry, "summary"):
+                summary = entry.summary
+            elif hasattr(entry, "description"):
+                summary = entry.description
+            else:
+                summary = u""
+            summary = summary.encode(parsed_feed.encoding, "xmlcharrefreplace")
 
             if hasattr(entry, "content"):
                 content = entry.content[0].value
-            elif hasattr(entry, "summary"):
-                content = entry.summary
-            elif hasattr(entry, "description"):
-                content = entry.description
             else:
-                content = u""
+                content = summary
             content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
             
             # fix content
@@ -61,7 +66,7 @@ def update_feeds(verbose=False):
             try:
                 feed.feeditem_set.get(guid=guid)
             except FeedItem.DoesNotExist:
-                feed.feeditem_set.create(title=title, link=link, summary=content, guid=guid, date_modified=date_modified)
+                feed.feeditem_set.create(title=title, link=link, summary_html=summary, content_html=content, guid=guid, date_modified=date_modified)
 
 if __name__ == '__main__':
     parser = optparse.OptionParser()

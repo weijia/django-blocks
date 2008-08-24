@@ -3,13 +3,14 @@ from models import BlogEntry
 
 info_dict = {
     'queryset': BlogEntry.objects.all(),
+    'template_object_name': 'blog',
     'date_field': 'publish_date',
 }
 
 idx_info_dict = {
     'queryset': BlogEntry.objects.all(),
     'template_name': 'blog/blogentry_archive.html',
-    'template_object_name': 'latest',
+    'template_object_name': 'blog',
     'paginate_by': 8,
 }
 
@@ -24,4 +25,8 @@ urlpatterns = patterns('',
    url(r'^$', 'django.views.generic.list_detail.object_list', idx_info_dict, 'blog-index'),
    
    #(r'^(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+   
+    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/$', 'blocks.apps.blog.views.entries_bytag'), 
+    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/page/(?P<page>\d+)/$', 'blocks.apps.blog.views.entries_bytag' ),
+
 )

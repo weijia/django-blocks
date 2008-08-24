@@ -1,0 +1,8 @@
+{% load humanize %}
+<h2><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h2>
+<div class="bbody">Posted by <strong>{{ item.author }}</strong> | <span class="date">{{ item.publish_date|naturalday:"F j, Y" }} @ {{ item.publish_date|date:"H:i" }}</span>{% if item.tags %}<span class="tags"> | Filed under: {% for tag in item.tags %}<a href="/blog/tag/{{tag.name|slugify}}/">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</span>{% endif %}</div>
+<div class="bbody">{{ item.lead }}</div>
+<div class="bbody links">
+	<a href="{{ item.get_absolute_url }}">Read more</a>
+	<a href="{{ item.get_absolute_url }}#comments">Comments (0)</a>
+</div>

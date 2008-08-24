@@ -9,15 +9,12 @@
 </div>
 
 {% load blog %}
-<div id="blogs" class="span-3 clear">
 {% get_blog_list as blog_list limit 4 %}
+<div id="blogs" class="span-3 clear">
 	{% if blog_list %}
 		{% for item in blog_list %}
 		<div class="block last">
-			<h2><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h2>
-			<div class="bbody">Posted by <strong>{{ item.author }}</strong> on <span class="date">{{ item.publish_date|date:"F j, Y" }}</span></div>
-			<div class="bbody">{{ item.lead }}</div>
-			<div class="bbody links"><a href="{{ item.get_absolute_url }}">read more</a></div>
+			{% include "blog/blogentry_entry.html" %}			
 		</div>
 		{% endfor %}
 	{% else %}
@@ -27,20 +24,21 @@
 {% endblock %}
 
 {% block sidebar %}
+
 <div class="block feeds clear">
 	<h2>Latest Feeds</h2>
 	<div class="bbody">
+		{% load humanize %}
 		{% load aggregator %}
 		{% get_feed_list as feed_list limit 8 %}
 		{% if feed_list %}
 			{% for item in feed_list %}
 		<p>
 			<span class="feed"><a href="{% url feeddetail item.feed.id %}">{{ item.feed.title }}</a></span>
-			<span class="date">{{ item.date_modified|date:"j F H:m" }}</span><br />
+			<span class="date">{{ item.date_modified|naturalday:"F j, Y" }} @ {{ item.date_modified|date:"H:i" }}</span><br />
 			<a class="title" href="{% url feed_itemdetail item.feed.id,item.id %}" target="_new">{{ item.title }}</a>
 		</p>
 			{% endfor %}
-		<p class="links"><a href="{% url feed_list %}">read more</a></p>
 		{% else %}
 		<p>no feeds</p>
 		{% endif %}

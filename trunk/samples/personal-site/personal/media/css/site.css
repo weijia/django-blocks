@@ -168,6 +168,12 @@ div#footer
 	margin-right: 1em;
 }
 
+.block.about div.bbody
+{
+	padding: 1em .8em .2em .8em;
+	margin: 0;
+}
+
 .block.about p.info
 {
 	height: 65px;
@@ -259,8 +265,7 @@ a.rss
 	color: #668000;
 }
 
-.links a,
-.links span
+.links a
 {
 	padding: 0.2em 0.5em;
 	margin-right: 0.1em;
@@ -365,3 +370,19 @@ a.rss
 {
 	display: none;
 }
+
+.block.cloud
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	border-top: 1px solid #8a0;
+	_border: 1px solid #ddd;
+	background-image: none;
+	_background-color: #eee;
+	text-align: center;
+	padding-bottom: .5em;
+	_background: #FFF url(../img/headerbg.png) repeat-x scroll left bottom;
+	
+}
+.block.cloud a { color: #666; }
+.block.cloud a:hover { color: #8a0 !important; }

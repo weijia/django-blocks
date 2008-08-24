@@ -1,44 +1,5 @@
 {% extends "base_weblog.html" %}
 
 {% block content %}
-	{% load comments comment_utils %}
-	
-	{% if latest_list %}
-		{% for object in latest_list %}
-		<div class="block last">
-			<h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
-			<div class="bbody">Posted by <strong>{{ object.author }}</strong> on <span class="date">{{ object.publish_date|date:"F j, Y" }}</span></div>
-			<div class="bbody">{{ object.lead }}</div>
-			<div class="bbody links"><a href="{{ object.get_absolute_url }}">read more</a></div>
-		</div>
-		{% endfor %}
-		
-		{% if is_paginated %}
-		<div class="pages">
-		    {% if page_obj.has_previous %}
-		        <a title="goto previous page" href="?page={{ page_obj.previous_page_number }}{{ getvars }}" class="nextprev">&lsaquo;&lsaquo; previous</a>
-		    {% else %}
-		        <span class="nextprev">&lsaquo;&lsaquo; previous</span>
-		    {% endif %}
-		    {% for page in paginator.page_range %}
-		        {% if page %}
-		            {% ifequal page page_obj.number %}
-		                <span class="current">{{ page }}</span>
-		            {% else %}
-		                <a title="goto page {{ page }}" href="?page={{ page }}{{ getvars }}" class="page">{{ page }}</a>
-		            {% endifequal %}
-		        {% else %}
-		            ...
-		        {% endif %}
-		    {% endfor %}
-		    {% if page_obj.has_next %}
-		        <a title="goto next page" href="?page={{ page_obj.next_page_number }}{{ getvars }}" class="nextprev">next &rsaquo;&rsaquo;</a>
-		    {% else %}
-		        <span class="nextprev">next &rsaquo;&rsaquo;</span>
-		    {% endif %}
-		</div>
-		{% endif %}
-	{% else %}
-		<p>no blog entries</p>
-	{% endif %}
+	{% include "blog/blogentry_list.html" %}
 {% endblock %}
