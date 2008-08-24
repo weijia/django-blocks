@@ -47,12 +47,13 @@ def update_feeds(verbose=False):
                 content = re.sub(r'<!--[\s\S\n]*-->', '', content)
                 content = re.sub(r'<p>[\s\n]</p>', '', content)
                 content = re.sub(r'<p[\s]*/>', '', content)
-		content = content.strip()
+                content = content.strip()
 
                 content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
             except UnicodeDecodeError, ex:
-		print "ERROR: couldn't encode feed content '%s'. %s" % (title, ex)
-		pass
+                if verbose:
+                    print "ERROR: couldn't encode feed content '%s'. %s" % (title, ex)
+                pass
             
             try:
                 if entry.has_key('modified_parsed'):
