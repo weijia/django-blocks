@@ -386,3 +386,32 @@ a.rss
 }
 .block.cloud a { color: #666; }
 .block.cloud a:hover { color: #8a0 !important; }
+
+/* COMMENT FIELDS */
+
+label
+{
+	display: block;
+	font-weight: bold;
+	color:#666;
+}
+
+form input, 
+form textarea
+{
+	width: 95%;
+	border: 1px solid #8a0;
+}
+
+form input#submit,
+form input.submit-post,
+form input.submit-preview
+{
+	width: auto;
+	padding: 0.2em 0.5em;
+	margin-right: 0.1em;
+	border: 1px solid #8a0;
+	background: #fff;
+	text-decoration: none;
+	color: #668000;
+}

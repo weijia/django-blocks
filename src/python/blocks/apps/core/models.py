@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib import admin
-from django.core import validators
+#from django.core import validators
 from base import STATUS_CHOICES, WEIGHT_CHOICES, LEVEL_CHOICES, _
 from blocks.apps.wiki import wiki
 from blocks.core import middleware as ThreadLocals
@@ -112,7 +112,7 @@ admin.site.register(Template, TemplateAdmin)
 
 #class StaticPage(BaseContentModel):
 class StaticPage(models.Model):
-    url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL],  unique=True, 
+    url = models.CharField(_('URL'), max_length=100, unique=True, 
         help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
     # content
     title = models.CharField(_('title'), max_length=200)
@@ -183,7 +183,7 @@ admin.site.register(StaticPage, StaticPageAdmin)
 class Menu(models.Model):
     title = models.CharField(_('title'), max_length=200)
     
-    url = models.CharField(_('URL'), max_length=100, validator_list=[validators.isAlphaNumericURL],  unique=True, 
+    url = models.CharField(_('URL'), max_length=100, unique=True, 
         help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
     
     weight = models.CharField(_('weight'), max_length=1, choices=WEIGHT_CHOICES, default='0',
