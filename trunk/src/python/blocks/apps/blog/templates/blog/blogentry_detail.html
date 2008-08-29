@@ -14,8 +14,8 @@
 		</div>
 	</div>
 
-	{% load comments comment_utils %}
-	{% get_public_free_comment_list for blog.blogentry object.id as comment_list %}
+	{% load comments %}
+	{% get_comment_list for blog as comment_list %}
 
 	{% if comment_list %}
 	<div id="content-secondary" class="block last">
@@ -23,19 +23,19 @@
 		<div class="bbody">
 			{% for comment in comment_list %}
 			<div class="comment" id="c{{ comment.id }}">
-				<h3>{{ comment.person_name|escape }} <span class="small quiet">{{ comment.submit_date|date:"F j, Y" }} at {{ comment.submit_date|date:"P" }}</span></h3>
-				{{ comment.comment|escape|urlizetrunc:"40"|linebreaks }}
+				<div class="bbody">Posted by <strong><a href="mailto:{{ comment.user_email|escape }}">{{ comment.user_name|escape }}</a></strong> | <span class="date">{{ comment.submit_date|naturalday:"F j, Y" }} @ {{ comment.submit_date|date:"H:i" }}</span>{% if comment.user_url %} | <a href="{{ comment.user_url|escape }}">{{ comment.user_url|escape }}</a>{% endif %}</div>
+				<div class="bbody">{{ comment.comment|linebreaks }}</div>
 			</div>
 			{% endfor %}
 		</div>
 	</div>
 	{% endif %}
 
-	{% if object.comments_enabled %}
-	<div class="block last">		
+	{% if blog.comments_enabled %}
+	<div id="comments-form" class="block last">		
 		<h2>Post a comment</h2>
 		<div class="bbody">
-		{% free_comment_form for blog.blogentry object.id %}
+			{% render_comment_form for blog %}
 		</div>
 	</div>
 	{% endif %}

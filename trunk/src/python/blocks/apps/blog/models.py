@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib import admin
-from django.core import validators
+#from django.core import validators
 from blocks.apps.core.base import STATUS_CHOICES, WEIGHT_CHOICES, _
 from blocks.apps.wiki import wiki
 from blocks.core import middleware as ThreadLocals
@@ -20,7 +20,7 @@ class BlogEntry(models.Model):
     #author = models.CharField(_('author'), max_length=50, blank=True, editable=False)
     author = models.CharField(_('author'), max_length=80, blank=True)
     
-    comments_enabled = models.BooleanField(_('comments enabled'), help_text=_("enable comments for this entry"))
+    comments_enabled = models.BooleanField(_('comments enabled'), default=True, help_text=_("enable comments for this entry"))
     
     tag_list = TagField(_('tag list'), help_text=_('tags for this entry'))
     
@@ -88,3 +88,12 @@ class StaticBlogEntry(admin.ModelAdmin):
     list_display = ('title', 'author', 'publish_date')
 
 admin.site.register(BlogEntry, StaticBlogEntry)
+
+#from comment_utils.moderation import CommentModerator, moderator
+#
+#class BlogEntryModerator(CommentModerator):
+#    akismet = True
+#    email_notification = True
+#    enable_field = 'comments_enabled'
+#
+#moderator.register(BlogEntry, BlogEntryModerator)
