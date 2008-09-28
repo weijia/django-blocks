@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import url, patterns
 from blocks.apps.aggregator.feeds import LatestEntries
 from blocks.apps.aggregator.views import list, feed_list, detail
 

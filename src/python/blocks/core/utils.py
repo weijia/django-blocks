@@ -49,6 +49,8 @@ def get_page_title(url):
     return title
     
 def fix_url(url):
+    if url.startswith('http://') or url.startswith('https://'):
+        return url;
     if not url.startswith('/'):
         url = "/" + url
     if not url.endswith('/'):

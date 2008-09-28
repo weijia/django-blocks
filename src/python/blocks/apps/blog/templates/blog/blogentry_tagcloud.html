@@ -4,7 +4,7 @@
 {% if cloud_list %}	
 	<div class="tagcloud">
 	{% for tag in cloud_list %}
-		<a style="font-size:{{ tag.font_size|tagweight }}%" href="/blog/tag/{{tag.name|slugify}}/">{{ tag.name }}</a>
+		<a style="font-size:{{ tag.font_size|tagweight }}%" href="{{ BLOCKS_BLOG_URL }}tag/{{tag.name|slugify}}/">{{ tag.name }}</a>
 	{% endfor %}
 	</div>
 {% else %}

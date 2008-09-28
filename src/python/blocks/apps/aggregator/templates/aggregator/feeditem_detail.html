@@ -15,7 +15,7 @@
 		</div>
 		<div class="bbody links">
 			<a href="{{ object.link }}">read original</a>
-			<a href="{% url aggregator.feedlist object.feed.id %}">read more from '{{ object.feed.title }}'</a>
+			<a href="{{ BLOCKS_AGGREGATOR_URL }}{{ object.feed.id }}">read more from '{{ object.feed.title }}'</a>
 		</div>
 	</div>
 	
@@ -31,7 +31,7 @@
 	<div class="bbody">
 		{% if feed_list %}
 			{% for item in feed_list %}
-		<p><span class="feed"><a href="{% url aggregator.feedlist item.id %}">{{ item.title }}</a></span></p>
+		<p><span class="feed"><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.id }}">{{ item.title }}</a></span></p>
 			{% endfor %}
 		{% else %}
 		<p>no feeds</p>
