@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
+from blocks.apps.core.views import staticpage
 
-urlpatterns = patterns('blocks.apps.core.views',                       
-    (r'^(?P<url>.*)$', 'staticpage'),
+urlpatterns = patterns('',                       
+    (r'^(?P<url>.*)$', staticpage),
 )

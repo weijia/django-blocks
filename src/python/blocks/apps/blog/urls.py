@@ -1,4 +1,7 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import url, patterns
+from django.views.generic.list_detail import object_list
+from django.views.generic.date_based import object_detail, archive_day, archive_month, archive_year
+from blocks.apps.blog.views import entries_bytag
 from models import BlogEntry
 
 info_dict = {
@@ -18,15 +21,15 @@ idx_info_dict = {
 
 urlpatterns = patterns('',
 
-   url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/(?P<slug>[\d]+)/$', 'django.views.generic.date_based.object_detail', dict(info_dict, slug_field='id'), 'blog-details'),
-   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/$', 'django.views.generic.date_based.archive_day', info_dict),
-   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', 'django.views.generic.date_based.archive_month', info_dict),
-   (r'^(?P<year>\d{4})/$', 'django.views.generic.date_based.archive_year', info_dict),
-   url(r'^$', 'django.views.generic.list_detail.object_list', idx_info_dict, 'blog-index'),
+   url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/(?P<slug>[\d]+)/$', object_detail, dict(info_dict, slug_field='id'), 'blog.details'),
+   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/$', archive_day, info_dict),
+   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', archive_month, info_dict),
+   (r'^(?P<year>\d{4})/$', archive_year, info_dict),
+   url(r'^$', object_list, idx_info_dict, 'blog.index'),
    
    #(r'^(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
    
-    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/$', 'blocks.apps.blog.views.entries_bytag'), 
-    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/page/(?P<page>\d+)/$', 'blocks.apps.blog.views.entries_bytag' ),
+    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/$', entries_bytag), 
+    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/page/(?P<page>\d+)/$', entries_bytag),
 
 )

@@ -14,7 +14,7 @@
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
 		
-		<link rel="alternate" type="application/rss+xml" title="Latest feeds" href="/feeds/rss/" />
+		<link rel="alternate" type="application/rss+xml" title="Latest feeds" href="{% url aggregator.list %}/rss/" />
 		
 		<!--[if gte IE 5.5]><![if lt IE 7]>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
@@ -74,7 +74,7 @@
 						<h2>Syndication</h2>
 						<div class="bbody">
 							<ul>
-								<li><a class="rss" href="/feeds/rss/">Subscribe Latest Feeds (RSS)</a></li>
+								<li><a class="rss" href="{% url aggregator.list %}/rss/">Subscribe Latest Feeds (RSS)</a></li>
 							</ul>
 						</div>
 					</div>
