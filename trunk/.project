@@ -3,6 +3,7 @@
 	<name>Django Blocks</name>
 	<comment></comment>
 	<projects>
+		<project>django</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

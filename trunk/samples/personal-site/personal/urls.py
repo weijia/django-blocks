@@ -7,12 +7,9 @@ from django.contrib import admin
 
 urlpatterns = []
 
-if settings.MEDIA_URL.startswith('/'):
-	media_url = settings.MEDIA_URL
-	if media_url.startswith('/'):
-	   media_url = media_url[1:]
-	if media_url.endswith('/'):
-	   media_url = media_url[:-1]
+# only serve static files if in a debug enviorment and the media url is relative
+if settings.MEDIA_URL.startswith('/') and settings.DEBUG == True:
+	media_url = settings.MEDIA_URL.strip('/')
 	urlpatterns += patterns('',
         (r'^%s/(?P<path>.*)$' % (media_url), 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )
