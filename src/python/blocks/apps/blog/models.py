@@ -49,8 +49,8 @@ class BlogEntry(models.Model):
         month = self.publish_date.strftime("%b").lower()
         day = self.publish_date.strftime("%d").lower()
         
-        from blocks.core import utils
-        return utils.get_url('blog-details', [year, month, day, self.id])
+        from django.conf import settings
+        return "%s%s/%s/%s/%s/" % (settings.BLOCKS_BLOG_URL, year, month, day, self.id)
     
     def save(self):
         if not self.author:
