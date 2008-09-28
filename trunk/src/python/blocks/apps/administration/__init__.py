@@ -2,8 +2,11 @@ import os
 from django.conf import settings
 from django.utils.translation import ugettext as _
 
-if not settings.TEMPLATE_DIRS:
+try:
+    settings.TEMPLATE_DIRS
+except AttributeError:
     settings.TEMPLATE_DIRS = []
+    
 settings.TEMPLATE_DIRS += (os.path.join(os.path.dirname(__file__), "templates"),)
 
 #if not settings.BLOCKS_ADMIN_HELP:

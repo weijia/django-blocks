@@ -25,11 +25,6 @@ admin.autodiscover()
 
 urlpatterns += patterns('',
 	(r'^admin/(.*)', admin.site.root),
-
-    (r'^blog/', include('blocks.apps.blog.urls')),
-	(r'^feeds/', include('blocks.apps.aggregator.urls')),
-	
-	(r'^comments/', include('django.contrib.comments.urls')),
-	   
+	(r'^comments/', include('django.contrib.comments.urls')),  
 	(r'', include('blocks.apps.core.urls')),
 )

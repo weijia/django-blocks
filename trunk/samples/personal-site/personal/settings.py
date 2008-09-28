@@ -53,6 +53,11 @@ TEMPLATE_CONTEXT_PROCESSORS =(
 )
 
 INSTALLED_APPS = (
+    'blocks.apps.core',
+    'blocks.apps.administration',
+    'blocks.apps.blog',
+    'blocks.apps.aggregator',
+    
 	'django.contrib.auth',
 	'django.contrib.admin',
     'django.contrib.comments',
@@ -63,11 +68,6 @@ INSTALLED_APPS = (
 
     'tagging',
 	'comment_utils',
-    
-    'blocks.apps.core',
-    'blocks.apps.administration',
-    'blocks.apps.blog',
-    'blocks.apps.aggregator',
 )
 
 #CACHE_BACKEND = 'locmem:///'

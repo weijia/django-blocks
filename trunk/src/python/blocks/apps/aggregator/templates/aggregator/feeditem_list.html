@@ -5,7 +5,7 @@
 	{% if object_list %}		
 		{% for item in object_list %}
 	<div class="block last">
-		<h2><a href="{% url aggregator.detail item.feed.id,item.id %}">{{ item.title }}</a></h2>
+		<h2><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id }}/{{ item.id }}">{{ item.title }}</a></h2>
 		<div class="bbody">
 			<span class="feed"><a href="{{ item.feed.public_url }}">{{ item.feed.title }}</a></span>
 			<span class="date">{{ item.date_modified|date:"j F Y H:m" }}</span>
@@ -14,9 +14,9 @@
 			{{ item.summary }}
 		</div>
 		<div class="bbody links">
-			<a href="{% url aggregator.detail item.feed.id,item.id %}">read more</a>
+			<a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id}}/{{ item.id }}">read more</a>
 			<a href="{{ item.link }}">read original</a>
-			<a href="{% url aggregator.feedlist item.feed.id %}">read more from '{{ item.feed.title }}'</a>
+			<a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id }}">read more from '{{ item.feed.title }}'</a>
 		</div>
 	</div>
 		{% endfor %}
@@ -35,7 +35,7 @@
 	<h2>Feeds</h2>
 	<div class="bbody">
 	{% for item in feed_list %}
-		<p><span class="feed"><a href="{% url aggregator.feedlist item.id %}">{{ item.title }}</a></span></p>
+		<p><span class="feed"><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.id }}">{{ item.title }}</a></span></p>
 	{% endfor %}
 	</div>
 </div>
