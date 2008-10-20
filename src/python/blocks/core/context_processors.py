@@ -11,10 +11,13 @@ def media(request):
         url = '/'
     
     title = get_menu_title(bits[1])
+
+    context = {'BLOCKS_URL': url, 'BLOCKS_TITLE': title, }
     
-    return {
-        'BLOCKS_URL': url, 
-        'BLOCKS_TITLE': title, 
-        'BLOCKS_AGGREGATOR_URL': settings.BLOCKS_AGGREGATOR_URL, 
-        'BLOCKS_BLOG_URL': settings.BLOCKS_BLOG_URL,
-    }
+    if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
+        context['BLOCKS_AGGREGATOR_URL'] = settings.BLOCKS_AGGREGATOR_URL
+
+    if hasattr(settings, 'BLOCKS_BLOG_URL'):
+        context['BLOCKS_AGGREGATOR_URL'] = settings.BLOCKS_BLOG_URL
+    
+    return context

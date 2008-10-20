@@ -1,14 +1,9 @@
 import os
 from django.conf import settings
 
-try:
-    settings.TEMPLATE_DIRS
-except AttributeError:
+if not hasattr(settings, 'TEMPLATE_DIRS'):
     settings.TEMPLATE_DIRS = []
-    
 settings.TEMPLATE_DIRS += (os.path.join(os.path.dirname(__file__), "templates"),)
 
-try:
-    settings.BLOCKS_AGGREGATOR_URL
-except AttributeError:
+if not hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
     settings.BLOCKS_AGGREGATOR_URL = '/feeds/'

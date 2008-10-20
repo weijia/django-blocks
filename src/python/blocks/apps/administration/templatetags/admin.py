@@ -50,6 +50,23 @@ class get_model_help(template.Node):
         except KeyError:
             return ''
         return ''
+    
+class get_language_byindex(template.Node):
+    def __init__(self, index, varname):
+        self.index = index
+        self.varname = varname
+
+    def render(self, context):
+        lang = ('', '')
+        try:
+            idx = resolve_variable(self.index, context);
+            lang = settings.LANGUAGES[idx]
+        except KeyError:
+            pass
+        except IndexError:
+            pass
+        context[self.varname] = lang
+        return ''
 
 class DoGetAppLabel:
     def __init__(self, tag_name):
@@ -80,10 +97,25 @@ class DoGetModelHelp:
     def __call__(self, parser, token):
         tokens = token.contents.split()
         if len(tokens) < 1:
-            raise template.TemplateSyntaxError, "'%s' statements require one arguments" % self.tag_name
+            raise template.TemplateSyntaxError, "'%s' statements require one argument" % self.tag_name
         
         return get_model_help(tokens[1])
+    
+class DoGetLanguageByIndex:
+    def __init__(self, tag_name):
+        self.tag_name = tag_name
+
+    def __call__(self, parser, token):
+        tokens = token.contents.split()
+        if len(tokens) != 4:
+            raise template.TemplateSyntaxError, "'%s' tag takes tree arguments" % tokens[0]
+        if tokens[2] != "as":
+            raise template.TemplateSyntaxError, "secound argument to '%s' tag must be 'as'" % tokens[0]
+        
+        return get_language_byindex(tokens[1], tokens[3])
 
 register.tag('get_app_label',  DoGetAppLabel('get_app_label'))
 register.tag('get_app_help',   DoGetAppHelp('get_app_help'))
 register.tag('get_model_help', DoGetModelHelp('get_model_help'))
+register.tag('get_language_byindex', DoGetLanguageByIndex('get_language_byindex'))
+

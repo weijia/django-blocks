@@ -11,7 +11,7 @@
 
 	{% if app_list %}
 		{% for app in app_list %}
-			<div class="admin block {% cycle 'left' 'right' %}">
+			<div class="admin block">
 				<h2>{% get_app_label app %}</h2>
 				<p>{% get_app_help app %}</p>
 				<dl>
