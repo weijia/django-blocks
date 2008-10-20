@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib import admin
 #from django.core import validators
-from blocks.apps.core.base import STATUS_CHOICES, WEIGHT_CHOICES, _
+
+#from blocks.apps.core.base import STATUS_CHOICES, WEIGHT_CHOICES, _
 from blocks.apps.wiki import wiki
 from blocks.core import middleware as ThreadLocals
+from blocks.apps.comments.moderation import CommentModerator, moderator
+
 from tagging.fields import TagField
 from tagging.models import Tag
 import datetime
@@ -79,6 +82,7 @@ class BlogEntry(models.Model):
         ordering = ('-publish_date',)
         get_latest_by = 'publish_date'
 
+
 class StaticBlogEntry(admin.ModelAdmin):
     fieldsets = (
        (None,                    {'fields': ('title', 'lead_wiki', 'body_wiki', 'tag_list')}),
@@ -89,11 +93,8 @@ class StaticBlogEntry(admin.ModelAdmin):
 
 admin.site.register(BlogEntry, StaticBlogEntry)
 
-#from comment_utils.moderation import CommentModerator, moderator
-#
-#class BlogEntryModerator(CommentModerator):
-#    akismet = True
-#    email_notification = True
-#    enable_field = 'comments_enabled'
-#
-#moderator.register(BlogEntry, BlogEntryModerator)
+class BlogEntryModerator(CommentModerator):
+    email_notification = True
+    enable_field = 'comments_enabled'
+
+moderator.register(BlogEntry, BlogEntryModerator)
