@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib import admin
 #from django.core import validators
+from django.utils.translation import ugettext_lazy as _
 
-#from blocks.apps.core.base import STATUS_CHOICES, WEIGHT_CHOICES, _
 from blocks.apps.wiki import wiki
 from blocks.core import middleware as ThreadLocals
 from blocks.apps.comments.moderation import CommentModerator, moderator
