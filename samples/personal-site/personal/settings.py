@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'blocks.apps.administration',
     'blocks.apps.blog',
     'blocks.apps.aggregator',
+    'blocks.apps.comments',
     
 	'django.contrib.auth',
 	'django.contrib.admin',
@@ -67,7 +68,6 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'tagging',
-	'comment_utils',
 )
 
 #CACHE_BACKEND = 'locmem:///'
@@ -87,3 +87,8 @@ RESTRUCTUREDTEXT_FILTER_SETTINGS = {
     'raw_enabled': False,
     'warning_stream': NullStream()
 }
+
+DEFAULT_FROM_EMAIL = 'Django-Blocks Administrator <some.email@server.net>'
+EMAIL_HOST = 'pop.server.net'
+EMAIL_HOST_USER = 'popuser'
+EMAIL_HOST_PASSWORD = 'poppwd'
