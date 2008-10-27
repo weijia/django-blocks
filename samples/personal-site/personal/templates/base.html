@@ -14,7 +14,8 @@
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
 		
-		<link rel="alternate" type="application/rss+xml" title="Latest feeds" href="{{ BLOCKS_AGGREGATOR_URL }}/rss/" />
+		<link rel="alternate" type="application/rss+xml" title="zlabs: latest feeds" href="{{ BLOCKS_AGGREGATOR_URL }}rss/" />
+		<link rel="alternate" type="application/rss+xml" title="zlabs: latest blog entries" href="{{ BLOCKS_BLOG_URL }}rss/" />
 		
 		<!--[if gte IE 5.5]><![if lt IE 7]>
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
