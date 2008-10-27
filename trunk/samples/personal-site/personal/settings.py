@@ -2,6 +2,8 @@
 
 import os.path
 
+APPEND_SLASH = True
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -40,7 +42,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     
-    'blocks.core.middleware.ThreadLocals',
+    'blocks.core.middleware.CommonMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =(
