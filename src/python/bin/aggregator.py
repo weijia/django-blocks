@@ -50,7 +50,7 @@ def update_feeds(verbose=False):
                 content = content.strip()
 
                 content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
-            except UnicodeDecodeError, ex:
+            except (UnicodeDecodeError, ValueError), ex:
                 if verbose:
                     print "ERROR: couldn't encode feed content '%s'. %s" % (title, ex)
                 pass

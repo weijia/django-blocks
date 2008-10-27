@@ -18,6 +18,6 @@ def media(request):
         context['BLOCKS_AGGREGATOR_URL'] = settings.BLOCKS_AGGREGATOR_URL
 
     if hasattr(settings, 'BLOCKS_BLOG_URL'):
-        context['BLOCKS_AGGREGATOR_URL'] = settings.BLOCKS_BLOG_URL
+        context['BLOCKS_BLOG_URL'] = settings.BLOCKS_BLOG_URL
     
     return context

@@ -3,7 +3,7 @@ from django.contrib import admin
 #from django.core import validators
 from base import STATUS_CHOICES, WEIGHT_CHOICES, LEVEL_CHOICES, _
 from blocks.apps.wiki import wiki
-from blocks.core import middleware as ThreadLocals
+from blocks.core import utils
 import datetime
 
 
@@ -67,7 +67,7 @@ class StaticPage(models.Model):
         self.url = fix_url(self.url)
         
         if not self.author:
-            user = ThreadLocals.get_current_user()
+            user = utils.get_current_user()
             author = ''
             try:
                 if user.first_name or user.last_name:
