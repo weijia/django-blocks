@@ -1,6 +1,16 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse, NoReverseMatch
 
+# threadlocals middleware
+try:
+    from threading import local
+except ImportError:
+    from django.utils._threading_local import local
+_thread_locals = local()
+
+def get_current_user():
+    return getattr(_thread_locals, 'user', None)
+    
 def get_project_name():
     return settings.SETTINGS_MODULE.split('.')[0]
     
@@ -103,7 +113,10 @@ class StrippingParser(sgmllib.SGMLParser):
         if tag not in self.invalid_tags:
             self.result = "%s</%s>" % (self.result, tag)
             remTag = '</%s>' % tag
-            self.endTagList.remove(remTag)
+            try:
+            	self.endTagList.remove(remTag)
+            except:
+            	pass
 
     def cleanup(self):
         """ Append missing closing tags """
