@@ -376,16 +376,21 @@ a.rss
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	border-top: 1px solid #8a0;
-	_border: 1px solid #ddd;
 	background-image: none;
-	_background-color: #eee;
 	text-align: center;
 	padding-bottom: .5em;
-	_background: #FFF url(../img/headerbg.png) repeat-x scroll left bottom;
-	
 }
 .block.cloud a { color: #666; }
 .block.cloud a:hover { color: #8a0 !important; }
+
+
+.block.donate
+{
+	background-image: none;
+	text-align: center;
+	padding-bottom: .5em;
+}
+
 
 /* COMMENT FIELDS */
 
@@ -414,4 +419,10 @@ form input.submit-preview
 	background: #fff;
 	text-decoration: none;
 	color: #668000;
+}
+
+form input.image
+{
+	border: none;
+	width: auto;
 }
