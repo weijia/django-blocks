@@ -29,6 +29,11 @@ textarea, select {
   border:1px solid #bbb;
 }
 
+input.image
+{
+	border: none;
+}
+
 input.text:focus, input.title:focus,
 textarea:focus, select:focus {
   border:1px solid #666;
