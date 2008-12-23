@@ -1,25 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}">
 	<head>
 		<title>{% block title %}{% endblock %}</title>
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/reset.css" />
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/grid.css" />
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/typography.css" />
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/admin.css" />
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/forms.css" />
-		<!--[if IE]><link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}css/ie.css" /><![endif]-->
-		{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" media="screen, projection" href="{% block stylesheet_rtl %}{{ MEDIA_URL }}css/rtl.css{% endblock %}" />{% endif %}
-		<link rel="stylesheet" type="text/css" media="print" href="{{ MEDIA_URL }}css/print.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/reset.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/grid.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/typography.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/admin.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/forms.css" />
+		<!--[if IE]><link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/ie.css" /><![endif]-->
+		<link rel="stylesheet" type="text/css" media="print" href="{{ MEDIA_URL }}blocks/css/print.css" />
+		<!--[if gte IE 5.5]><![if lt IE 7]>
+		<script type="text/javascript" src="{{ MEDIA_URL }}blocks/js/iepngfix.js"></script>
+		<style type="text/css">
+			.iepngfix, img { behavior: expression(IEPNGFIX.fix(this)); }
+		</style>
+		<![endif]><![endif]-->
 		{% block extrastyle %}{% endblock %}
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
-		<!--[if gte IE 5.5]>
-		<script type="text/javascript" src="{{ MEDIA_URL }}js/iepngfix.js"></script>
-		<style type="text/css">
-			.iepngfix { behavior: expression(IEPNGFIX.fix(this)); }
-			img { behavior: expression(IEPNGFIX.fix(this)); }
-		</style>
-		<![endif]-->
 	</head>	
 {% load i18n %}
 

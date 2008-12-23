@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 if not hasattr(settings, 'TEMPLATE_DIRS'):
     settings.TEMPLATE_DIRS = []
 settings.TEMPLATE_DIRS += (os.path.join(os.path.dirname(__file__), "templates"),)
+settings.ADMIN_MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "media")
 
 #if not settings.BLOCKS_ADMIN_HELP:
 settings.BLOCKS_ADMIN_HELP = {
