@@ -3,9 +3,23 @@ from django.contrib import admin
 #from django.core import validators
 from base import STATUS_CHOICES, WEIGHT_CHOICES, LEVEL_CHOICES, _
 from blocks.apps.wiki import wiki
+from blocks.apps.core import core_models
 from blocks.core import utils
+from blocks import forms
 import datetime
 
+class Image(models.Model):
+    image = forms.BlocksImageField(_('image'), upload_to='images/%Y/%m/%d', thumbnail_size=(96, 96))
+    description = models.TextField(_('description'), max_length=255)
+
+    class Meta:
+        db_table = 'blocks_image'
+
+class ImageAdmin(admin.ModelAdmin):
+    search_fields = ('image', 'description')
+    list_display = ('image', 'description')
+
+admin.site.register(Image, ImageAdmin)
 
 class Template(models.Model):
     name = models.CharField(_('name'), max_length=80, unique=True)
