@@ -6,20 +6,6 @@
 	</div>
 	
 	<div id="sidebar" class="span-1 last">
-		<div class="span-1" id="secmenu">
-			{% block menu %}
-			<a href="/about/"><img src="{{ MEDIA_URL }}img/beginers.png" width="230" height="56" border="0" /></a>
-			<ul>
-				{% load contenttypes %}
-				{% get_menu_list secondary as secondary_list %}
-				{% for menu in secondary_list %}
-				<li><a href="{{ menu.url }}">{{ menu.title }}</a></li>
-				{% endfor %}
-			</ul>
-			<a href="/about/"><img src="{{ MEDIA_URL }}img/ubuntupub.png" width="230" height="135" border="0" /></a>
-			{% endblock %}
-		</div>
-
 		<div class="span-1 last">
 			{% block sidebar %}{% endblock %}
 		</div>						

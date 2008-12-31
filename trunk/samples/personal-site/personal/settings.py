@@ -70,7 +70,6 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'tagging',
-    'photologue',
 )
 
 #CACHE_BACKEND = 'locmem:///'
