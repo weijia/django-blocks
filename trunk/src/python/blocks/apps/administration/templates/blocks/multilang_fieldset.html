@@ -5,7 +5,8 @@
       <div class="form-row{% if line.errors %} errors{% endif %} {% for field in line %}{{ field.field.name }} {% endfor %} ">
       {{ line.errors }}
       {% for field in line %}
-      <div{% if not line.fields|length_is:"1" %} class="field-box"{% endif %}{% ifequal field.field.name "language" %} style="display: nonex"{% endifequal %}>
+      <div id="id_{{field.field.name}}_{{ lang.0 }}" class="fld_{{field.field.name}}{% if not line.fields|length_is:"1" %} field-box{% endif %}"{% ifequal field.field.name "language" %} style="display: none"{% endifequal %}>
+          
           {% if field.is_checkbox %}
               {{ field.field }}{{ field.label_tag }}
           {% else %}

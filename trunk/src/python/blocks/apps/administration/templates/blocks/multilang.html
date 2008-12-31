@@ -17,13 +17,13 @@
 			{% get_language_byindex forloop.counter0 as lang %}
 
 		<div id="lng_{{ lang.0 }}">
-			<input type="hidden" name="translations-{{ forloop.counter0 }}-language" value="{{ lang.0 }}" />
+			<input type="hidden" class="translations-language" name="__translations-{{ forloop.counter0 }}-language" value="{{ lang.0 }}" />
   			{% if inline_admin_form.show_url %}
   			<p><a href="../../../r/{{ inline_admin_form.original.content_type_id }}/{{ inline_admin_form.original.id }}/">{% trans "View on site" %}</a></p>
   			{% endif %}
 
   			{% for fieldset in inline_admin_form %}
-    			{% include "admin/igespar/article_translation.html" %}
+    			{% include "blocks/multilang_fieldset.html" %}
   			{% endfor %}
 
   			{{ inline_admin_form.pk_field.field }}

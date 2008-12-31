@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
@@ -50,6 +51,18 @@ class BaseContentModel(models.Model):
         return self.get_lastchange().user.username
     lastchange_user = property(_get_lastchange_user)
 
+    def get_translation(self, lang = None):
+        if not lang:
+            from django.utils.translation.trans_real import get_language
+            lang = get_language()
+            
+        trans = self.translations.filter(language = lang)
+        if not trans:
+            trans = self.translations.filter(language = settings.LANGUAGE_CODE)
+        if not trans:
+            return None
+        return trans[0]
+
     class Meta:
         db_table = 'blocks_content'
         ordering = ('publish_date',)
@@ -64,5 +77,5 @@ class BaseContentAdmin(admin.ModelAdmin):
     list_display = ('title', 'creation_user', 'lastchange_date', 'status')
 
     class Media:
-        css = {"all": ("css/jquery-tabs.css",) }
-        js = ("js/jquery.js", "js/jquery-ui.js", "js/lang.js",)
+        css = {"all": ("blocks/css/jquery-tabs.css",) }
+        js = ("blocks/js/jquery.js", "blocks/js/jquery-ui.js", "blocks/js/lang.js",)
