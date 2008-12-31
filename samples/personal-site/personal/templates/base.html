@@ -34,10 +34,7 @@
 				<div id="menu">
 					<ul>
 						{% load contenttypes %}
-						{% get_menu_list primary as primary_list %}
-						{% for menu in primary_list %}
-						<li{% ifequal BLOCKS_URL menu.url %} class="active"{% endifequal %}><a href="{{ menu.url }}">{{ menu.title|upper }}</a></li>
-						{% endfor %}
+						{% show_menu 'primary' %}
 					</ul>
 				</div>
 				<div id="heading">

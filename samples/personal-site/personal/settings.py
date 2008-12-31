@@ -36,7 +36,7 @@ SECRET_KEY = '_z9v#(dwasd$w0a-asda&r8d^w2_savxykqc#0p)%hbd*+j@$ylr+z#o'
 ROOT_URLCONF = 'personal.urls'
 
 MIDDLEWARE_CLASSES = (
-#    'django.middleware.cache.CacheMiddleware',
+    'django.middleware.cache.CacheMiddleware',
     'django.middleware.http.SetRemoteAddrFromForwardedFor',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -61,15 +61,16 @@ INSTALLED_APPS = (
     'blocks.apps.aggregator',
     'blocks.apps.comments',
     
-	'django.contrib.auth',
-	'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.comments',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.humanize',
 
     'tagging',
+    'photologue',
 )
 
 #CACHE_BACKEND = 'locmem:///'

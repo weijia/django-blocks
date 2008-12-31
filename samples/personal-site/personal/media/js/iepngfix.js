@@ -15,7 +15,7 @@ if (typeof IEPNGFIX == 'undefined') {
 //--============================================================================
 
 var IEPNGFIX = {
-	blank:  '/media/blank.gif',
+	blank:  '/media/img/blank.gif',
 	filter: 'DXImageTransform.Microsoft.AlphaImageLoader',
 
 	fixit: function (elem, src, method) {		
