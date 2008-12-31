@@ -24,14 +24,14 @@ def get_url(view_name, args=None, default=''):
             return default
 
 def get_menu_title(url):
-    from blocks.apps.core.models import Menu
+    from blocks.apps.core.models import MenuItem
     
     title = url
     
     url = fix_url(url)
-    lst = Menu.objects.filter(url__exact=url)
+    lst = MenuItem.objects.filter(url__exact=url)
     if (lst):
-        title = lst[0].title
+        title = lst[0].caption
     
     return title
         
