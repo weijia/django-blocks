@@ -15,20 +15,7 @@ a:hover {
 .admin.block
 {
 	border: none;
-	width: 320px;
     margin: .3em;
-    float: left;
-}
-
-.left
-{
-	
-	float: left;
-}
-
-.right
-{
-	float: right;
 }
 
 dl

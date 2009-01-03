@@ -1,3 +1,4 @@
+import os.path
 from django.db.models.fields.files import ImageField
 from django.db.models import signals
 from django.conf import settings
@@ -86,7 +87,7 @@ class BlocksImageField(ImageField):
         '''
         if getattr(instance, self.name):
             filename = getattr(instance, self.name).path
-            ext = os.path.splitext(filename)[1].lower().replace('jpg', 'jpeg')
+            ext = os.path.splitext(filename)[1].lower() #.replace('jpg', 'jpeg')
             dst = self.generate_filename(instance, '%s_%s%s' % (self.name, instance._get_pk_val(), ext))
             dst_fullpath = os.path.join(settings.MEDIA_ROOT, dst)
             if os.path.abspath(filename) != os.path.abspath(dst_fullpath):
@@ -100,6 +101,8 @@ class BlocksImageField(ImageField):
                 setattr(instance, self.attname, dst)
                 instance.save()
 
+                #self._set_thumbnail(instance)
+
     def _set_thumbnail(self, instance=None, **kwargs):
         '''
         Creates a "thumbnail" object as attribute of the ImageField instance
@@ -107,7 +110,7 @@ class BlocksImageField(ImageField):
         "path", "url"... properties can be used
         '''
         if getattr(instance, self.name):
-            filename = self.generate_filename(instance, os.path.basename(getattr(instance, self.name).path))
+            filename = self.storage.url( getattr(instance, self.name).name )
             thumbnail_filename = self._get_thumbnail_filename(filename)
             thumbnail_field = ThumbnailField(thumbnail_filename)
             setattr(getattr(instance, self.name), 'thumbnail', thumbnail_field)

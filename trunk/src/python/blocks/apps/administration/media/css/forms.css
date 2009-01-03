@@ -9,7 +9,6 @@
    
 -------------------------------------------------------------- */
 
-label       { font-weight: bold; }
 fieldset
 {
 	padding:1.4em; 
@@ -67,7 +66,8 @@ form .form-row p { padding-left:0; font-size:11px; }
 
 /* FORM LABELS */
 form h4 { margin:0 !important; padding:0 !important; border:none !important; }
-label { font-weight: bold; color:#666; font-size:12px; }
+label { font-size:12px; }
+label.required { font-weight: bold; color:#666; }
 .form.row label.inline { margin-left:20px; }
 .form.row .required label, label.required { color: #333 !important; }
 
@@ -97,14 +97,14 @@ form .wide p.help { padding-left:38px; }
 /* COLLAPSED FIELDSETS */
 fieldset.collapsed * { display:none; }
 fieldset.collapsed h2, fieldset.collapsed { display:block !important; }
-fieldset.collapsed h2 { background-image:url(../img/nav-bg.gif); background-position:bottom left; color:#999; }
+fieldset.collapsed h2 { color:#999; }
 fieldset.collapsed .collapse-toggle, fieldset.collapse h2 a { padding:3px 5px !important; background:transparent; display:inline !important; font-size: .7em; }
 
 /* MONOSPACE TEXTAREAS */
 fieldset.monospace textarea { font-family:"Bitstream Vera Sans Mono",Monaco,"Courier New",Courier,monospace; }
 
 /* SUBMIT ROW */
-.submit-row { padding:5px 7px; text-align:right; background:white url(../img/nav-bg.gif) 0 100% repeat-x; }
+.submit-row { padding:5px 7px; text-align:right; }
 .submit-row input { margin:0 0 0 5px; }
 .submit-row p { margin-top:0.3em; }
 .submit-row .deletelink { background:url(../img/icon_deletelink.gif) 0 50% no-repeat; padding-left:14px; float: left; }
@@ -116,7 +116,7 @@ fieldset.monospace textarea { font-family:"Bitstream Vera Sans Mono",Monaco,"Cou
 .selector img { float: none; margin: 0; padding: 0; }
 .selector select { width:270px; height:17.2em; }
 .selector-available, .selector-chosen { float:left; width:270px; margin-bottom:5px; }
-.selector .selector-available h2 { background:white url(../img/nav-bg.gif) bottom left repeat-x; color:#666; }
+.selector .selector-available h2 { color:#666; }
 .selector .selector-filter { background:white; color:#999; font-size:10px; margin: 0; margin-bottom: .5em; text-align: left; }
 .selector .selector-chosen .selector-filter { padding:4px 5px; }
 .selector .selector-available input { width:230px; }

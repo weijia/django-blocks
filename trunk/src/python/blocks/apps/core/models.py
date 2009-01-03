@@ -135,7 +135,7 @@ class MenuItem(models.Model):
         return self.caption
 
     def save(self, force_insert=False, force_update=False):
-        from treemenus.utils import clean_ranks
+        from blocks.apps.core.menus import clean_ranks
 
         # Calculate level
         old_level = self.level
@@ -174,7 +174,7 @@ class MenuItem(models.Model):
                 child.save() # Just saving is enough, it'll refresh its level correctly.
 
     def delete(self):
-        from treemenus.utils import clean_ranks
+        from blocks.apps.core.menus import clean_ranks
         old_parent = self.parent
         super(MenuItem, self).delete()
         if old_parent:
