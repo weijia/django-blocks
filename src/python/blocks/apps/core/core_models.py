@@ -85,3 +85,10 @@ class BaseContentAdmin(admin.ModelAdmin):
     class Media:
         css = {"all": ("blocks/css/jquery-tabs.css",) }
         js = ("blocks/js/jquery.js", "blocks/js/jquery-ui.js", "blocks/js/lang.js",)
+
+
+class MultiLanguageInline(admin.options.InlineModelAdmin):
+    template = 'blocks/multilang.html'
+
+class MultiImageTabular(admin.options.InlineModelAdmin):
+    template = 'blocks/imagetabular.html'
