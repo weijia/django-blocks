@@ -14,17 +14,7 @@ from blocks.apps.core.base import STATUS_CHOICES, _
 #        abstract = True
 #        ordering = ('name',)
 
-class BaseContentModel(models.Model):
-    # content title
-    title = models.CharField(_('title'), max_length=200, unique=True, blank=False)
-    
-    # publishing options
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
-    publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"), null=True, blank=True)
-    unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"), null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % (self.title)
+class BaseModel(models.Model):
 
     def get_history(self):
          return LogEntry.objects.filter(content_type=ContentType.objects.get_for_model(self).id, object_id=self.pk)
@@ -46,7 +36,7 @@ class BaseContentModel(models.Model):
     def _get_lastchange_date(self):
         return self.get_lastchange().action_time
     lastchange_date = property(_get_lastchange_date)
-    
+
     def _get_lastchange_user(self):
         return self.get_lastchange().user.username
     lastchange_user = property(_get_lastchange_user)
@@ -55,7 +45,7 @@ class BaseContentModel(models.Model):
         if not lang:
             from django.utils.translation.trans_real import get_language
             lang = get_language()
-            
+
         trans = self.translations.filter(language = lang)
         if not trans:
             trans = self.translations.filter(language = settings.LANGUAGE_CODE)
@@ -64,8 +54,24 @@ class BaseContentModel(models.Model):
         return trans[0]
 
     class Meta:
+        abstract = True
+
+class BaseContentModel(BaseModel):
+    # content title
+    title = models.CharField(_('title'), max_length=200, unique=True, blank=False)
+    
+    # publishing options
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
+    publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"), null=True, blank=True)
+    unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"), null=True, blank=True)
+
+    def __unicode__(self):
+        return u'%s' % (self.title)
+
+    class Meta:
         db_table = 'blocks_content'
         ordering = ('publish_date',)
+
 
 class BaseContentAdmin(admin.ModelAdmin):    
     fieldsets = (
