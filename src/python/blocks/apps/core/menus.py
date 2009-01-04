@@ -33,14 +33,14 @@ def move_item_or_clean_ranks(menu_item, vector):
 
 def get_parent_choices(menu, menu_item=None):
     """
-    Returns flat list of tuples (possible_parent.pk, possible_parent.caption_with_spacer).
+    Returns flat list of tuples (possible_parent.pk, possible_parent.name_with_spacer).
     If 'menu_item' is not given or None, returns every item of the menu. If given, intentionally omit it and its descendant in the list.
     """
     def get_flat_tuples(menu_item, excepted_item=None):
         if menu_item == excepted_item:
             return []
         else:
-            choices = [(menu_item.pk, mark_safe(menu_item.caption_with_spacer()))]
+            choices = [(menu_item.pk, mark_safe(menu_item.name_with_spacer()))]
             if menu_item.has_children():
                 for child in menu_item.children():
                     choices += get_flat_tuples(child, excepted_item)

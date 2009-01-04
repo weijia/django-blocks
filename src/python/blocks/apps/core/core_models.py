@@ -15,7 +15,11 @@ from blocks.apps.core.base import STATUS_CHOICES, _
 #        ordering = ('name',)
 
 class BaseModel(models.Model):
+    name = models.CharField(_('name'), max_length=200, unique=True, blank=False)
 
+    def __unicode__(self):
+        return u'%s' % (self.name)
+    
     def get_history(self):
          return LogEntry.objects.filter(content_type=ContentType.objects.get_for_model(self).id, object_id=self.pk)
 
@@ -57,24 +61,40 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
-class BaseContentModel(BaseModel):
-    # content name
-    name = models.CharField(_('name'), max_length=200, unique=True, blank=False)
-    
+class BaseContentModel(BaseModel):    
     # publishing options
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
     publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"), null=True, blank=True)
     unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"), null=True, blank=True)
-
-    def __unicode__(self):
-        return u'%s' % (self.name)
 
     class Meta:
         db_table = 'blocks_content'
         ordering = ('publish_date',)
 
 
-class BaseContentAdmin(admin.ModelAdmin):    
+class BaseContentTranslation(models.Model):
+    """
+    Base content translation - language-based
+    """
+    model = None
+    language  = models.CharField(max_length=2, choices=settings.LANGUAGES, editable=True)
+
+    def __unicode__(self):
+        return u'%s: %s' % (self.model, self.language)
+
+    class Meta:
+        abstract = True
+        ordering = ["id"] # sets up default ordering by language
+
+
+
+class BaseAdmin(admin.ModelAdmin):
+    class Media:
+        css = {"all": ("blocks/css/jquery-tabs.css",) }
+        js = ("blocks/js/jquery.js", "blocks/js/jquery-ui.js", "blocks/js/lang.js",)
+
+
+class BaseContentAdmin(BaseAdmin):
     fieldsets = (
        (None,                    {'fields': ('name',)}),
        (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )}),
@@ -83,13 +103,12 @@ class BaseContentAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_display = ('name', 'creation_user', 'lastchange_date', 'status')
 
-    class Media:
-        css = {"all": ("blocks/css/jquery-tabs.css",) }
-        js = ("blocks/js/jquery.js", "blocks/js/jquery-ui.js", "blocks/js/lang.js",)
 
 
 class MultiLanguageInline(admin.options.InlineModelAdmin):
     template = 'blocks/multilang.html'
+    extra = len(settings.LANGUAGES)
+    max_num = len(settings.LANGUAGES)
 
 class MultiImageTabular(admin.options.InlineModelAdmin):
     template = 'blocks/imagetabular.html'

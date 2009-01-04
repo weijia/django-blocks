@@ -1,19 +1,53 @@
-import re
-from django.utils.functional import wraps
 from django.contrib import admin
 from django.conf import settings
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.admin.util import unquote
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_unicode
 
-from blocks.apps.core.models import Menu, MenuItem
+from blocks.apps.core.models import *
 from blocks.apps.core.menus import get_parent_choices, MenuItemChoiceField, move_item_or_clean_ranks
 
+import re
 
-class MenuItemAdmin(admin.ModelAdmin):
+
+#class ImageAdmin(admin.ModelAdmin):
+#    search_fields = ('image', 'description')
+#    list_display = ('image', 'description')
+#
+#admin.site.register(Image, ImageAdmin)
+
+
+class TemplateAdmin(admin.ModelAdmin):
+    search_fields = ('template', 'name', 'description')
+    list_display = ('name', 'template', 'description')
+
+admin.site.register(Template, TemplateAdmin)
+
+
+class StaticPageAdmin(admin.ModelAdmin):
+    fieldsets = (
+       (None,                    {'fields': ('title', 'body_wiki')}),
+       (_('Display options'),    {'fields': ('url', 'template',),}),
+       (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author'), 'classes': ('collapse', )}),
+    )
+    list_filter = ('template', 'author')
+    search_fields = ('template', 'title',)
+    list_display = ('url', 'title', 'author', 'modified_date',)
+
+admin.site.register(StaticPage, StaticPageAdmin)
+
+#
+# Menus
+#
+class MenuItemTranslationInline(core_models.MultiLanguageInline):
+    model = MenuItemTranslation
+
+class MenuItemAdmin(core_models.BaseAdmin):
     ''' This class is used as a proxy by MenuAdmin to manipulate menu items. It should never be registered. '''
+
+    inlines = [MenuItemTranslationInline]
+
     def __init__(self, model, admin_site, menu):
         super(MenuItemAdmin, self).__init__(model, admin_site)
         self._menu = menu
@@ -58,6 +92,7 @@ class MenuItemAdmin(admin.ModelAdmin):
         choices = get_parent_choices(self._menu, obj)
         form.base_fields['parent'] = MenuItemChoiceField(choices=choices)
         return form
+
 
 class MenuAdmin(admin.ModelAdmin):
     menu_item_admin_class = MenuItemAdmin

@@ -21,10 +21,9 @@
 	  <table cellspacing="0" width="100%">
 		<thead>
 			<tr>
-				<th>{% trans "Caption" %}</th>
+				<th width="50%">{% trans "Name" %}</th>
 				<th>{% trans "Url" %}</th>
-				<th>{% trans "Named url" %}</th>
-				<th colspan="2">{% trans "Move" %}</th>
+				<th width="40" colspan="2">{% trans "Move" %}</th>
 			</tr>
 		</thead>
 
@@ -33,35 +32,32 @@
 			<tr class="{% cycle 'row1' 'row2' %}">
 			
 				{% if forloop.first %}
-					<td colspan="3">						
+					<td colspan="4">
 						{% trans "[Root]" %}
 					</td>
 				{% else %}
-					<td width="35%">
-						<a href="items/{{ menu_item.pk }}/">{{ menu_item.caption_with_spacer|safe }}</a>
+					<td>
+						<a href="items/{{ menu_item.pk }}/">{{ menu_item.name_with_spacer|safe }}</a>
 					</td>
-					<td width="25%">
+					<td>
 						{{ menu_item.url }}
 					</td>
-					<td width="25%">
-						{{ menu_item.named_url }}
-					</td>
-				{% endif %}
-				
-				{% if menu_item.has_siblings %}
-					{% ifnotequal menu_item.rank menu_item.siblings.count %}
-						<td width="20" align="center"><a href="items/{{ menu_item.pk }}/move_down/"><img src="{% admin_media_prefix %}img/admin/arrow-down.gif" border="0" alt="{% trans 'Down' %}"/></b></td>
-					{% else %}
-						<td width="20">&nbsp;</td>
-					{% endifnotequal %}
-					
-					{% ifnotequal menu_item.rank 0 %}
-						<td width="20" align="center"><a href="items/{{ menu_item.pk }}/move_up/"><img src="{% admin_media_prefix %}img/admin/arrow-up.gif" border="0" alt="{% trans 'Up' %}"/></a></td>
-					{% else %}
-						<td width="20">&nbsp;</td>
-					{% endifnotequal %}
-				{% else %}
-					<td width="20">&nbsp;</td><td width="20">&nbsp;</td>
+
+                    {% if menu_item.has_siblings %}
+                        {% ifnotequal menu_item.rank menu_item.siblings.count %}
+                            <td width="20" align="center"><a href="items/{{ menu_item.pk }}/move_down/"><img src="{% admin_media_prefix %}img/admin/arrow-down.gif" border="0" alt="{% trans 'Down' %}"/></b></td>
+                        {% else %}
+                            <td width="20">&nbsp;</td>
+                        {% endifnotequal %}
+
+                        {% ifnotequal menu_item.rank 0 %}
+                            <td width="20" align="center"><a href="items/{{ menu_item.pk }}/move_up/"><img src="{% admin_media_prefix %}img/admin/arrow-up.gif" border="0" alt="{% trans 'Up' %}"/></a></td>
+                        {% else %}
+                            <td width="20">&nbsp;</td>
+                        {% endifnotequal %}
+                    {% else %}
+                        <td width="20">&nbsp;</td><td width="20">&nbsp;</td>
+                    {% endif %}
 				{% endif %}
 			</tr>
 		  {% endfor %}

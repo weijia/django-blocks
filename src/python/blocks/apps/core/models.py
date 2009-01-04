@@ -1,28 +1,20 @@
 from django.db import models
-from django.contrib import admin
-#from django.core import validators
-from base import STATUS_CHOICES, WEIGHT_CHOICES, LEVEL_CHOICES, _
+from django.utils.translation import ugettext_lazy as _
+
 from blocks.apps.wiki import wiki
-from blocks.apps.core import core_models
 from blocks.core import utils
-from blocks import forms
+from blocks.apps.core import core_models
+
 import datetime
-
 from itertools import chain
-from django.core.exceptions import ObjectDoesNotExist
 
-class Image(models.Model):
-    image = forms.BlocksImageField(_('image'), upload_to='images/%Y/%m/%d', thumbnail_size=(96, 96))
-    description = models.TextField(_('description'), max_length=255)
+#class Image(models.Model):
+#    image = forms.BlocksImageField(_('image'), upload_to='images/%Y/%m/%d', thumbnail_size=(96, 96))
+#    description = models.TextField(_('description'), max_length=255)
+#
+#    class Meta:
+#        db_table = 'blocks_image'
 
-    class Meta:
-        db_table = 'blocks_image'
-
-class ImageAdmin(admin.ModelAdmin):
-    search_fields = ('image', 'description')
-    list_display = ('image', 'description')
-
-admin.site.register(Image, ImageAdmin)
 
 class Template(models.Model):
     name = models.CharField(_('name'), max_length=80, unique=True)
@@ -44,13 +36,6 @@ class Template(models.Model):
     class Meta:
         ordering = ('name',)
         db_table = 'blocks_template'
-
-
-class TemplateAdmin(admin.ModelAdmin):
-    search_fields = ('template', 'name', 'description')
-    list_display = ('name', 'template', 'description')
-
-admin.site.register(Template, TemplateAdmin)
 
 
 class StaticPage(models.Model):
@@ -109,30 +94,15 @@ class StaticPage(models.Model):
         verbose_name_plural = _('Static Pages')
         ordering = ('url',)
 
-class StaticPageAdmin(admin.ModelAdmin):    
-    fieldsets = (
-       (None,                    {'fields': ('title', 'body_wiki')}),
-       (_('Display options'),    {'fields': ('url', 'template',),}),
-       (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author'), 'classes': ('collapse', )}),
-    )
-    list_filter = ('template', 'author')
-    search_fields = ('template', 'title',)
-    list_display = ('url', 'title', 'author', 'modified_date',)
-
-admin.site.register(StaticPage, StaticPageAdmin)
-
-
-class MenuItem(models.Model):
+#
+# Menus
+#
+class MenuItem(core_models.BaseModel):
     parent = models.ForeignKey('self', verbose_name=_('Parent'), null=True, blank=True)
-    caption = models.CharField(_('Caption'), max_length=50)
     url = models.CharField(_('URL'), max_length=200, blank=True)
-    named_url = models.CharField(_('Named URL'), max_length=200, blank=True)
     level = models.IntegerField(_('Level'), default=0, editable=False)
     rank = models.IntegerField(_('Rank'), default=0, editable=False)
     menu = models.ForeignKey('Menu', related_name='contained_items', verbose_name=_('Menu'), null=True, blank=True, editable=False)
-
-    def __unicode__(self):
-        return self.caption
 
     def save(self, force_insert=False, force_update=False):
         from blocks.apps.core.menus import clean_ranks
@@ -180,13 +150,13 @@ class MenuItem(models.Model):
         if old_parent:
             clean_ranks(old_parent.children())
 
-    def caption_with_spacer(self):
+    def name_with_spacer(self):
         spacer = ''
         for i in range(0, self.level):
             spacer += u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
         if self.level > 0:
             spacer += u'|-&nbsp;'
-        return spacer + self.caption
+        return spacer + self.name
 
     def get_flattened(self):
         flat_structure = [self]
@@ -219,10 +189,20 @@ class MenuItem(models.Model):
         db_table = 'blocks_menu_item'
 
 
+class MenuItemTranslation(core_models.BaseContentTranslation):
+    model = models.ForeignKey(MenuItem, related_name="translations")
+
+    caption = models.CharField(_('Caption'), max_length=50)
+    description = models.CharField(_('Description'), max_length=200, blank=True)
+
+    class Meta:
+        db_table = 'blocks_menu_item_translation'
+
+
 class Menu(models.Model):
     name = models.CharField(_('Name'), max_length=50)
     root_item = models.ForeignKey(MenuItem, related_name='is_root_item_of', verbose_name=_('Root Item'), null=True, blank=True, editable=False)
-    
+
     def save(self, force_insert=False, force_update=False):
         if not self.root_item:
             root_item = MenuItem()
