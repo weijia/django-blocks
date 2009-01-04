@@ -43,8 +43,8 @@ class BaseModel(models.Model):
 
     def get_translation(self, lang = None):
         if not lang:
-            from django.utils.translation.trans_real import get_language
-            lang = get_language()
+            from django.utils.translation import trans_real
+            lang = trans_real.get_language()
 
         trans = self.translations.filter(language = lang)
         if not trans:
@@ -52,13 +52,14 @@ class BaseModel(models.Model):
         if not trans:
             return None
         return trans[0]
+    translation = property(get_translation)
 
     class Meta:
         abstract = True
 
 class BaseContentModel(BaseModel):
-    # content title
-    title = models.CharField(_('title'), max_length=200, unique=True, blank=False)
+    # content name
+    name = models.CharField(_('name'), max_length=200, unique=True, blank=False)
     
     # publishing options
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
@@ -66,7 +67,7 @@ class BaseContentModel(BaseModel):
     unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"), null=True, blank=True)
 
     def __unicode__(self):
-        return u'%s' % (self.title)
+        return u'%s' % (self.name)
 
     class Meta:
         db_table = 'blocks_content'
@@ -75,12 +76,12 @@ class BaseContentModel(BaseModel):
 
 class BaseContentAdmin(admin.ModelAdmin):    
     fieldsets = (
-       (None,                    {'fields': ('title',)}),
+       (None,                    {'fields': ('name',)}),
        (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )}),
     )
     list_filter = ('status',)
-    search_fields = ('title',)
-    list_display = ('title', 'creation_user', 'lastchange_date', 'status')
+    search_fields = ('name',)
+    list_display = ('name', 'creation_user', 'lastchange_date', 'status')
 
     class Media:
         css = {"all": ("blocks/css/jquery-tabs.css",) }
@@ -92,3 +93,11 @@ class MultiLanguageInline(admin.options.InlineModelAdmin):
 
 class MultiImageTabular(admin.options.InlineModelAdmin):
     template = 'blocks/imagetabular.html'
+
+#from django.dispatch import dispatcher
+#from django.db.models import signals
+#
+#def change_watcher(sender, instance, signal, *args, **kwargs):
+#    print "SIGNAL:", sender, signal, args, kwargs
+#
+#signals.post_init.connect(change_watcher, sender=BaseModel, signal=signals.post_init)
