@@ -31,7 +31,11 @@ def get_menu_title(url):
     url = fix_url(url)
     lst = MenuItem.objects.filter(url__exact=url)
     if (lst):
-        title = lst[0].translation.caption
+        trans = lst[0].translation
+        if trans:
+            title = trans.caption
+        else:
+            title = lst[0].name
     
     return title
         
