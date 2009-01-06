@@ -31,7 +31,7 @@ def get_menu_title(url):
     url = fix_url(url)
     lst = MenuItem.objects.filter(url__exact=url)
     if (lst):
-        trans = lst[0].translation
+        trans = getattr(lst[0], 'translation', None)
         if trans:
             title = trans.caption
         else:
@@ -139,3 +139,15 @@ def strip_tags(s, invalid_tags=None):
 def strip_html(html):
     import re
     return re.sub(r'<[^>]+>', '', html)
+
+def get_related_obj(md):
+    related_names = [obj.get_accessor_name() for obj in md._meta.get_all_related_objects()]
+    for name in related_names:
+        try:
+            return getattr(md, name)
+        except:
+            pass
+    return None
+
+def get_related_objs(qs):
+    return [get_related_obj(it) for it in qs]
