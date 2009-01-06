@@ -3,8 +3,9 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import ugettext_lazy as _
 
-from blocks.apps.core.base import STATUS_CHOICES, _
+from blocks.apps.core.managers import STATUS_CHOICES, BaseManager
 
 #class BaseModel(models.Model):
 #    name = models.CharField(_('name'), max_length=80, unique=True)
@@ -44,7 +45,7 @@ class BaseModel(models.Model):
     def _get_lastchange_user(self):
         return self.get_lastchange().user.username
     lastchange_user = property(_get_lastchange_user)
-
+    
     def get_translation(self, lang = None):
         if not lang:
             from django.utils.translation import trans_real
@@ -61,12 +62,16 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
-class BaseContentModel(BaseModel):    
+class BaseContentModel(BaseModel):
     # publishing options
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
     publish_date = models.DateTimeField(_('publish date'), help_text=_("auto publish at date expecified or when the content was published"), null=True, blank=True)
     unpublish_date = models.DateTimeField(_('unpublish date'), help_text=_("auto unpublish at date expecified"), null=True, blank=True)
+    promoted = models.BooleanField(_('promoted'))
 
+    # model manager
+    objects = BaseManager()
+    
     class Meta:
         db_table = 'blocks_content'
         ordering = ('publish_date',)
@@ -95,13 +100,14 @@ class BaseAdmin(admin.ModelAdmin):
 
 
 class BaseContentAdmin(BaseAdmin):
+    PUBLISHING_OPTIONS = (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'promoted', 'status',), 'classes': ('collapse', )})
     fieldsets = (
        (None,                    {'fields': ('name',)}),
-       (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )}),
+       PUBLISHING_OPTIONS,
     )
-    list_filter = ('status',)
+    list_filter = ('status', 'promoted')
     search_fields = ('name',)
-    list_display = ('name', 'creation_user', 'lastchange_date', 'status')
+    list_display = ('name', 'creation_user', 'lastchange_date', 'status', 'promoted')
 
 
 
