@@ -74,7 +74,7 @@ class BaseContentModel(BaseModel):
     
     class Meta:
         db_table = 'blocks_content'
-        ordering = ('publish_date',)
+        ordering = ('-publish_date',)
 
 
 class BaseContentTranslation(models.Model):
