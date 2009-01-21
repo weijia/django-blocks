@@ -6,11 +6,14 @@
 {{ inline_admin_formset.formset.non_form_errors }}
 
 	<div id="languages">
+
+    {% if BLOCKS_USELANG %}
 		<ul>
-		{% for lang in LANGUAGES %}
+		{% for lang in BLOCKS_LANGUAGES %}
 			<li value="{{ lang.0 }}"><a href="#lng_{{ lang.0 }}">{{ lang.1 }}</a></li>
 		{% endfor %}
 		</ul>
+    {% endif %}
 
 
 		{% for inline_admin_form in inline_admin_formset %}

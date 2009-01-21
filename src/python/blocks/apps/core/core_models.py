@@ -82,7 +82,7 @@ class BaseContentTranslation(models.Model):
     Base content translation - language-based
     """
     model = None
-    language  = models.CharField(max_length=2, choices=settings.LANGUAGES, editable=True)
+    language  = models.CharField(max_length=2, choices=settings.BLOCKS_LANGUAGES, editable=True)
 
     def __unicode__(self):
         return u'%s: %s' % (self.model, self.language)
@@ -113,8 +113,8 @@ class BaseContentAdmin(BaseAdmin):
 
 class MultiLanguageInline(admin.options.InlineModelAdmin):
     template = 'blocks/multilang.html'
-    extra = len(settings.LANGUAGES)
-    max_num = len(settings.LANGUAGES)
+    extra = len(settings.LANGUAGES) if settings.USE_I18N else 1
+    max_num = len(settings.LANGUAGES) if settings.USE_I18N else 1
 
 class MultiImageTabular(admin.options.InlineModelAdmin):
     template = 'blocks/imagetabular.html'

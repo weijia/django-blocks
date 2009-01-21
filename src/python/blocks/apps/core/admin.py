@@ -17,26 +17,6 @@ import re
 #
 #admin.site.register(Image, ImageAdmin)
 
-
-class TemplateAdmin(admin.ModelAdmin):
-    search_fields = ('template', 'name', 'description')
-    list_display = ('name', 'template', 'description')
-
-admin.site.register(Template, TemplateAdmin)
-
-
-class StaticPageAdmin(admin.ModelAdmin):
-    fieldsets = (
-       (None,                    {'fields': ('title', 'body_wiki')}),
-       (_('Display options'),    {'fields': ('url', 'template',),}),
-       (_('Publishing options'), {'fields': ('publish_date', 'modified_date', 'author'), 'classes': ('collapse', )}),
-    )
-    list_filter = ('template', 'author')
-    search_fields = ('template', 'title',)
-    list_display = ('url', 'title', 'author', 'modified_date',)
-
-admin.site.register(StaticPage, StaticPageAdmin)
-
 #
 # Menus
 #
@@ -187,3 +167,27 @@ class MenuAdmin(admin.ModelAdmin):
         return HttpResponseRedirect('../../../')
 
 admin.site.register(Menu, MenuAdmin)
+
+
+#
+# Pages
+#
+
+class TemplateAdmin(admin.ModelAdmin):
+    search_fields = ('template', 'name', 'description')
+    list_display = ('name', 'template', 'description')
+
+admin.site.register(Template, TemplateAdmin)
+
+
+class StaticPageTranslationInline(core_models.MultiLanguageInline):
+    model = StaticPageTranslation
+
+class StaticPageAdmin(core_models.BaseContentAdmin):
+    inlines = [StaticPageTranslationInline]
+    fieldsets = ()
+    list_filter = ('menu',)
+    search_fields = ('name', 'url',)
+    list_display = ('name', 'url', 'creation_user', 'lastchange_date',)
+
+admin.site.register(StaticPage, StaticPageAdmin)

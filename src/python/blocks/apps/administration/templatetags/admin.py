@@ -60,7 +60,7 @@ class get_language_byindex(template.Node):
         lang = ('', '')
         try:
             idx = resolve_variable(self.index, context);
-            lang = settings.LANGUAGES[idx]
+            lang = settings.BLOCKS_LANGUAGES[idx]
         except KeyError:
             pass
         except IndexError:
