@@ -2,10 +2,9 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from blocks.apps.wiki import wiki
-from blocks.core import utils
+from blocks.core.utils import get_normalzed_slug
 from blocks.apps.core import core_models
 
-import datetime
 from itertools import chain
 
 #class Image(models.Model):
@@ -15,84 +14,6 @@ from itertools import chain
 #    class Meta:
 #        db_table = 'blocks_image'
 
-
-class Template(models.Model):
-    name = models.CharField(_('name'), max_length=80, unique=True)
-    description = models.CharField(_('description'), max_length=255)
-    
-    template = models.CharField(_('template'), max_length=70,
-                    help_text=_("Example: 'homepage.html'. If this isn't provided, the system will use 'default.html'."))
-
-    def delete(self):
-        # TODO: validate if is system Template
-        if self.name == "Default":
-          return
-        else:
-          super(Template, self).delete()
-    
-    def __unicode__(self):
-        return self.name
-    
-    class Meta:
-        ordering = ('name',)
-        db_table = 'blocks_template'
-
-
-class StaticPage(models.Model):
-    url = models.CharField(_('URL'), max_length=100, unique=True, 
-        help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
-    # content
-    title = models.CharField(_('title'), max_length=200)
-    body_wiki = models.TextField(_('body'),
-         help_text=_("use reStructuredText Markup."))
-    
-    template = models.ForeignKey(Template, verbose_name=_('template'), related_name='template_id', blank=False,
-        help_text=_("You must provide a template to be used in this page."))
-    
-    # publishing options
-    publish_date = models.DateTimeField(_('publish date'), blank=True)
-    modified_date = models.DateTimeField(_('modified date'), blank=True)
-    author = models.CharField(_('author'), max_length=80, blank=True)
-    
-    def _get_body(self):
-        return wiki.parse(self.body_wiki)    
-    body = property(_get_body)
-    
-    def __unicode__(self):
-        return u"%s -- %s" % (self.url, self.title)
-
-    def get_absolute_url(self):
-        return self.url
-    
-    def save(self):
-        from blocks.core.utils import fix_url
-        self.url = fix_url(self.url)
-        
-        if not self.author:
-            user = utils.get_current_user()
-            author = ''
-            try:
-                if user.first_name or user.last_name:
-                    author = (user.first_name + ' ' + user.last_name).strip()
-                elif user.username:
-                    author = user.username.strip()
-            except AttributeError:
-                pass
-            
-            if author:
-                self.author = author
-            else:
-                self.author = 'anonymous'
-        if not self.publish_date:
-            self.publish_date = datetime.datetime.now()
-        self.modified_date = datetime.datetime.now()
-        super(StaticPage, self).save()
-        
-    class Meta:
-        db_table = 'blocks_static_page'
-        verbose_name = _('Static Page')
-        verbose_name_plural = _('Static Pages')
-        ordering = ('url',)
 
 #
 # Menus
@@ -226,3 +147,84 @@ class Menu(models.Model):
         db_table = 'blocks_menu'
         verbose_name = _('Menu')
         verbose_name_plural = _('Menus')
+
+
+#
+# Pages
+#
+class Template(models.Model):
+    name = models.CharField(_('name'), max_length=80, unique=True)
+    description = models.CharField(_('description'), max_length=255)
+
+    template = models.CharField(_('template'), max_length=70,
+                    help_text=_("Example: 'homepage.html'. If this isn't provided, the system will use 'default.html'."))
+
+    def delete(self):
+        # TODO: validate if is system Template
+        if self.name == "Default":
+          return
+        else:
+          super(Template, self).delete()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name',)
+        db_table = 'blocks_template'
+
+
+def get_menu_items():
+    from django.db.models import Q
+    urls = MenuItem.objects.order_by('url').filter(Q(rank__gt=0) | Q(level__gt=0))
+    items = [('/', 'Root')]
+    for it in urls:
+        if it.url != '/':
+            items.append((it.url, "%s (%s)" % (it.name, it.url)))
+    return items
+
+
+class StaticPage(core_models.BaseModel):
+    menu = models.CharField(_('URL'), max_length=100, choices=get_menu_items(),
+        help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
+
+    relative = models.BooleanField(_('relative'),
+      help_text=_("If a page is relative then the page slug (normalized name) is appended to the url."))
+
+    template = models.ForeignKey(Template, verbose_name=_('template'), related_name='template_id', blank=False,
+        help_text=_("You must provide a template to be used in this page."))
+
+    slug = models.SlugField(_('slug'), editable=False)
+    url = models.CharField(max_length=255, unique=True, editable=False)
+
+    def save(self, force_insert=False, force_update=False):
+        from django.template.defaultfilters import slugify
+        self.slug = slugify(self.name)
+        self.url = self.menu if not self.relative else "%s%s/" % (self.menu, self.slug)
+        super(StaticPage, self).save(force_insert, force_update)
+
+    def __unicode__(self):
+        return u"%s -- %s" % (self.url, self.name)
+
+    def get_absolute_url(self):
+        return self.url
+
+    def _get_body(self):
+        return wiki.parse(self.translation.body)
+    body = property(_get_body)
+
+    class Meta:
+        db_table = 'blocks_static_page'
+        verbose_name = _('Static Page')
+        verbose_name_plural = _('Static Pages')
+        ordering = ('url',)
+
+class StaticPageTranslation(core_models.BaseContentTranslation):
+    model = models.ForeignKey(StaticPage, related_name="translations")
+
+    body = models.TextField(_('body'), help_text=_("use reStructuredText Markup."))
+
+    class Meta:
+        db_table = 'blocks_static_page_translation'
+        verbose_name = _('Static Page Translation')
+        verbose_name_plural = _('Static Page Translations')

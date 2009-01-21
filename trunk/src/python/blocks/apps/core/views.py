@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 #from django.core.xheaders import populate_xheaders
 
-DEFAULT_TEMPLATE = 'default.html'
+DEFAULT_TEMPLATE = 'blocks/default.html'
 
 def staticpage(request, url):
 	from blocks.apps.core.models import StaticPage
