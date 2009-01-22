@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib.admin.util import unquote
 from django.utils.translation import ugettext as _

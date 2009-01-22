@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from blocks.apps.wiki import wiki
-from blocks.core.utils import get_normalzed_slug
 from blocks.apps.core import core_models
 
 from itertools import chain
@@ -185,8 +184,7 @@ def get_menu_items():
 
 
 class StaticPage(core_models.BaseModel):
-    menu = models.CharField(_('URL'), max_length=100, choices=get_menu_items(),
-        help_text=_("Example: '/about/'. A leading and trailing slashes will be putted automaticly."))
+    menu = models.CharField(_('URL'), max_length=100, choices=get_menu_items(), blank=False)
 
     relative = models.BooleanField(_('relative'),
       help_text=_("If a page is relative then the page slug (normalized name) is appended to the url."))
@@ -210,7 +208,9 @@ class StaticPage(core_models.BaseModel):
         return self.url
 
     def _get_body(self):
-        return wiki.parse(self.translation.body)
+        #return wiki.parse(self.translation.body)
+        from django.utils.safestring import mark_safe
+        return mark_safe(self.translation.body)
     body = property(_get_body)
 
     class Meta:
@@ -222,7 +222,8 @@ class StaticPage(core_models.BaseModel):
 class StaticPageTranslation(core_models.BaseContentTranslation):
     model = models.ForeignKey(StaticPage, related_name="translations")
 
-    body = models.TextField(_('body'), help_text=_("use reStructuredText Markup."))
+    title = models.CharField(_('title'), max_length=200)
+    body = models.TextField(_('body'))
 
     class Meta:
         db_table = 'blocks_static_page_translation'

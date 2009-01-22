@@ -95,8 +95,13 @@ class BaseContentTranslation(models.Model):
 
 class BaseAdmin(admin.ModelAdmin):
     class Media:
-        css = {"all": ("blocks/css/jquery-tabs.css",) }
-        js = ("blocks/js/jquery.js", "blocks/js/jquery-ui.js", "blocks/js/lang.js",)
+        css = {"all": ("blocks/css/jquery-tabs.css", "blocks/css/jquery.wysiwyg.css",) }
+        js = (
+            "blocks/js/jquery.js",
+            "blocks/js/jquery-ui.js",
+            "blocks/js/jquery.wysiwyg.js",
+            "blocks/js/lang.js",
+        )
 
 
 class BaseContentAdmin(BaseAdmin):

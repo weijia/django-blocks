@@ -12,7 +12,13 @@ def media(request):
     
     title = get_menu_title(bits[1])
 
-    context = {'BLOCKS_URL': url, 'BLOCKS_TITLE': title, 'BLOCKS_LANGUAGES': settings.BLOCKS_LANGUAGES, 'BLOCKS_USELANG': settings.BLOCKS_USELANG, }
+    context = {
+        'BLOCKS_URL': url,
+        'BLOCKS_FULL_URL': request.get_full_path(),
+        'BLOCKS_TITLE': title,
+        'BLOCKS_LANGUAGES': settings.BLOCKS_LANGUAGES,
+        'BLOCKS_USELANG': settings.BLOCKS_USELANG,
+    }
     
     if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
         context['BLOCKS_AGGREGATOR_URL'] = settings.BLOCKS_AGGREGATOR_URL
