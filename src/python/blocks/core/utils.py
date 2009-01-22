@@ -151,14 +151,3 @@ def get_related_obj(md):
 
 def get_related_objs(qs):
     return [get_related_obj(it) for it in qs]
-
-
-def get_normalzed_slug(s):
-    raw_data = s
-    # normalze string as proposed on http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/251871
-    try:
-        import unicodedata
-        raw_data = unicodedata.normalize('NFKD', raw_data.decode('utf-8', 'replace')).encode('ascii', 'ignore')
-    except:
-        pass
-    return re.sub(r'[^a-z0-9-]+', '_', raw_data.lower()).strip('_')

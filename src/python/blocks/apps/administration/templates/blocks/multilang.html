@@ -1,5 +1,5 @@
 {% load i18n admin %}
-
+<script type="text/javascript">MEDIA_URL = "{{ MEDIA_URL }}blocks/";</script>
 <fieldset class="module">
   <h2>{{ inline_admin_formset.opts.verbose_name_plural|title }}</h2>
 {{ inline_admin_formset.formset.management_form }}
