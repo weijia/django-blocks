@@ -1,11 +1,11 @@
 import os.path
+from django.db.models.fields import Field
 from django.db.models.fields.files import ImageField
 from django.db.models import signals
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from widgets import DelAdminFileWidget
-from forms import BlocksImageFormField
-import os, shutil
+from widgets import DelAdminFileWidget, GeoLocationWidget
+from forms import GeoLocationFormField, BlocksImageFormField
 
 class ThumbnailField:
     '''
@@ -167,3 +167,24 @@ class BlocksImageField(ImageField):
         super(BlocksImageField, self).contribute_to_class(cls, name)
         signals.post_save.connect(self._create_sizes, sender=cls)
         signals.post_init.connect(self._init_sizes,   sender=cls)
+
+
+class GeoLocationField(Field):
+    widget = GeoLocationWidget
+
+    def formfield(self, **kwargs):
+        '''
+        Specify form field and widget to be used on the forms
+        '''
+        kwargs['widget'] = GeoLocationWidget
+        kwargs['form_class'] = GeoLocationFormField
+        return super(GeoLocationField, self).formfield(**kwargs)
+
+    def clean(self, value):
+        if isinstance(value, unicode):
+            a, b = value.split(',')
+        else:
+            a, b = value
+
+        lat, lng = float(a), float(b)
+        return "%f,%f" % (lat, lng)
