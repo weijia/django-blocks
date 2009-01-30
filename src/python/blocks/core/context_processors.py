@@ -18,6 +18,7 @@ def media(request):
         'BLOCKS_TITLE': title,
         'BLOCKS_LANGUAGES': settings.BLOCKS_LANGUAGES,
         'BLOCKS_USELANG': settings.BLOCKS_USELANG,
+        'BLOCKS_SETTINGS': settings,
     }
     
     if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
