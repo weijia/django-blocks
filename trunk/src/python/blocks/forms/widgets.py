@@ -21,15 +21,15 @@ class DelAdminFileWidget(AdminFileWidget):
             except AttributeError:
                 pass
 
-            item = '<div><label>%s</label>%s</div>'
+            item = '<div class="%s"><label>%s:</label>%s</div>'
             output = []
-            output.append('<div class="form-row">')
-            if isinstance(value, fields.BlocksImageField) and thumbnail != None:
-                output.append(item % (_('Currently:'), '<img src="%s%s" alt="%s"/>' % (settings.MEDIA_URL, thumbnail.name, value)))
-            output.append(item % (_('Change:'), input))
-            if isinstance(value, fields.BlocksImageField):
-                output.append(item % (_('Delete') + ':', '<input type="checkbox" name="%s_delete"/>' % name)) # split colon to force "Delete" that is already translated
-            output.append('</div>')
+            if thumbnail != None:
+                output.append('<div class="inline"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" /></a></div>' % (value.url, thumbnail.url(), value))
+                output.append('<div class="inline">')
+            output.append(item % (name, _('Change'), input))
+            if thumbnail != None:
+                output.append(item % ('delete', _('Delete?'), '<input type="checkbox" name="%s_delete"/>' % name)) # split colon to force "Delete" that is already translated
+                output.append('</div>')
             return mark_safe(u''.join(output))
         else:
             return mark_safe(input)

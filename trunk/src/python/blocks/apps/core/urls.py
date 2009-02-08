@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
-#from blocks.apps.core.views import staticpage
+from blocks.rpc import request
 from django.conf import settings
- 
+
 urlpatterns = []
 
 if hasattr(settings, 'BLOCKS_BLOG_URL'):
@@ -9,5 +9,7 @@ if hasattr(settings, 'BLOCKS_BLOG_URL'):
                            
 if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
     urlpatterns += patterns('', (r'^%s/' % settings.BLOCKS_AGGREGATOR_URL.strip('/'), include('blocks.apps.aggregator.urls')), )
-                            
-#urlpatterns += patterns('', (r'^(?P<url>.*)$', staticpage), )
+
+urlpatterns += patterns('',
+    (r'^json/', request.rpc_request),
+)

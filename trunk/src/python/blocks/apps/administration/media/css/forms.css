@@ -148,3 +148,21 @@ table p.datetime { font-size:10px; margin-left:0; padding-left:0; }
 .vLargeTextField, .vXMLLargeTextField { width: 95%; }
 .vTextField { width: 95%; }
 .vSelectField { width: 90%; }
+
+.popup
+{
+    display:none;
+    cursor: default;
+    text-align: left;
+}
+
+div.inline
+{
+    float: left;
+    margin-right: 2px;
+}
+
+div.inline .delete
+{
+    display: none;
+}

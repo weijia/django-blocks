@@ -282,11 +282,13 @@
                     {
                         this.setContent( $(this.original).val() );
                         $(this.original).hide();
+                        $(this.editor).show();
                     }
                     else
                     {
                         this.saveContent();
                         $(this.original).show();
+                        $(this.editor).hide();
                     }
 
                     this.viewHTML = !( this.viewHTML );
@@ -580,6 +582,7 @@
                 var className = control.className || control.command || name || 'empty';
 
                 $('.' + className, this.panel).removeClass('active');
+                $.data(this.editor, 'element.' + className, elm);
 
                 if ( control.tags )
                 {
@@ -590,7 +593,10 @@
                             break;
 
                         if ( $.inArray(elm.tagName.toLowerCase(), control.tags) != -1 )
+                        {
                             $('.' + className, this.panel).addClass('active');
+                            $.data(this.editor, 'element.' + className, elm);
+                        }
                     } while ( elm = elm.parentNode );
                 }
 

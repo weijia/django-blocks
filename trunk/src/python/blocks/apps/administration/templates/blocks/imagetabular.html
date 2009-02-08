@@ -9,7 +9,7 @@
      <thead><tr>
      {% for field in inline_admin_formset.fields %}
        {% if not field.is_hidden %}
-         <th {% if forloop.first %}colspan="2"{% endif %}>{{ field.label|capfirst|escape }}</th>
+         <th>{{ field.label|capfirst|escape }}</th>
         {% endif %}
      {% endfor %}
      {% if inline_admin_formset.formset.can_delete %}<th>{% trans "Delete?" %}</th>{% endif %}
@@ -18,25 +18,21 @@
      {% for inline_admin_form in inline_admin_formset %}
 
         <tr class="{% cycle row1,row2 %}">
-
-        <td class="original">
-          {% if inline_admin_form.original %}{{ inline_admin_form.original }}{% endif %}
-          {{ inline_admin_form.pk_field.field }}
-          {% spaceless %}
-          {% for fieldset in inline_admin_form %}
+        {{ inline_admin_form.pk_field.field }}
+        {% spaceless %}
+        {% for fieldset in inline_admin_form %}
             {% for line in fieldset %}
               {% for field in line %}
                 {% if field.is_hidden %} {{ field.field }} {% endif %}
               {% endfor %}
             {% endfor %}
-          {% endfor %}
-          {% endspaceless %}
-        </td>
+        {% endfor %}
+        {% endspaceless %}
 
         {% for fieldset in inline_admin_form %}
           {% for line in fieldset %}
             {% for field in line %}
-              <td class="{{ field.field.name }}">
+              <td class="aligned {{ field.field.name }}">
               {{ field.field.errors.as_ul }}
               {{ field.field }}
               </td>
