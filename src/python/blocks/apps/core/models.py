@@ -1,17 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from blocks.apps.wiki import wiki
 from blocks.apps.core import core_models
+from blocks.apps.core.managers import BaseManager
 
 from itertools import chain
-
-#class Image(models.Model):
-#    image = forms.BlocksImageField(_('image'), upload_to='images/%Y/%m/%d', thumbnail_size=(96, 96))
-#    description = models.TextField(_('description'), max_length=255)
-#
-#    class Meta:
-#        db_table = 'blocks_image'
 
 
 #
@@ -172,18 +165,19 @@ class Template(models.Model):
         ordering = ('name',)
         db_table = 'blocks_template'
 
-
 def get_menu_items():
-    from django.db.models import Q
-    urls = MenuItem.objects.order_by('url').filter(Q(rank__gt=0) | Q(level__gt=0))
-    items = [('/', 'Root')]
-    for it in urls:
-        if it.url != '/':
-            items.append((it.url, "%s (%s)" % (it.name, it.url)))
-    return items
+    try:
+        from django.db.models import Q
+        urls = MenuItem.objects.order_by('url').filter(Q(rank__gt=0) | Q(level__gt=0))
+        items = [('/', 'Root')]
+        for it in urls:
+            if it.url != '/':
+                items.append((it.url, "%s (%s)" % (it.name, it.url)))
+        return items
+    except:
+        pass
 
-
-class StaticPage(core_models.BaseModel):
+class StaticPage(core_models.BaseContentModel):
     menu = models.CharField(_('URL'), max_length=100, choices=get_menu_items(), blank=False)
 
     relative = models.BooleanField(_('relative'),
@@ -194,6 +188,9 @@ class StaticPage(core_models.BaseModel):
 
     slug = models.SlugField(_('slug'), editable=False)
     url = models.CharField(max_length=255, unique=True, editable=False)
+
+
+    objects = BaseManager()
 
     def save(self, force_insert=False, force_update=False):
         from django.template.defaultfilters import slugify
@@ -229,3 +226,11 @@ class StaticPageTranslation(core_models.BaseContentTranslation):
         db_table = 'blocks_static_page_translation'
         verbose_name = _('Static Page Translation')
         verbose_name_plural = _('Static Page Translations')
+
+class StaticPageImage(core_models.Image):
+    article = models.ForeignKey(StaticPage, related_name="images")
+
+    class Meta:
+        db_table = 'blocks_static_page_image'
+        verbose_name = _('Static Page Image')
+        verbose_name_plural = _('Static Page Images')

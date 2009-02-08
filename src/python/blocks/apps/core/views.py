@@ -17,11 +17,11 @@ def staticpage(request, url):
 
     # check if there's a exact match first
     try:
-        f = StaticPage.objects.get(url__exact=url)
+        f = StaticPage.objects.published().get(url__exact=url)
     except StaticPage.DoesNotExist:
         if settings.BLOCKS_SP_REDIRECT:
             try:
-                f = StaticPage.objects.filter(menu__exact=url)[:1].get()
+                f = StaticPage.objects.published().filter(menu__exact=url)[:1].get()
                 return HttpResponseRedirect(f.url)
             except StaticPage.DoesNotExist:
                 raise Http404('No Static Page matches the given query.')

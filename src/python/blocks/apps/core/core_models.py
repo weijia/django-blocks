@@ -6,14 +6,23 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
 from blocks.apps.core.managers import STATUS_CHOICES, BaseManager
+from blocks import forms
 
-#class BaseModel(models.Model):
-#    name = models.CharField(_('name'), max_length=80, unique=True)
-#    description = models.CharField(_('description'), max_length=255)
-#
-#    class Meta:
-#        abstract = True
-#        ordering = ('name',)
+class Image(models.Model):
+    article = None
+
+    image = forms.BlocksImageField(_('image'), upload_to='images', sizes=settings.BLOCKS_IMAGE_SIZES)
+    description = models.CharField(_('description'), max_length=255)
+
+    def __unicode__(self):
+        return u'%s: %s' % (self.article, self.image.name)
+
+    class Meta:
+        abstract = True
+        verbose_name = _('Image')
+        verbose_name_plural = _('Images')
+
+
 
 class BaseModel(models.Model):
     name = models.CharField(_('name'), max_length=200, unique=True, blank=False)
@@ -71,6 +80,14 @@ class BaseContentModel(BaseModel):
 
     # model manager
     objects = BaseManager()
+
+    def save(self, force_insert=False, force_update=False):
+        from datetime import datetime
+        if self.status == 'P' and self.publish_date == None:
+            self.publish_date = datetime.now()
+        if self.status == 'D' and self.unpublish_date == None:
+            self.unpublish_date = datetime.now()
+        super(BaseContentModel, self).save(force_insert, force_update)
     
     class Meta:
         db_table = 'blocks_content'
@@ -99,7 +116,12 @@ class BaseAdmin(admin.ModelAdmin):
         js = (
             "blocks/js/jquery.js",
             "blocks/js/jquery-ui.js",
+            "blocks/js/jquery.selectboxes.js",
+            "blocks/js/jquery.url.js",
             "blocks/js/jquery.wysiwyg.js",
+            "blocks/js/jquery.blockUI.js",
+            "blocks/js/jquery.json.js",
+            "blocks/js/jquery.jsonrpc.js",
             "blocks/js/lang.js",
         )
 

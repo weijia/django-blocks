@@ -10,12 +10,6 @@ from blocks.apps.core.menus import get_parent_choices, MenuItemChoiceField, move
 import re
 
 
-#class ImageAdmin(admin.ModelAdmin):
-#    search_fields = ('image', 'description')
-#    list_display = ('image', 'description')
-#
-#admin.site.register(Image, ImageAdmin)
-
 #
 # Menus
 #
@@ -182,11 +176,19 @@ admin.site.register(Template, TemplateAdmin)
 class StaticPageTranslationInline(core_models.MultiLanguageInline):
     model = StaticPageTranslation
 
+class StaticPageImagesInline(core_models.MultiImageTabular):
+    model = StaticPageImage
+    extra = 2
+    max_num = 5
+
 class StaticPageAdmin(core_models.BaseContentAdmin):
-    inlines = [StaticPageTranslationInline]
-    fieldsets = ()
+    inlines = [StaticPageTranslationInline, StaticPageImagesInline]
+    fieldsets = (
+        (None,  {'fields': ('name', 'menu', 'relative', 'template')}),
+        core_models.BaseContentAdmin.PUBLISHING_OPTIONS,
+    )
     list_filter = ('menu',)
-    search_fields = ('name', 'url',)
-    list_display = ('name', 'url', 'creation_user', 'lastchange_date',)
+    search_fields = ('name', 'url','status', 'promoted')
+    list_display = ('name', 'url', 'creation_user', 'lastchange_date', 'status', 'promoted')
 
 admin.site.register(StaticPage, StaticPageAdmin)

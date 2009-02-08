@@ -4,8 +4,10 @@ from django.db.models.fields.files import ImageField
 from django.db.models import signals
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from os import unsetenv
 from widgets import DelAdminFileWidget, GeoLocationWidget
 from forms import GeoLocationFormField, BlocksImageFormField
+import shutil
 
 class ThumbnailField:
     '''
@@ -143,10 +145,13 @@ class BlocksImageField(ImageField):
             is selected
         '''
         if data == '__deleted__':
-            filename = getattr(instance, self.name).path
-            dir = os.path.dirname(filename)
-            if os.path.exists(dir):
-                os.rmdir(dir)
+            field = getattr(instance, self.name, None)
+            if field:
+                for size in self.sizes:
+                    delattr(field, size['name'])
+                dir = os.path.dirname(field.path)
+                if os.path.exists(dir):
+                    shutil.rmtree(dir, True)
         else:
             super(BlocksImageField, self).save_form_data(instance, data)
 
