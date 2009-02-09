@@ -32,9 +32,9 @@
         var element = this[0];
 
         if ( element.contentWindow.document.selection )
-            return element.contentWindow.document.selection.createRange().text;
+            return element.contentWindow.document.selection.createRange();
         else
-            return element.contentWindow.getSelection().toString();
+            return element.contentWindow.getSelection();
     };
 
     $.fn.wysiwyg = function( options )
@@ -146,7 +146,8 @@
 
             if ( self.constructor == Wysiwyg && szURL && szURL.length > 0 )
             {
-                var selection = $(self.editor).documentSelection();
+                var range = $(self.editor).documentSelection();
+                var selection = range.text;
 
                 if ( selection.length > 0 )
                 {
@@ -209,7 +210,8 @@
                 visible : true,
                 exec    : function()
                 {
-                    var selection = $(this.editor).documentSelection();
+                    var range = $(this.editor).documentSelection();
+                    var selection = range.text;
 
                     if ( selection.length > 0 )
                     {

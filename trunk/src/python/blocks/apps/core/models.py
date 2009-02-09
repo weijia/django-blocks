@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 
 from blocks.apps.core import core_models
 from blocks.apps.core.managers import BaseManager
@@ -204,11 +205,33 @@ class StaticPage(core_models.BaseContentModel):
     def get_absolute_url(self):
         return self.url
 
+    def _get_lead(self):
+        s1 = self._get_body()
+        s2 = s1.split('<br>')[0]
+        return mark_safe(s2)
+    lead = property(_get_lead)
+
+    def _get_text(self):
+        s1 = self._get_body()
+        s2 = self._get_lead()
+        if len(s1) != len(s2):
+            s1 = s1[len(s2) + 5:]
+        else:
+            s1 = ""
+        return mark_safe(s1)
+    text = property(_get_text)
+
     def _get_body(self):
-        #return wiki.parse(self.translation.body)
-        from django.utils.safestring import mark_safe
         return mark_safe(self.translation.body)
     body = property(_get_body)
+
+    def _get_has_images(self):
+        return self.images.count() > 0
+    has_images = property(_get_has_images)
+
+    def _get_image_list(self):
+        return self.images.all()
+    image_list = property(_get_image_list)
 
     class Meta:
         db_table = 'blocks_static_page'
