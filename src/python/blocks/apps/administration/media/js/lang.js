@@ -79,6 +79,8 @@ $.popup = function()
         }, false);
 
         el[0]._ctr = SELF;
+        if ( $.browser.msie && SELF.editor[0].contentWindow.document.selection)
+            el[0]._sel =  SELF.editor[0].contentWindow.document.selection.createRange();
 
         el.unblock_json = function()
         {
@@ -109,8 +111,18 @@ $.popup = function()
                             $(elm).attr("href", url);
                         else
                         {
-                            o._ctr.editorDoc.execCommand('unlink', false, []);
-                            o._ctr.editorDoc.execCommand('createLink', false, url);
+                            if ( $.browser.msie )
+                            {
+                                var sel = o._sel;
+                                sel.pasteHTML('<a href="' + url + '">' + sel.text + '</a>');
+                                sel.select();
+                                //o._ctr.editorDoc.execCommand('createLink', true, null);
+                            }
+                            else
+                            {
+                                o._ctr.editorDoc.execCommand('unlink', false, []);
+                                o._ctr.editorDoc.execCommand('createLink', false, url);
+                            }
                         }
                     }
                 }

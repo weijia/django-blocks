@@ -6,6 +6,8 @@ div#container {
   height: auto !important;
   min-height: 100%;
   position: relative;
+
+  text-align: left;
 }
 
 /* Body margin for a sensile default look. */
@@ -16,6 +18,12 @@ html, body {
 	padding: 0pt;
 	
 	height: 100%;
+}
+
+#sidebar
+{
+    display: block;
+    min-height: 100px;
 }
 
 /* Columns

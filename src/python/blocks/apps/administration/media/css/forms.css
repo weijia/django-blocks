@@ -107,7 +107,7 @@ fieldset.monospace textarea { font-family:"Bitstream Vera Sans Mono",Monaco,"Cou
 .submit-row { padding:5px 7px; text-align:right; }
 .submit-row input { margin:0 0 0 5px; }
 .submit-row p { margin-top:0.3em; }
-.submit-row .deletelink { background:url(../img/icon_deletelink.gif) 0 50% no-repeat; padding-left:14px; float: left; }
+.submit-row .deletelink { background:url(../../admin/img/admin/icon_deletelink.gif) 0 50% no-repeat; padding-left:14px; float: left; }
 
 
 /* SELECTOR (FILTER INTERFACE) */

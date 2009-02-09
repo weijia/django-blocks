@@ -71,7 +71,7 @@ div#footer
 
 /* MODULES */
 .clockbox, .calendarbox { border:1px solid #ccc; margin-bottom:5px; padding: 1em; background:white; }
-.clockbox table, .calendarbox table { border-collapse: collapse; }
+.clockbox table, .calendarbox table { border-collapse: collapse; width: 1%; }
 .clockbox h2, .calendarbox h2 { margin:0; padding:2px 5px 3px 5px; font-size:11px; text-align:left; font-weight:bold; background:#7CA0C7 url(../img/admin/default-bg.gif) top left repeat-x; color:white; }
 
 /* MESSAGES & ERRORS */
