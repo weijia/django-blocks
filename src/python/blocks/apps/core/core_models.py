@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 
 from blocks.apps.core.managers import STATUS_CHOICES, BaseManager
 from blocks import forms
@@ -23,6 +24,13 @@ class Image(models.Model):
         verbose_name_plural = _('Images')
 
 
+class TranslationWrapper(object):
+    def __init__(self, model):
+        self.model = model
+
+    def __getattr__(self, name):
+        if name in self.model.__dict__:
+            return mark_safe(self.model.__dict__[name])
 
 class BaseModel(models.Model):
     name = models.CharField(_('name'), max_length=200, unique=True, blank=False)
@@ -65,7 +73,7 @@ class BaseModel(models.Model):
             trans = self.translations.filter(language = settings.LANGUAGE_CODE)
         if not trans:
             return None
-        return trans[0]
+        return TranslationWrapper(trans[0])
     translation = property(get_translation)
 
     class Meta:

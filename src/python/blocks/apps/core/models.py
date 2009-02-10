@@ -215,7 +215,7 @@ class StaticPage(core_models.BaseContentModel):
         s1 = self._get_body()
         s2 = self._get_lead()
         if len(s1) != len(s2):
-            s1 = s1[len(s2) + 5:]
+            s1 = s1[len(s2) + 4:]
         else:
             s1 = ""
         return mark_safe(s1)

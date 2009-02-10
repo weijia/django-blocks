@@ -1,13 +1,17 @@
 import os.path
-from django.db.models.fields import Field
-from django.db.models.fields.files import ImageField
-from django.db.models import signals
+from django.db.models import Field, TextField, ImageField, signals
+from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from os import unsetenv
 from widgets import DelAdminFileWidget, GeoLocationWidget
 from forms import GeoLocationFormField, BlocksImageFormField
 import shutil
+
+class EditorField(TextField):
+    def to_python(self, value):
+        if value is None:
+            return None
+        return mark_safe("asdasd")
 
 class ThumbnailField:
     '''
