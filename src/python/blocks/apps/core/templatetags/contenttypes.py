@@ -57,7 +57,7 @@ class StaticPageListNode(template.Node):
         self.varname = varname
 
     def render(self, context):
-        context[self.varname] = StaticPage.objects.filter(menu__exact=context[self.menu])
+        context[self.varname] = StaticPage.objects.published().filter(menu__exact=context[self.menu])
         return ''
 
 def do_staticpages_list(parser, token):

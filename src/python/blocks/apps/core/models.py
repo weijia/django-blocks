@@ -249,6 +249,7 @@ class StaticPageTranslation(core_models.BaseContentTranslation):
         db_table = 'blocks_static_page_translation'
         verbose_name = _('Static Page Translation')
         verbose_name_plural = _('Static Page Translations')
+        ordering = ('id',)
 
 class StaticPageImage(core_models.Image):
     article = models.ForeignKey(StaticPage, related_name="images")
