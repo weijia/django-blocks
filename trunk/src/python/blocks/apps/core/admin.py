@@ -185,10 +185,10 @@ class StaticPageAdmin(core_models.BaseContentAdmin):
     inlines = [StaticPageTranslationInline, StaticPageImagesInline]
     fieldsets = (
         (None,  {'fields': ('name', 'menu', 'relative', 'template')}),
-        core_models.BaseContentAdmin.PUBLISHING_OPTIONS,
+        (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )}),
     )
     list_filter = ('menu',)
     search_fields = ('name', 'url','status', 'promoted')
-    list_display = ('name', 'url', 'creation_user', 'lastchange_date', 'status', 'promoted')
+    list_display = ('name', 'url', 'creation_user', 'lastchange_date', 'status')
 
 admin.site.register(StaticPage, StaticPageAdmin)
