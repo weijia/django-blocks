@@ -57,8 +57,10 @@ class GeoLocationWidget(forms.widgets.Widget):
         from django.utils.safestring import mark_safe
         if isinstance(value, unicode):
             a, b = value.split(',')
-        else:
+        elif value and isinstance(value, list):
             a, b = value
+        else:
+            a, b = (38.699801,-9.169189)
         lat, lng = float(a), float(b)
 
         js = '''
