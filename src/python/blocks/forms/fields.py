@@ -108,17 +108,18 @@ class BlocksImageField(ImageField):
                         os.mkdir(dir)
                     os.rename(filename, dst_fullpath)
 
-                    for size in self.sizes:
-                        size_filename = self._get_thumbnail_filename(dst_fullpath, size['name'])
-                        shutil.copyfile(dst_fullpath, size_filename)
-                        self._resize_image(size_filename, size)
-
                 setattr(instance, self.attname, dst)
-                #instance.error()
                 instance.save()
 
-
-        pass
+            if os.path.exists(filename):
+                size_filename = self._get_thumbnail_filename(dst_fullpath, "thumbnail_adm")
+                shutil.copyfile(dst_fullpath, size_filename)
+                self._resize_image(size_filename, {'width': 70, 'height': 50})
+                
+                for size in self.sizes:
+                    size_filename = self._get_thumbnail_filename(dst_fullpath, size['name'])
+                    shutil.copyfile(dst_fullpath, size_filename)
+                    self._resize_image(size_filename, size)
 
     def _init_sizes(self, instance=None, **kwargs):
         '''
@@ -128,8 +129,11 @@ class BlocksImageField(ImageField):
         '''
         field = getattr(instance, self.name, None)
         if field:
+            filename = self.storage.url( field.name )
+            size_filename = self._get_thumbnail_filename(filename, "thumbnail_adm")
+            setattr(field, "thumbnail_adm", ThumbnailField(size_filename))
+            
             for size in self.sizes:
-                filename = self.storage.url( field.name )
                 size_filename = self._get_thumbnail_filename(filename, size['name'])
                 size_field = ThumbnailField(size_filename)
                 setattr(field, size['name'], size_field)

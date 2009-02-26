@@ -42,7 +42,8 @@ class BaseModel(models.Model):
          return LogEntry.objects.filter(content_type=ContentType.objects.get_for_model(self).id, object_id=self.pk)
 
     def get_creation(self):
-        return self.get_history().order_by('action_time')[0]
+        lst = self.get_history().order_by('action_time')
+        return lst[0] if len(lst) > 0 else None
 
     def get_lastchange(self):
         return self.get_history().latest('action_time')
@@ -136,6 +137,7 @@ class BaseAdmin(admin.ModelAdmin):
 
 class BaseContentAdmin(BaseAdmin):
     PUBLISHING_OPTIONS = (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'promoted', 'status',), 'classes': ('collapse', )})
+    PUBLISHING_OPTIONS_NPROM = (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )})
     fieldsets = (
        (None,                    {'fields': ('name',)}),
        PUBLISHING_OPTIONS,

@@ -17,14 +17,14 @@ class DelAdminFileWidget(AdminFileWidget):
             thumbnail = None
             #if isinstance(value, fields.BlocksImageField):
             try:
-                thumbnail = getattr(value, 'thumbnail')
+                thumbnail = getattr(value, 'thumbnail_adm')
             except AttributeError:
                 pass
 
             item = '<div class="%s"><label>%s:</label>%s</div>'
             output = []
             if thumbnail != None:
-                output.append('<div class="inline"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" /></a></div>' % (value.url, thumbnail.url(), value))
+                output.append('<div class="inline"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" width="70" height="50" /></a></div>' % (value.url, thumbnail.url(), value))
                 output.append('<div class="inline">')
             output.append(item % (name, _('Change'), input))
             if thumbnail != None:
