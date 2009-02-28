@@ -15,12 +15,17 @@ STATUS_CHOICES = (
 
 class BaseManager(Manager):
 
-    def published(self):
-        return self.filter(
-            Q(unpublish_date__gte=datetime.now()) | Q(unpublish_date__isnull=True),
-            publish_date__lte=datetime.now(),
-            status=STATUS_PUBLISHED
-        )
+    def published(self, request=None):
+    	# allow staff users to preview pages
+		allow_unpublished  = (request and request.user.is_authenticated() and request.user.is_staff)	
+		if allow_unpublished:
+			return self.all()
+		else:
+			return self.filter(
+			    Q(unpublish_date__gte=datetime.now()) | Q(unpublish_date__isnull=True),
+			    publish_date__lte=datetime.now(),
+			    status=STATUS_PUBLISHED
+			)
 
     def promoted(self):
         return self.published().filter(promoted=True)

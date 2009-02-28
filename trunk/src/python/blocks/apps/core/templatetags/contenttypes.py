@@ -1,6 +1,6 @@
 from django import template
 from django.template.defaulttags import url
-from django.template import Node
+from django.template import Node, Variable
 
 from blocks.apps.core.models import Menu, MenuItem, StaticPage
 
@@ -60,11 +60,12 @@ reverse_named_url = register.tag(reverse_named_url)
 
 class StaticPageListNode(template.Node):
     def __init__(self, menu, varname):
-        self.menu = menu
+        self.menu = Variable(menu)
         self.varname = varname
 
     def render(self, context):
-        context[self.varname] = StaticPage.objects.published().filter(menu__exact=context[self.menu])
+        menu = self.menu.resolve(context)
+        context[self.varname] = StaticPage.objects.published().filter(menu__exact=menu)
         return ''
 
 def do_staticpages_list(parser, token):
@@ -81,5 +82,32 @@ def do_staticpages_list(parser, token):
 
     return StaticPageListNode(bits[2], bits[4])
 
-
 register.tag('staticpages', do_staticpages_list)
+
+
+class MenuItemListNode(template.Node):
+    def __init__(self, url, varname):
+        self.url = Variable(url)
+        self.varname = varname
+
+    def render(self, context):
+        menu = MenuItem.objects.get(url=self.url.resolve(context))
+        if menu:
+            context[self.varname] = menu.children()
+        return ''
+
+def do_menutitem_list(parser, token):
+    """
+    {% menuitems in BLOCKS_FULL_URL as menu_list %}
+    """
+    bits = token.contents.split()
+    if len(bits) != 5:
+        raise template.TemplateSyntaxError, "'%s' tag takes five arguments" % bits[0]
+    if bits[1] != "in":
+        raise template.TemplateSyntaxError, "Second argument to '%s' tag must be 'in'" % bits[0]
+    if bits[3] != "as":
+        raise template.TemplateSyntaxError, "Forth argument to '%s' tag must be 'as'" % bits[0]
+
+    return MenuItemListNode(bits[2], bits[4])
+
+register.tag('menuitems', do_menutitem_list)

@@ -1,7 +1,8 @@
 from django.utils.safestring import mark_safe
 from django.forms import ChoiceField
+from django.utils.translation import ugettext_lazy as _
 
-from blocks.apps.core.models import MenuItem
+from blocks.apps.core.models import Menu, MenuItem
 
 class MenuItemChoiceField(ChoiceField):
     ''' Custom field to display the list of items in a tree manner '''
@@ -47,6 +48,27 @@ def get_parent_choices(menu, menu_item=None):
             return choices
 
     return get_flat_tuples(menu.root_item, menu_item)
+
+
+def get_menus_choices():
+    #try:
+        items = [ ['/', _('Root')] ]
+        menus = Menu.objects.all()
+        for m in menus:
+            menu = [m.name, [] ]
+            append_menu_children(menu[1], m.root_item)
+            items.append(menu)
+        return items
+    #except:
+    #    return ()
+
+def append_menu_children(list, menu):
+    childs = menu.children()
+    for it in childs:
+        if it.url != '/':
+            list.append( [it.url, "%s (%s)" % (it.name_with_spacer(), it.relurl)] )
+            append_menu_children(list, it)
+            
 
 def clean_ranks(menu_items):
     """
