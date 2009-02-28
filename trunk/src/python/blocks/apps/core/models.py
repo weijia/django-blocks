@@ -13,20 +13,27 @@ from itertools import chain
 #
 class MenuItem(core_models.BaseModel):
     parent = models.ForeignKey('self', verbose_name=_('Parent'), null=True, blank=True)
-    url = models.CharField(_('URL'), max_length=200, blank=True)
+    relurl = models.CharField(_('URL'), max_length=200, blank=False, 
+            help_text=_("url relative to parent menu"))
+    url = models.CharField(max_length=200, editable=False)
     level = models.IntegerField(_('Level'), default=0, editable=False)
     rank = models.IntegerField(_('Rank'), default=0, editable=False)
     menu = models.ForeignKey('Menu', related_name='contained_items', verbose_name=_('Menu'), null=True, blank=True, editable=False)
 
     def save(self, force_insert=False, force_update=False):
         from blocks.apps.core.menus import clean_ranks
-
+        from blocks.core.utils import fix_url
+                
+        self.relurl = fix_url(self.relurl)
+        
         # Calculate level
         old_level = self.level
         if self.parent:
             self.level = self.parent.level + 1
+            self.url = self.parent.url[:-1] + self.relurl
         else:
             self.level = 0
+            self.url = self.relurl       
 
         if self.pk:
             new_parent = self.parent
@@ -176,7 +183,7 @@ def get_menu_items():
                 items.append((it.url, "%s (%s)" % (it.name, it.url)))
         return items
     except:
-        pass
+        return ()
 
 class StaticPage(core_models.BaseContentModel):
     menu = models.CharField(_('URL'), max_length=100, choices=get_menu_items(), blank=False)
@@ -194,7 +201,7 @@ class StaticPage(core_models.BaseContentModel):
     objects = BaseManager()
 
     def save(self, force_insert=False, force_update=False):
-        from django.template.defaultfilters import slugify
+        from django.template.defaultfilters import slugify   
         self.slug = slugify(self.name)
         self.url = self.menu if not self.relative else "%s%s/" % (self.menu, self.slug)
         super(StaticPage, self).save(force_insert, force_update)
