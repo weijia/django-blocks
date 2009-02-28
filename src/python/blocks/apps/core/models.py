@@ -36,8 +36,9 @@ class MenuItem(core_models.BaseModel):
             self.url = self.relurl       
 
         if self.pk:
+            old = MenuItem.objects.get(pk=self.pk)            
             new_parent = self.parent
-            old_parent = MenuItem.objects.get(pk=self.pk).parent
+            old_parent = old.parent
             if old_parent != new_parent:
                 #If so, we need to recalculate the new ranks for the item and its siblings (both old and new ones).
                 if new_parent:
@@ -48,6 +49,11 @@ class MenuItem(core_models.BaseModel):
                     clean_ranks(old_parent.children()) # Clean ranks for old siblings
             else:
                 super(MenuItem, self).save(force_insert, force_update) # Save menu item in DB
+                
+            if self.url != old.url:
+                p = StaticPage.objects.get(menu=old.url)
+                p.menu = self.url
+                p.save()
 
         else: # Saving the menu item for the first time (i.e creating the object)
             if not self.has_siblings():
@@ -73,10 +79,10 @@ class MenuItem(core_models.BaseModel):
 
     def name_with_spacer(self):
         spacer = ''
-        for i in range(0, self.level):
-            spacer += u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-        if self.level > 0:
-            spacer += u'|-&nbsp;'
+        for i in range(1, self.level):
+            spacer += u'. . . '
+        #if self.level > 0:
+        #    spacer += u'. '
         return spacer + self.name
 
     def get_flattened(self):
@@ -173,20 +179,9 @@ class Template(models.Model):
         ordering = ('name',)
         db_table = 'blocks_template'
 
-def get_menu_items():
-    try:
-        from django.db.models import Q
-        urls = MenuItem.objects.order_by('url').filter(Q(rank__gt=0) | Q(level__gt=0))
-        items = [('/', 'Root')]
-        for it in urls:
-            if it.url != '/':
-                items.append((it.url, "%s (%s)" % (it.name, it.url)))
-        return items
-    except:
-        return ()
 
 class StaticPage(core_models.BaseContentModel):
-    menu = models.CharField(_('URL'), max_length=100, choices=get_menu_items(), blank=False)
+    menu = models.CharField(_('URL'), max_length=100, choices=(), blank=False)
 
     relative = models.BooleanField(_('relative'),
       help_text=_("If a page is relative then the page slug (normalized name) is appended to the url."))
@@ -199,11 +194,14 @@ class StaticPage(core_models.BaseContentModel):
 
 
     objects = BaseManager()
+    
+    def get_url(self):
+        return self.menu if not self.relative else "%s%s/" % (self.menu, self.slug)
 
     def save(self, force_insert=False, force_update=False):
         from django.template.defaultfilters import slugify   
         self.slug = slugify(self.name)
-        self.url = self.menu if not self.relative else "%s%s/" % (self.menu, self.slug)
+        self.url = self.get_url()
         super(StaticPage, self).save(force_insert, force_update)
 
     def __unicode__(self):
@@ -245,6 +243,7 @@ class StaticPage(core_models.BaseContentModel):
         verbose_name = _('Static Page')
         verbose_name_plural = _('Static Pages')
         ordering = ('url',)
+
 
 class StaticPageTranslation(core_models.BaseContentTranslation):
     model = models.ForeignKey(StaticPage, related_name="translations")

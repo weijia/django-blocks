@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from django.utils.encoding import force_unicode
 
 from blocks.apps.core.models import *
-from blocks.apps.core.menus import get_parent_choices, MenuItemChoiceField, move_item_or_clean_ranks
+from blocks.apps.core.menus import get_parent_choices, get_menus_choices, MenuItemChoiceField, move_item_or_clean_ranks
 from blocks.apps.core.forms import StaticPageAdminForm
 import re
 
@@ -188,8 +188,14 @@ class StaticPageAdmin(core_models.BaseContentAdmin):
         (None,  {'fields': ('name', 'menu', 'relative', 'template')}),
         (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )}),
     )
-    list_filter = ('menu',)
+    list_filter = ('status', 'promoted', 'menu',)
     search_fields = ('name', 'url','status', 'promoted')
     list_display = ('name', 'url', 'creation_user', 'lastchange_date', 'status')
+    
+    def get_form(self, request, obj=None, **kwargs):
+        from django.forms import ChoiceField
+        form = super(StaticPageAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['menu'] =  ChoiceField(choices=get_menus_choices())
+        return form
 
 admin.site.register(StaticPage, StaticPageAdmin)

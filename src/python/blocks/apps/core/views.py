@@ -8,22 +8,34 @@ def staticpage(request, url):
     from blocks.apps.core.models import StaticPage
     from django.conf import settings
 
+    
     if not url.endswith('/') and settings.APPEND_SLASH:
         return HttpResponseRedirect("%s/" % request.path)
     if not url.startswith('/'):
         url = "/" + url
 
+    p = StaticPage.objects.published(request)
     f = None
 
     # check if there's a exact match first
     try:
-        f = StaticPage.objects.published().get(url__exact=url)
+        f = p.get(url__exact=url)
     except StaticPage.DoesNotExist:
         if settings.BLOCKS_SP_REDIRECT:
+            # try and get relative pages first
             try:
-                f = StaticPage.objects.published().filter(menu__exact=url)[:1].get()
+                f = p.filter(menu__exact=url)[:1].get()
                 return HttpResponseRedirect(f.url)
             except StaticPage.DoesNotExist:
+                pass
+            
+            # try to get
+            try:
+                from blocks.apps.core.models import MenuItem
+                menu = MenuItem.objects.get(url=url)
+                if menu:
+                    return HttpResponseRedirect(menu.children()[0].url)
+            except:
                 raise Http404('No Static Page matches the given query.')
         raise Http404('No Static Page matches the given query.')
     

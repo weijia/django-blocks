@@ -19,20 +19,21 @@ class StaticPageAdminForm(forms.ModelForm):
             relative = self.data['relative']
         except:
             pass
-               
+                       
         slug = slugify(name)
         url = menu if not relative else "%s%s/" % (menu, slug)
     
-        f = None
-        
-        # check if there's match first
+        f = None        
         try:
-            f = StaticPage.objects.get(url__exact=url)
+            if self.instance.pk is not None:
+                f = StaticPage.objects.filter(url__exact=url).exclude(pk=self.instance.pk)
+            else:
+                f = StaticPage.objects.filter(url__exact=url)
         except StaticPage.DoesNotExist:
             pass
         
         if f:
-            raise forms.ValidationError(_("can't associate more than one page to the same menu (url)"))
+            raise forms.ValidationError(_("can't associate more than one page to the same menu (url: %s)") % url)
 
         # Always return the cleaned data, whether you have changed it or not.
         return menu
