@@ -6,7 +6,7 @@ from django.utils.encoding import force_unicode
 
 from blocks.apps.core.models import *
 from blocks.apps.core.menus import get_parent_choices, MenuItemChoiceField, move_item_or_clean_ranks
-
+from blocks.apps.core.forms import StaticPageAdminForm
 import re
 
 
@@ -182,6 +182,7 @@ class StaticPageImagesInline(core_models.MultiImageTabular):
     max_num = 5
 
 class StaticPageAdmin(core_models.BaseContentAdmin):
+    form = StaticPageAdminForm
     inlines = [StaticPageTranslationInline, StaticPageImagesInline]
     fieldsets = (
         (None,  {'fields': ('name', 'menu', 'relative', 'template')}),
