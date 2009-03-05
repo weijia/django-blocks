@@ -23,7 +23,7 @@
 		<div class="bbody">
 			{% for comment in comment_list %}
 			<div class="comment" id="c{{ comment.id }}">
-				<div class="bbody">Posted by <strong><a href="mailto:{{ comment.user_email|escape }}">{{ comment.user_name|escape }}</a></strong> | <span class="date">{{ comment.submit_date|naturalday:"F j, Y" }} @ {{ comment.submit_date|date:"H:i" }}</span>{% if comment.user_url %} | <a href="{{ comment.user_url|escape }}">{{ comment.user_url|escape }}</a>{% endif %}</div>
+				<div class="bbody">Posted by <strong>{{ comment.user_name|escape }}</strong> | <span class="date">{{ comment.submit_date|naturalday:"F j, Y" }} @ {{ comment.submit_date|date:"H:i" }}</span>{% if comment.user_url %} | <a href="{{ comment.user_url|escape }}">{{ comment.user_url|escape }}</a>{% endif %}</div>
 				<div class="bbody">{{ comment.comment|linebreaks }}</div>
 			</div>
 			{% endfor %}
