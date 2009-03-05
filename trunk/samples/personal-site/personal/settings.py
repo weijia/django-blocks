@@ -18,7 +18,7 @@ DATABASE_NAME = os.path.join(os.path.dirname(__file__), "../db/private.db")
 
 
 TIME_ZONE = 'Europe/Lisbon'
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 USE_I18N = False
 
 SITE_ID = 1
