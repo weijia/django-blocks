@@ -33,11 +33,11 @@
 		{% get_feed_list as feed_list limit 8 %}
 		{% if feed_list %}
 			{% for item in feed_list %}
-		<p>
-			<span class="feed"><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id }}/">{{ item.feed.title }}</a></span>
+		<div class="item">
+			<span class="feed"><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id }}/">{{ item.feed.title }}</a></span><br />
 			<span class="date">{{ item.date_modified|naturalday:"F j, Y" }} @ {{ item.date_modified|date:"H:i" }}</span><br />
 			<a class="title" href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id}}/{{ item.id }}/" target="_new">{{ item.title }}</a>
-		</p>
+		</div>
 			{% endfor %}
 		{% else %}
 		<p>no feeds</p>
