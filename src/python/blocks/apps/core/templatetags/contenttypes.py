@@ -8,25 +8,34 @@ register = template.Library()
 
 def show_menu(context, menu_name, menu_type=None):
     menu = Menu.objects.get(name=menu_name)
-    context['menus'] = menu.root_item.children()
+    childs = menu.root_item.children()
+    if len(childs) > 0:
+        context['menus'] = childs
     if menu_type:
         context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu.html', takes_context=True)(show_menu)
 
 def show_sub_menu(context, menu_name, url, menu_type=None):
-    menu = MenuItem.objects.get(menu__name=menu_name, url=url)
-    context['menus'] = menu.children()
+    if isinstance(menu_name, str):
+        menu = MenuItem.objects.get(menu__name=menu_name, url=url)
+    else:
+        menu = menu_name
+    childs = menu.children()
+    if len(childs) > 0:
+        context['menus'] = childs
     if menu_type:
         context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu_submenu.html', takes_context=True)(show_sub_menu)
 
-def show_menu_item(context, menu_item):
+def show_menu_item(context, menu_item, menu_type=None):
     if not isinstance(menu_item, MenuItem):
         raise template.TemplateSyntaxError, 'Given argument must be a MenuItem object.'
 
     context['menu_item'] = menu_item
+    if menu_type:
+        context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu_item.html', takes_context=True)(show_menu_item)
 

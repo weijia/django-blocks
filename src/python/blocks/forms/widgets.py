@@ -22,11 +22,13 @@ class DelAdminFileWidget(AdminFileWidget):
                 pass
 
             item = '<div class="%s"><label>%s:</label>%s</div>'
+            item2 = '<div class="%s"><label>&nbsp;</label>%s<label>%s</label></div>'
             output = []
             if thumbnail != None:
                 output.append('<div class="inline"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" width="70" height="50" /></a></div>' % (value.url, thumbnail.url(), value))
                 output.append('<div class="inline">')
             output.append(item % (name, _('Change'), input))
+            output.append(item2 % ('checkbox', '<input type="checkbox" name="%s_fit"/>' % name, _('fit image'))) # split colon to force "Delete" that is already translated
             if thumbnail != None:
                 output.append(item % ('delete', _('Delete?'), '<input type="checkbox" name="%s_delete"/>' % name)) # split colon to force "Delete" that is already translated
                 output.append('</div>')

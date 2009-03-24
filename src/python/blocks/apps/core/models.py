@@ -51,9 +51,12 @@ class MenuItem(core_models.BaseModel):
                 super(MenuItem, self).save(force_insert, force_update) # Save menu item in DB
                 
             if self.url != old.url:
-                p = StaticPage.objects.get(menu=old.url)
-                p.menu = self.url
-                p.save()
+                try:
+                    p = StaticPage.objects.get(menu=old.url)
+                    p.menu = self.url
+                    p.save()
+                except StaticPage.DoesNotExist:
+                    pass
 
         else: # Saving the menu item for the first time (i.e creating the object)
             if not self.has_siblings():
@@ -212,7 +215,8 @@ class StaticPage(core_models.BaseContentModel):
 
     def _get_lead(self):
         s1 = self._get_body()
-        s2 = s1.split('<br>')[0]
+        i = s1.find('</p>')
+        s2 = s1[:i + 4] if i != -1 else s1
         return mark_safe(s2)
     lead = property(_get_lead)
 
@@ -251,6 +255,13 @@ class StaticPageTranslation(core_models.BaseContentTranslation):
     title = models.CharField(_('title'), max_length=200)
     body = models.TextField(_('body'))
 
+    def _get_lead(self):
+        s1 = self.body
+        i = s1.find('</p>')
+        s2 = s1[:i + 4] if i != -1 else s1
+        return mark_safe(s2)
+    lead = property(_get_lead)
+    
     class Meta:
         db_table = 'blocks_static_page_translation'
         verbose_name = _('Static Page Translation')

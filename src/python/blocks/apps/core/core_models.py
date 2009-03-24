@@ -29,11 +29,10 @@ class TranslationWrapper(object):
         self.model = model
 
     def __getattr__(self, name):
-        if name in self.model.__dict__:
-            return mark_safe(self.model.__dict__[name])
+        return mark_safe( getattr(self.model, name, None) )
 
 class BaseModel(models.Model):
-    name = models.CharField(_('name'), max_length=200, unique=True, blank=False)
+    name = models.CharField(_('name'), max_length=200, blank=False)
 
     def __unicode__(self):
         return u'%s' % (self.name)

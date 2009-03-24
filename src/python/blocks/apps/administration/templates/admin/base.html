@@ -3,6 +3,7 @@
 	<head>
 		<title>{% block title %}{% endblock %}</title>
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/reset.css" />
+		{% block extrastyle %}{% endblock %}
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/grid.css" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/typography.css" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ MEDIA_URL }}blocks/css/admin.css" />
@@ -15,20 +16,20 @@
 			.iepngfix, img { behavior: expression(IEPNGFIX.fix(this)); }
 		</style>
 		<![endif]><![endif]-->
-		{% block extrastyle %}{% endblock %}
+		
 		{% block extrahead %}{% endblock %}
 		{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
 	</head>	
 {% load i18n %}
 
-<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+<body {% ifequal BLOCKS_URL '/admin/' %}class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"{% endifequal %}>
 
 		<div id="container">
 
 			{% if not is_popup %}
 			<div id="header" class="span-4 last">
 				
-				<img id="sitelogo" src="{{ MEDIA_URL }}img/admin/logo.png" width="350" height="60" />
+				<img id="sitelogo" src="{{ MEDIA_URL }}blocks/img/logo.png" width="350" height="60" />
 				{% block nav-global %}{% endblock %}
 			</div>
 			{% block breadcrumbs %}<div class="span-4 last breadcrumbs"><a href="/">{% trans 'Home' %}</a>{% if title %} &rsaquo; {{ title|escape }}{% endif %}</div>{% endblock %}
