@@ -11,10 +11,10 @@ import datetime
 import feedparser
 import re
 
-def update_feeds(verbose=False):
+def update_feeds(verbosity=0):
     from blocks.apps.aggregator.models import Feed, FeedItem
     for feed in Feed.objects.all():
-        if verbose:
+        if verbosity >= 1:
             print feed
         
         #feedparser._HTMLSanitizer.acceptable_attributes = ['align', 'alt', 'cols', 'colspan', 'height', 'href', 'rows', 'rowspan', 'span', 'src', 'valign', 'width']
@@ -51,7 +51,7 @@ def update_feeds(verbose=False):
 
                 content = content.encode(parsed_feed.encoding, "xmlcharrefreplace")
             except (UnicodeDecodeError, ValueError), ex:
-                if verbose:
+                if verbosity >= 1:
                     print "ERROR: couldn't encode feed content '%s'. %s" % (title, ex)
                 pass
             
@@ -73,11 +73,3 @@ def update_feeds(verbose=False):
             except FeedItem.DoesNotExist:
                 feed.feeditem_set.create(title=title, link=link, summary_html=summary, content_html=content, guid=guid, date_modified=date_modified)
 
-if __name__ == '__main__':
-    parser = optparse.OptionParser()
-    parser.add_option('--settings')
-    parser.add_option('-v', '--verbose', action="store_true")
-    options, args = parser.parse_args()
-    if options.settings:
-        os.environ["DJANGO_SETTINGS_MODULE"] = options.settings
-    update_feeds(options.verbose)
