@@ -11,8 +11,7 @@ def show_menu(context, menu_name, menu_type=None):
     childs = menu.root_item.children()
     if len(childs) > 0:
         context['menus'] = childs
-    if menu_type:
-        context['menu_type'] = menu_type
+    context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu.html', takes_context=True)(show_menu)
 
@@ -24,8 +23,7 @@ def show_sub_menu(context, menu_name, url, menu_type=None):
     childs = menu.children()
     if len(childs) > 0:
         context['menus'] = childs
-    if menu_type:
-        context['menu_type'] = menu_type
+    context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu_submenu.html', takes_context=True)(show_sub_menu)
 
@@ -34,8 +32,7 @@ def show_menu_item(context, menu_item, menu_type=None):
         raise template.TemplateSyntaxError, 'Given argument must be a MenuItem object.'
 
     context['menu_item'] = menu_item
-    if menu_type:
-        context['menu_type'] = menu_type
+    context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu_item.html', takes_context=True)(show_menu_item)
 
