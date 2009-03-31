@@ -16,10 +16,11 @@ def show_menu(context, menu_name, menu_type=None):
 register.inclusion_tag('blocks/menu.html', takes_context=True)(show_menu)
 
 def show_sub_menu(context, menu_name, url, menu_type=None):
-    if isinstance(menu_name, str):
+    if isinstance(menu_name, str) or isinstance(menu_name, unicode):
         menu = MenuItem.objects.get(menu__name=menu_name, url=url)
     else:
         menu = menu_name
+    print menu_name
     childs = menu.children()
     if len(childs) > 0:
         context['menus'] = childs
