@@ -216,6 +216,8 @@ class StaticPage(core_models.BaseContentModel):
     def _get_lead(self):
         s1 = self._get_body()
         i = s1.find('</p>')
+        if i == -1:
+            i = s1.find('<br>')
         s2 = s1[:i + 4] if i != -1 else s1
         return mark_safe(s2)
     lead = property(_get_lead)
