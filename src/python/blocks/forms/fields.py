@@ -7,12 +7,6 @@ from widgets import DelAdminFileWidget, GeoLocationWidget
 from forms import GeoLocationFormField, BlocksImageFormField
 import shutil
 
-class EditorField(TextField):
-    def to_python(self, value):
-        if value is None:
-            return None
-        return mark_safe("asdasd")
-
 class ThumbnailField:
     '''
     Instances of this class will be used to access data of the
@@ -152,6 +146,9 @@ class BlocksImageField(ImageField):
             Overwrite save_form_data to delete images if "delete" checkbox
             is selected
         '''
+        
+        print dir(data)
+        
         if data == '__deleted__':
             field = getattr(instance, self.name, None)
             if field:

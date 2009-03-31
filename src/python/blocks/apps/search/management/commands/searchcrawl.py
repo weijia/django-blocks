@@ -42,26 +42,30 @@ def get_crawler(name):
 	return crawler
 	          
 class Command(BaseCommand):
-	help = "crawl and create/update search index..."
-	
-	requires_model_validation = True
-	can_import_settings = False
+    help = "crawl and create/update search index..."
+    
+    requires_model_validation = True
+    can_import_settings = False
             
-	def load_crawlers(self):
-		from blocks.apps import search
-		from blocks.apps.search import backend
-		
-		search.autodiscover()
-		
-		crawlers = []
-		for crawler_path in settings.BLOCKS_SEARCH_CRAWLERS:
-		    crawler_class = get_crawler(crawler_path)
-		    if crawler_class is None:
-		    	raise ImproperlyConfigured, "%r isn't an available search crawlers." % crawler_class
-		    crawlers.append(crawler_class(backend))
-		return crawlers
+    def load_crawlers(self):
+        from blocks.apps import search
+        from blocks.apps.search import backend
+        
+        search.autodiscover()
+        
+        crawlers = []
+        for crawler_path in settings.BLOCKS_SEARCH_CRAWLERS:
+            crawler_class = get_crawler(crawler_path)
+            if crawler_class is None:
+            	raise ImproperlyConfigured, "%r isn't an available search crawlers." % crawler_class
+            crawlers.append(crawler_class(backend))
+        return crawlers
 	        
-	def handle(self, *args, **options):
-	    crawlers = self.load_crawlers()
-	    for crawler in crawlers:
-	        crawler.crawl()
+    def handle(self, *args, **options):
+        verbosity = int(options.get('verbosity'))
+        crawlers = self.load_crawlers()
+        
+        for crawler in crawlers:
+            if verbosity >= 2:
+                print crawler.__class__
+            crawler.crawl()

@@ -1,1 +1,1 @@
-from fields import BlocksImageField, GeoLocationField, EditorField
+from fields import BlocksImageField, GeoLocationField
