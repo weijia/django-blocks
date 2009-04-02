@@ -147,7 +147,7 @@ class BlocksImageField(ImageField):
             is selected
         '''
         
-        print dir(data)
+        #print dir(data)
         
         if data == '__deleted__':
             field = getattr(instance, self.name, None)

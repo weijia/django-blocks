@@ -3,20 +3,59 @@ from django.http import HttpResponseRedirect
 from django.contrib.admin.util import unquote
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_unicode
+from django.conf import settings
 
 from blocks.apps.core.models import *
 from blocks.apps.core.menus import get_parent_choices, get_menus_choices, MenuItemChoiceField, move_item_or_clean_ranks
-from blocks.apps.core.forms import StaticPageAdminForm
+from blocks.apps.core.forms import StaticPageAdminForm, BaseContentAdminForm
 import re
+
+
+class BaseAdmin(admin.ModelAdmin):
+    class Media:
+        css = {"all": ("blocks/css/jquery-tabs.css", "blocks/css/jquery.wysiwyg.css",) }
+        js = (
+            "blocks/js/jquery.js",
+            "blocks/js/jquery-ui.js",
+            "blocks/js/jquery.selectboxes.js",
+            "blocks/js/jquery.url.js",
+            "blocks/js/jquery.wysiwyg.js",
+            "blocks/js/jquery.blockUI.js",
+            "blocks/js/jquery.json.js",
+            "blocks/js/jquery.jsonrpc.js",
+            "blocks/js/lang.js",
+        )
+
+
+class BaseContentAdmin(BaseAdmin):    
+    PUBLISHING_OPTIONS = (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'promoted', 'status',), 'classes': ('collapse', )})
+    PUBLISHING_OPTIONS_NPROM = (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )})
+    fieldsets = (
+       (None,                    {'fields': ('name',)}),
+       PUBLISHING_OPTIONS,
+    )
+    list_filter = ('status', 'promoted')
+    search_fields = ('name',)
+    list_display = ('name', 'creation_user', 'lastchange_date', 'status', 'promoted')
+
+
+
+class MultiLanguageInline(admin.options.InlineModelAdmin):
+    template = 'blocks/multilang.html'
+    extra = len(settings.LANGUAGES) if settings.USE_I18N else 1
+    max_num = len(settings.LANGUAGES) if settings.USE_I18N else 1
+
+class MultiImageTabular(admin.options.InlineModelAdmin):
+    template = 'blocks/imagetabular.html'
 
 
 #
 # Menus
 #
-class MenuItemTranslationInline(core_models.MultiLanguageInline):
+class MenuItemTranslationInline(MultiLanguageInline):
     model = MenuItemTranslation
 
-class MenuItemAdmin(core_models.BaseAdmin):
+class MenuItemAdmin(BaseAdmin):
     ''' This class is used as a proxy by MenuAdmin to manipulate menu items. It should never be registered. '''
 
     inlines = [MenuItemTranslationInline]
@@ -173,15 +212,15 @@ class TemplateAdmin(admin.ModelAdmin):
 admin.site.register(Template, TemplateAdmin)
 
 
-class StaticPageTranslationInline(core_models.MultiLanguageInline):
+class StaticPageTranslationInline(MultiLanguageInline):
     model = StaticPageTranslation
 
-class StaticPageImagesInline(core_models.MultiImageTabular):
+class StaticPageImagesInline(MultiImageTabular):
     model = StaticPageImage
     extra = 2
     max_num = 5
 
-class StaticPageAdmin(core_models.BaseContentAdmin):
+class StaticPageAdmin(BaseContentAdmin):
     form = StaticPageAdminForm
     inlines = [StaticPageTranslationInline, StaticPageImagesInline]
     fieldsets = (
