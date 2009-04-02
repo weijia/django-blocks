@@ -117,44 +117,6 @@ class BaseContentTranslation(models.Model):
         ordering = ["id"] # sets up default ordering by language
 
 
-
-class BaseAdmin(admin.ModelAdmin):
-    class Media:
-        css = {"all": ("blocks/css/jquery-tabs.css", "blocks/css/jquery.wysiwyg.css",) }
-        js = (
-            "blocks/js/jquery.js",
-            "blocks/js/jquery-ui.js",
-            "blocks/js/jquery.selectboxes.js",
-            "blocks/js/jquery.url.js",
-            "blocks/js/jquery.wysiwyg.js",
-            "blocks/js/jquery.blockUI.js",
-            "blocks/js/jquery.json.js",
-            "blocks/js/jquery.jsonrpc.js",
-            "blocks/js/lang.js",
-        )
-
-
-class BaseContentAdmin(BaseAdmin):
-    PUBLISHING_OPTIONS = (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'promoted', 'status',), 'classes': ('collapse', )})
-    PUBLISHING_OPTIONS_NPROM = (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )})
-    fieldsets = (
-       (None,                    {'fields': ('name',)}),
-       PUBLISHING_OPTIONS,
-    )
-    list_filter = ('status', 'promoted')
-    search_fields = ('name',)
-    list_display = ('name', 'creation_user', 'lastchange_date', 'status', 'promoted')
-
-
-
-class MultiLanguageInline(admin.options.InlineModelAdmin):
-    template = 'blocks/multilang.html'
-    extra = len(settings.LANGUAGES) if settings.USE_I18N else 1
-    max_num = len(settings.LANGUAGES) if settings.USE_I18N else 1
-
-class MultiImageTabular(admin.options.InlineModelAdmin):
-    template = 'blocks/imagetabular.html'
-
 #from django.dispatch import dispatcher
 #from django.db.models import signals
 #
