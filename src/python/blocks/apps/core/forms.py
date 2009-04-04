@@ -34,6 +34,7 @@ class StaticPageAdminForm(forms.ModelForm):
         model = StaticPage
 
     def clean_menu(self):
+        from blocks.apps.core.models import StaticPage
         menu = self.cleaned_data['menu']
         name = self.cleaned_data['name']
 

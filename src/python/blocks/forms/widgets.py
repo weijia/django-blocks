@@ -12,35 +12,41 @@ class DelAdminFileWidget(AdminFileWidget):
 
     def render(self, name, value, attrs=None):
         input = super(forms.widgets.FileInput, self).render(name, value, attrs)
-        if value:
-            from blocks.forms import fields
-            thumbnail = None
-            #if isinstance(value, fields.BlocksImageField):
-            try:
-                thumbnail = getattr(value, 'thumbnail_adm')
-            except AttributeError:
-                pass
+        from blocks.forms.fields import BlocksImageField
+        thumbnail = None
+        #if isinstance(value, BlocksImageField):
+        try:
+            thumbnail = getattr(value, 'thumbnail_adm')
+        except AttributeError:
+            pass
 
-            item = '<div class="%s"><label>%s:</label>%s</div>'
-            item2 = '<div class="%s"><label>&nbsp;</label>%s<label>%s</label></div>'
-            output = []
-            if thumbnail != None:
-                output.append('<div class="inline"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" width="70" height="50" /></a></div>' % (value.url, thumbnail.url(), value))
-                output.append('<div class="inline">')
-            output.append(item % (name, _('Change'), input))
-            output.append(item2 % ('checkbox', '<input type="checkbox" name="%s_fit"/>' % name, _('fit image'))) # split colon to force "Delete" that is already translated
-            if thumbnail != None:
-                output.append(item % ('delete', _('Delete?'), '<input type="checkbox" name="%s_delete"/>' % name)) # split colon to force "Delete" that is already translated
-                output.append('</div>')
-            return mark_safe(u''.join(output))
-        else:
-            return mark_safe(input)
+        item = '<div class="%s"><label>%s:</label>%s</div>'
+        item2 = '<div class="%s"><label>&nbsp;</label>%s<label>%s</label></div>'
+        output = []
+        if value and thumbnail != None:
+            output.append('<div class="inline"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" width="70" height="50" /></a></div>' % (value.url, thumbnail.url(), value))
+            output.append('<div class="inline">')
+        
+        output.append(input) # real input
+        
+        options = []
+        for it in BlocksImageField.MODE_OPTIONS:
+            options.append('<option value="%s">%s</option>' % (it[1], it[0]))
+        output.append(item % ('inline', _('mode'), '<select name="%s_mode">%s</select>' % (name, u''.join(options))))
+        
+        if value and thumbnail != None:
+            output.append(item % ('delete', _('Delete?'), '<input type="checkbox" name="%s_delete"/>' % name)) # split colon to force "Delete" that is already translated
+            output.append('</div>')
+        return mark_safe(u''.join(output))
 
     def value_from_datadict(self, data, files, name):
-        if not data.get('%s_delete' % name):
-            return super(DelAdminFileWidget, self).value_from_datadict(data, files, name)
+        delete = data.get('%s_delete' % name, None)
+        mode = data.get('%s_mode' % name, None)
+        file = super(DelAdminFileWidget, self).value_from_datadict(data, files, name)
+        if file is not None:
+            return {'file': file, 'mode': mode, 'deleted': delete}
         else:
-            return '__deleted__'
+            return None
 
 
 
