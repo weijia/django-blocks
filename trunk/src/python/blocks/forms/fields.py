@@ -1,5 +1,6 @@
 import os.path
 from django.db.models import Field, TextField, ImageField, signals
+from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -33,15 +34,26 @@ class BlocksImageField(ImageField):
         - Allow image deletion
     '''
 
-    FIT_CENTER = (0.5, 0.5)
-    FIT_TLEFT  = (0.0, 0.0)
-    FIT_TRIGHT = (0.0, 1.0)
-    FIT_BLEFT  = (1.0, 0.0)
-    FIT_BRIGHT = (1.0, 1.0)
+    FIT_CENTER       = (0.5, 0.5)
+    FIT_TOP_LEFT     = (0.0, 0.0)
+    FIT_TOP_RIGHT    = (0.0, 1.0)
+    FIT_BOTTOM_LEFT  = (1.0, 0.0)
+    FIT_BOTTOM_RIGHT = (1.0, 1.0)
+    FIT_ADD_BORDERS  = (-1, -1)
+
+    MODE_OPTIONS = (
+        (_('Center'), "FIT_CENTER"),
+        (_('Top Left'), "FIT_TOP_LEFT"),
+        (_('Top Right'), "FIT_TOP_RIGHT"),
+        (_('Bottom Left'), "FIT_BOTTOM_LEFT"),
+        (_('Bottom Right'), "FIT_BOTTOM_RIGHT"),
+        (_('Add Borders'), "FIT_ADD_BORDERS"),
+    )
     
     def __init__(self, verbose_name=None, name=None, width_field=None, height_field=None, sizes=None, **kwargs):
         params_size = ('name', 'width', 'height', 'fit')
-
+        self.mode = BlocksImageField.FIT_CENTER
+        
         if sizes and (isinstance(sizes, tuple) or isinstance(sizes, list)):
             sz = []
             for size in sizes:
@@ -73,10 +85,29 @@ class BlocksImageField(ImageField):
         Resizes the image to specified width, height and force option
         '''
         WIDTH, HEIGHT = 0, 1
-        from PIL import Image, ImageOps
+        from PIL import Image
+        from PIL import ImageOps
+        from PIL import ImageDraw
+        from PIL import ImageColor
+        
         img = Image.open(filename)
         if img.size[WIDTH] != size['width'] or img.size[HEIGHT] != size['height']:
-            img = ImageOps.fit(img, (size['width'], size['height']), Image.ANTIALIAS, 0, BlocksImageField.FIT_CENTER)
+            
+            if self.mode[0] == -1:
+                im = img
+                img = Image.new("RGBA", (size['width'], size['height']))
+                dr = ImageDraw.Draw(img)
+                dr.rectangle([(0,0), (size['width'], size['height'])], None) #ImageColor.getrgb("#fff")
+            
+                im.thumbnail((size['width'], size['height']), Image.ANTIALIAS)
+            
+                x = (size['width']  - im.size[0]) / 2
+                y = (size['height'] - im.size[1]) / 2
+                
+                img.paste(im, (x, y))
+            else:
+                img = ImageOps.fit(img, (size['width'], size['height']), Image.ANTIALIAS, 0, self.mode)
+                
             try:
                 img.save(filename, optimize=1)
             except IOError:
@@ -89,23 +120,24 @@ class BlocksImageField(ImageField):
         field = getattr(instance, self.name, None)
         if field:
             filename = field.path
-
+            self.mode = getattr(instance, self.name + '___mode', BlocksImageField.FIT_CENTER)
+            
             ext = os.path.splitext(filename)[1].lower()
-            dir = os.path.join(self.get_directory_name(), str(instance._get_pk_val()))
-            dst = os.path.join(dir, '%s%s' % ('original', ext))
+            dirname = os.path.join(self.get_directory_name(), str(instance._get_pk_val()))
+            dst = os.path.join(dirname, '%s%s' % ('original', ext))
             dst_fullpath = os.path.join(settings.MEDIA_ROOT, dst)
 
             if os.path.abspath(filename) != os.path.abspath(dst_fullpath):
                 if os.path.exists(filename):
-                    dir = os.path.join(settings.MEDIA_ROOT, dir)
-                    if not os.path.exists(dir):
-                        os.mkdir(dir)
+                    dirname = os.path.join(settings.MEDIA_ROOT, dirname)
+                    if not os.path.exists(dirname):
+                        os.mkdir(dirname)
                     os.rename(filename, dst_fullpath)
 
                 setattr(instance, self.attname, dst)
                 instance.save()
 
-            if os.path.exists(filename):
+            if os.path.exists(filename):                
                 size_filename = self._get_thumbnail_filename(dst_fullpath, "thumbnail_adm")
                 shutil.copyfile(dst_fullpath, size_filename)
                 self._resize_image(size_filename, {'width': 70, 'height': 50})
@@ -115,6 +147,21 @@ class BlocksImageField(ImageField):
                     shutil.copyfile(dst_fullpath, size_filename)
                     self._resize_image(size_filename, size)
 
+    def _delete_sizes(self, instance=None, **kwargs):
+        print instance
+        field = getattr(instance, self.name, None)
+        print "*** %s" % field
+        print self.name
+        if field:
+            print "field"
+            filename = self.storage.url( field.name )
+            for size in self.sizes:
+                delattr(field, size['name'])
+            dirname = os.path.dirname(field.path)
+            print dirname
+            #if os.path.exists(dirname):
+            #    shutil.rmtree(dirname, True)
+                
     def _init_sizes(self, instance=None, **kwargs):
         '''
         Creates a "thumbnail" object as attribute of the ImageField instance
@@ -143,22 +190,18 @@ class BlocksImageField(ImageField):
 
     def save_form_data(self, instance, data):
         '''
-            Overwrite save_form_data to delete images if "delete" checkbox
-            is selected
+            Overwrite save_form_data to delete images and not to save
+            if "delete" checkbox is selected
         '''
-        
-        #print dir(data)
-        
-        if data == '__deleted__':
-            field = getattr(instance, self.name, None)
-            if field:
-                for size in self.sizes:
-                    delattr(field, size['name'])
-                dir = os.path.dirname(field.path)
-                if os.path.exists(dir):
-                    shutil.rmtree(dir, True)
+        if data['deleted'] != '__deleted__':
+            mode = getattr(BlocksImageField, data['mode'], None)
+            if mode is not None:
+                self.mode = mode
+                setattr(instance, self.name + '___mode', mode)
+            super(BlocksImageField, self).save_form_data(instance, data['file'])
         else:
-            super(BlocksImageField, self).save_form_data(instance, data)
+            print "xxx"
+
 
     def get_db_prep_save(self, value):
         '''
@@ -177,6 +220,7 @@ class BlocksImageField(ImageField):
         super(BlocksImageField, self).contribute_to_class(cls, name)
         signals.post_save.connect(self._create_sizes, sender=cls)
         signals.post_init.connect(self._init_sizes,   sender=cls)
+        signals.post_delete.connect(self._delete_sizes, sender=cls)
 
 
 class GeoLocationField(Field):
