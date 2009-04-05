@@ -47,7 +47,7 @@ class BlocksImageField(ImageField):
         (_('Top Right'), "FIT_TOP_RIGHT"),
         (_('Bottom Left'), "FIT_BOTTOM_LEFT"),
         (_('Bottom Right'), "FIT_BOTTOM_RIGHT"),
-        (_('Add Borders'), "FIT_ADD_BORDERS"),
+        (_('Add Borders (if needed)'), "FIT_ADD_BORDERS"),
     )
     
     def __init__(self, verbose_name=None, name=None, width_field=None, height_field=None, sizes=None, **kwargs):
@@ -94,6 +94,7 @@ class BlocksImageField(ImageField):
         if img.size[WIDTH] != size['width'] or img.size[HEIGHT] != size['height']:
             
             if self.mode[0] == -1:
+                print "RESIZE MODE: thumbnail (%s, %s)" % self.mode
                 im = img
                 img = Image.new("RGBA", (size['width'], size['height']))
                 dr = ImageDraw.Draw(img)
@@ -106,6 +107,7 @@ class BlocksImageField(ImageField):
                 
                 img.paste(im, (x, y))
             else:
+                print "RESIZE MODE: fit (%s, %s)" % self.mode
                 img = ImageOps.fit(img, (size['width'], size['height']), Image.ANTIALIAS, 0, self.mode)
                 
             try:
@@ -121,6 +123,8 @@ class BlocksImageField(ImageField):
         if field:
             filename = field.path
             self.mode = getattr(instance, self.name + '___mode', BlocksImageField.FIT_CENTER)
+            
+            if self.mode is None: return
             
             ext = os.path.splitext(filename)[1].lower()
             dirname = os.path.join(self.get_directory_name(), str(instance._get_pk_val()))
@@ -148,12 +152,8 @@ class BlocksImageField(ImageField):
                     self._resize_image(size_filename, size)
 
     def _delete_sizes(self, instance=None, **kwargs):
-        print instance
         field = getattr(instance, self.name, None)
-        print "*** %s" % field
-        print self.name
         if field:
-            print "field"
             filename = self.storage.url( field.name )
             for size in self.sizes:
                 delattr(field, size['name'])
@@ -193,14 +193,17 @@ class BlocksImageField(ImageField):
             Overwrite save_form_data to delete images and not to save
             if "delete" checkbox is selected
         '''
-        if data['deleted'] != '__deleted__':
+        if data is not None and data['deleted'] != '__deleted__':
             mode = getattr(BlocksImageField, data['mode'], None)
             if mode is not None:
                 self.mode = mode
                 setattr(instance, self.name + '___mode', mode)
             super(BlocksImageField, self).save_form_data(instance, data['file'])
+        elif data is None:
+            self.mode = None
+            setattr(instance, self.name + '___mode', None)
         else:
-            print "xxx"
+            print "delete images"
 
 
     def get_db_prep_save(self, value):
