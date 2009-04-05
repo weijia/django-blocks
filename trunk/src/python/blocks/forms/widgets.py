@@ -24,7 +24,7 @@ class DelAdminFileWidget(AdminFileWidget):
         item2 = '<div class="%s"><label>&nbsp;</label>%s<label>%s</label></div>'
         output = []
         if value and thumbnail != None:
-            output.append('<div class="inline"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" width="70" height="50" /></a></div>' % (value.url, thumbnail.url(), value))
+            output.append('<div class="preview"><a href="javascript: showPopupImage(\'%s\')"><img src="%s" alt="%s" width="70" height="50" /></a></div>' % (value.url, thumbnail.url(), value))
             output.append('<div class="inline">')
         
         output.append(input) # real input
