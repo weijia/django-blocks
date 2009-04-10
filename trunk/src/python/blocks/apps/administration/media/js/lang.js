@@ -208,9 +208,53 @@ $(document).ready(
                         decreaseFontSize : { visible : false },
                         separator09 : { visible : false },
 
-                        html : { visible : true }
+                        html : {
+                        	visible : true,
+                            exec    : function()
+                            {
+                                if ( this.viewHTML )
+                                {
+                                    this.setContent( $(this.original).val() );
+                                    $(this.original).hide();
+                                    $(this.editor).show();
+                                }
+                                else
+                                {
+                                    this.saveContent();
+                                    $(this.original).show();
+                                    $(this.editor).hide();
+                                }
+
+                                this.viewHTML = !( this.viewHTML );
+                            }
+                        }
                     }
                 });
+                
+                try
+                {
+                	var ed = $.data(obj[0], 'wysiwyg');				
+					$(ed.editorDoc).bind('paste', function(ev)
+					{
+					 	var me = $(this).find('body');
+					 	setTimeout(function ()
+					 	{
+					 		var html = me.html();
+					 		me.html($.htmlClean(html))
+					 	}, 100);
+					});
+					$(ed.original).bind('paste', function(ev)
+					{
+					 	var me = $(this);
+					 	setTimeout(function ()
+					 	{
+					 		var html = me.val();
+					 		me.val($.htmlClean(html))
+					 	}, 100);
+					});
+					ed.editorDoc.execCommand('styleWithCSS', false, false);
+					
+                } catch(ex){}
             }
         };
 

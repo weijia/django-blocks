@@ -1,7 +1,7 @@
 /**
- * WYSIWYG - jQuery plugin 0.4
+ * WYSIWYG - jQuery plugin 0.5
  *
- * Copyright (c) 2008 Juan M Martinez
+ * Copyright (c) 2008-2009 Juan M Martinez
  * http://plugins.jquery.com/project/jWYSIWYG
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -32,9 +32,9 @@
         var element = this[0];
 
         if ( element.contentWindow.document.selection )
-            return element.contentWindow.document.selection.createRange();
+            return element.contentWindow.document.selection.createRange().text;
         else
-            return element.contentWindow.getSelection();
+            return element.contentWindow.getSelection().toString();
     };
 
     $.fn.wysiwyg = function( options )
@@ -86,8 +86,8 @@
             messages : {}
         }, options);
 
-        $.extend(options.messages, Wysiwyg.MSGS_EN);
-        $.extend(options.controls, Wysiwyg.TOOLBAR);
+        options.messages = $.extend(true, options.messages, Wysiwyg.MSGS_EN);
+        options.controls = $.extend(true, options.controls, Wysiwyg.TOOLBAR);
 
         for ( var control in controls )
         {
@@ -146,8 +146,7 @@
 
             if ( self.constructor == Wysiwyg && szURL && szURL.length > 0 )
             {
-                var range = $(self.editor).documentSelection();
-                var selection = range.text;
+                var selection = $(self.editor).documentSelection();
 
                 if ( selection.length > 0 )
                 {
@@ -157,6 +156,13 @@
                 else if ( self.options.messages.nonSelection )
                     alert(self.options.messages.nonSelection);
             }
+        },
+
+        setContent : function( newContent )
+        {
+            var self = $.data(this, 'wysiwyg');
+                self.setContent( newContent );
+                self.saveContent();
         },
 
         clear : function()
@@ -210,8 +216,7 @@
                 visible : true,
                 exec    : function()
                 {
-                    var range = $(this.editor).documentSelection();
-                    var selection = range.text;
+                    var selection = $(this.editor).documentSelection();
 
                     if ( selection.length > 0 )
                     {
@@ -284,13 +289,11 @@
                     {
                         this.setContent( $(this.original).val() );
                         $(this.original).hide();
-                        $(this.editor).show();
                     }
                     else
                     {
                         this.saveContent();
                         $(this.original).show();
-                        $(this.editor).hide();
                     }
 
                     this.viewHTML = !( this.viewHTML );
@@ -325,7 +328,7 @@
 
             $.data(element, 'wysiwyg', this);
 
-            var newX = element.width  || element.clientWidth;
+            var newX = element.width || element.clientWidth;
             var newY = element.height || element.clientHeight;
 
             if ( element.nodeName.toLowerCase() == 'textarea' )
@@ -340,7 +343,7 @@
 
                 var editor = this.editor = $('<iframe></iframe>').css({
                     minHeight : ( newY - 6 ).toString() + 'px',
-                    width     : '100%'//( newX - 8 ).toString() + 'px'
+                    width     : ( newX - 8 ).toString() + 'px'
                 }).attr('id', $(element).attr('id') + 'IFrame');
 
                 if ( $.browser.msie )
@@ -363,7 +366,7 @@
 
             this.appendControls();
             this.element = $('<div></div>').css({
-                xwidth : ( newX > 0 ) ? ( newX ).toString() + 'px' : '100%'
+                width : ( newX > 0 ) ? ( newX ).toString() + 'px' : '100%'
             }).addClass('wysiwyg')
               .append(panel)
               .append( $('<div><!-- --></div>').css({ clear : 'both' }) )
@@ -377,7 +380,11 @@
             this.viewHTML = false;
 
             this.initialHeight = newY - 8;
-            this.initialContent = $(element).text();
+
+            /**
+             * @link http://code.google.com/p/jwysiwyg/issues/detail?id=52
+             */
+            this.initialContent = $(element).val();
 
             this.initFrame();
 
@@ -386,6 +393,12 @@
 
             if ( this.options.autoSave )
                 $('form').submit(function() { self.saveContent(); });
+
+            $('form').bind('reset', function()
+            {
+                self.setContent( self.initialContent );
+                self.saveContent();
+            });
         },
 
         initFrame : function()
@@ -451,6 +464,7 @@
                  * @link http://code.google.com/p/jwysiwyg/issues/detail?id=11
                  */
                 $(this.editorDoc).keydown(function() { self.saveContent(); })
+                                 .keyup(function() { self.saveContent(); })
                                  .mousedown(function() { self.saveContent(); });
             }
 
@@ -584,7 +598,6 @@
                 var className = control.className || control.command || name || 'empty';
 
                 $('.' + className, this.panel).removeClass('active');
-                $.data(this.editor, 'element.' + className, elm);
 
                 if ( control.tags )
                 {
@@ -595,10 +608,7 @@
                             break;
 
                         if ( $.inArray(elm.tagName.toLowerCase(), control.tags) != -1 )
-                        {
                             $('.' + className, this.panel).addClass('active');
-                            $.data(this.editor, 'element.' + className, elm);
-                        }
                     } while ( elm = elm.parentNode );
                 }
 
