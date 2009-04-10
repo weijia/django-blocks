@@ -23,6 +23,7 @@ class BaseAdmin(admin.ModelAdmin):
             "blocks/js/jquery.blockUI.js",
             "blocks/js/jquery.json.js",
             "blocks/js/jquery.jsonrpc.js",
+            "blocks/js/jquery.htmlClean.js",
             "blocks/js/lang.js",
         )
 

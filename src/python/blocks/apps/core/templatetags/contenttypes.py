@@ -9,8 +9,7 @@ register = template.Library()
 def show_menu(context, menu_name, menu_type=None):
     menu = Menu.objects.get(name=menu_name)
     childs = menu.root_item.children()
-    if len(childs) > 0:
-        context['menus'] = childs
+    context['menus'] = childs if len(childs) > 0 else None
     context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu.html', takes_context=True)(show_menu)
@@ -20,10 +19,8 @@ def show_sub_menu(context, menu_name, url, menu_type=None):
         menu = MenuItem.objects.get(menu__name=menu_name, url=url)
     else:
         menu = menu_name
-    print menu_name
     childs = menu.children()
-    if len(childs) > 0:
-        context['menus'] = childs
+    context['menus'] = childs if len(childs) > 0 else None
     context['menu_type'] = menu_type
     return context
 register.inclusion_tag('blocks/menu_submenu.html', takes_context=True)(show_sub_menu)
