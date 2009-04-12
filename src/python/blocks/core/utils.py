@@ -29,7 +29,7 @@ def get_menu_title(url):
     title = url
     
     url = fix_url(url)
-    lst = MenuItem.objects.filter(url__exact=url)
+    lst = MenuItem.objects.filter(url__exact=url).exclude(name='')
     if (lst):
         trans = getattr(lst[0], 'translation', None)
         if trans:
