@@ -177,6 +177,25 @@ $.popup = function()
     }
 };
 
+function fixhml(html)
+{
+	if (html.substr(0, 1) != '<')
+	{
+		var pos = html.indexOf('<p>');
+		if (pos != -1)
+		{
+			var s1 = html.substring(0, pos);
+			var s2 = html.substring(pos);
+			html = '<p>' + s1 + '</p>' + s2;
+		}
+		else
+			html = '<p>' + html + '</p>';
+	}
+	
+	html = html.replace('<br><br>', '</p><p>');
+	return $.htmlClean(html);
+}
+
 $(document).ready(
     function()
     {
@@ -214,7 +233,7 @@ $(document).ready(
                             {
                                 if ( this.viewHTML )
                                 {
-                                    this.setContent( $(this.original).val() );
+                                    this.setContent( fixhml($(this.original).val()) );
                                     $(this.original).hide();
                                     $(this.editor).show();
                                 }
@@ -239,8 +258,7 @@ $(document).ready(
 					 	var me = $(this).find('body');
 					 	setTimeout(function ()
 					 	{
-					 		var html = me.html();
-					 		me.html($.htmlClean(html))
+					 		me.html(fixhml(me.html()))
 					 	}, 100);
 					});
 					$(ed.original).bind('paste', function(ev)
@@ -248,8 +266,7 @@ $(document).ready(
 					 	var me = $(this);
 					 	setTimeout(function ()
 					 	{
-					 		var html = me.val();
-					 		me.val($.htmlClean(html))
+					 		me.val(fixhml(me.val()))
 					 	}, 100);
 					});
 					ed.editorDoc.execCommand('styleWithCSS', false, false);
