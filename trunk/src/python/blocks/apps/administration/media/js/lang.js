@@ -177,8 +177,9 @@ $.popup = function()
     }
 };
 
-function fixhml(html)
+function fixhtml(html)
 {
+	
 	if (html.substr(0, 1) != '<')
 	{
 		var pos = html.indexOf('<p>');
@@ -192,9 +193,65 @@ function fixhml(html)
 			html = '<p>' + html + '</p>';
 	}
 	
-	html = html.replace('<br><br>', '</p><p>');
-	return $.htmlClean(html);
+	if (html.substr(-4) != '</p>' && html.substr(-1) != '>')
+	{
+		var p1 = html.lastIndexOf('</');
+		var p2 = html.lastIndexOf('>');
+		if (p1 != -1 && p2 != -1)
+		{
+			var s1 = html.substring(0, p2 + 1);
+			var s2 = html.substring(p2 + 1);
+			html = s1 + '<p>' + s2 + '</p>';
+		}
+	}
+	
+	var SaxListener_Ex = {
+		remove_scripts: true,
+		remove_embeded_styles: true,
+		avoided_tags: ['div','span'],
+		_avoiding_tags_implicitly: true,
+		avoidStylingTagsAndAttributes: function() {},
+		allowStylingTagsAndAttributes: function() {},
+		openBlockTag: function(tag, attributes)
+		{
+			if (tag == "h1") tag = "h3";
+			if (tag == "h2") tag = "h3";
+			this.output += this.helper.tag(tag, this.validator.getValidTagAttributes(tag, attributes), true);
+		},
+		closeBlockTag: function(tag)
+		{
+			if (tag == "h1") tag = "h3";
+			if (tag == "h2") tag = "h3";
+			this.output = this.output.replace(/<br \/>$/, '')+this._getClosingTagContent('before', tag)+"</"+tag+">"+this._getClosingTagContent('after', tag);
+		}
+	}
+	var SL_validator = {
+		skiped_attributes: ['style','class'],
+		skiped_attribute_values: ['MsoNormal','main1'],
+	};
+	
+    var sl = new WYMeditor.XhtmlSaxListener();
+	$.extend(sl, SaxListener_Ex);
+	$.extend(sl.validator, SL_validator);
+	
+	sl.avoidStylingTagsAndAttributes();
+	var xp = new WYMeditor.XhtmlParser(sl);
+	html = xp.parse(html);
+		
+	return html;
 }
+
+WYMeditor.editor.prototype.toggleHtml = function() {
+	$(this._box).find(this._options.htmlSelector).toggle();
+	$(this._box).find(this._options.toolSelector).each(function()
+	{
+		var tool = $(this);
+		if (!tool.parent().hasClass("wym_tools_html"))
+			tool.toggle();
+	});
+	this.html(fixhtml(this.xhtml()));
+	this.update();
+};
 
 $(document).ready(
     function()
@@ -203,76 +260,66 @@ $(document).ready(
 
         LOCALE_TABS.initPanel__init = function(obj)
         {
-            if (obj.attr("wysiwyg") == null)
-            {
-                obj.attr("wysiwyg", true);
-                $(obj).wysiwyg(
-                {
-                    css: MEDIA_URL + 'css/typography.css',
-                    
-                    controls:
-                    {
-                        createLink : { exec : $.popup },
-                        insertImage: { visible: false },
+        	obj.wymeditor({
+        		//lang: 'pt',
+        		logoHtml: '',
+        		
+        		toolsItems: [
+		 			{'name': 'Bold', 'title': 'Strong', 'css': 'wym_tools_strong'}, 
+		 			{'name': 'Italic', 'title': 'Emphasis', 'css': 'wym_tools_emphasis'},
+		 			{'name': 'InsertOrderedList', 'title': 'Ordered_List', 'css': 'wym_tools_ordered_list'},
+		 			{'name': 'InsertUnorderedList', 'title': 'Unordered_List', 'css': 'wym_tools_unordered_list'},
+		 			{'name': 'Indent', 'title': 'Indent', 'css': 'wym_tools_indent'},
+		 			{'name': 'Outdent', 'title': 'Outdent', 'css': 'wym_tools_outdent'},
+		 			{'name': 'Undo', 'title': 'Undo', 'css': 'wym_tools_undo'},
+		 			{'name': 'Redo', 'title': 'Redo', 'css': 'wym_tools_redo'},
+		 			{'name': 'CreateLink', 'title': 'Link', 'css': 'wym_tools_link'},
+		 			{'name': 'Unlink', 'title': 'Unlink', 'css': 'wym_tools_unlink'},
+		 			{'name': 'InsertImage', 'title': 'Image', 'css': 'wym_tools_image'},
+		 			{'name': 'InsertTable', 'title': 'Table', 'css': 'wym_tools_table'},
+		 			{'name': 'Paste', 'title': 'Paste_From_Word', 'css': 'wym_tools_paste'},
+		 			{'name': 'ToggleHtml', 'title': 'HTML', 'css': 'wym_tools_html'},
+		 			//{'name': 'Preview', 'title': 'Preview', 'css': 'wym_tools_preview'}
+        		],
 
-                        h1mozilla : { arguments : ['h4'], tags : ['h4'] },
-                        h2mozilla : { arguments : ['h5'], tags : ['h5'] },
-                        h3mozilla : { arguments : ['h6'], tags : ['h6'] },
-
-                        h1 : { arguments : ['Heading 4'], tags : ['h4'] },
-                        h2 : { arguments : ['Heading 5'], tags : ['h5'] },
-                        h3 : { arguments : ['Heading 6'], tags : ['h6'] },
-
-                        increaseFontSize : { visible : false },
-                        decreaseFontSize : { visible : false },
-                        separator09 : { visible : false },
-
-                        html : {
-                        	visible : true,
-                            exec    : function()
-                            {
-                                if ( this.viewHTML )
-                                {
-                                    this.setContent( fixhml($(this.original).val()) );
-                                    $(this.original).hide();
-                                    $(this.editor).show();
-                                }
-                                else
-                                {
-                                    this.saveContent();
-                                    $(this.original).show();
-                                    $(this.editor).hide();
-                                }
-
-                                this.viewHTML = !( this.viewHTML );
-                            }
-                        }
-                    }
-                });
+        		classesItems: [],
+        		
+                updateSelector: "input:submit",
+                updateEvent:    "click",
                 
-                try
+                postInit: function(wym)
                 {
-                	var ed = $.data(obj[0], 'wysiwyg');				
-					$(ed.editorDoc).bind('paste', function(ev)
-					{
-					 	var me = $(this).find('body');
+                    //wym.hovertools();
+                    //wym.resizable();
+                    
+                    var editor = $(wym._doc.body);
+                    var element = $(wym._box).find(wym._options.htmlValSelector);
+                    
+                    editor.bind("paste", function()
+                    {
+                    	var last = wym.xhtml();
 					 	setTimeout(function ()
 					 	{
-					 		me.html(fixhml(me.html()))
-					 	}, 100);
-					});
-					$(ed.original).bind('paste', function(ev)
-					{
-					 	var me = $(this);
+					 		var last = fixhtml(wym.xhtml());
+					 		
+					 		wym.html(last);
+					 		wym.update();
+					 	}, 10);
+                    });
+                    /*
+                    element.bind("paste", function()
+                    {
+                    	var el = $(this);
+                    	var last = el.val();
 					 	setTimeout(function ()
 					 	{
-					 		me.val(fixhml(me.val()))
-					 	}, 100);
-					});
-					ed.editorDoc.execCommand('styleWithCSS', false, false);
-					
-                } catch(ex){}
-            }
+					 		el.val(last);
+					 	}, 10);
+                    });
+                    */
+                    
+                }
+            });
         };
 
         LOCALE_TABS.initPanel = function()
