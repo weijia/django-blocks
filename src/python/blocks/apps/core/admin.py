@@ -13,17 +13,30 @@ import re
 
 class BaseAdmin(admin.ModelAdmin):
     class Media:
-        css = {"all": ("blocks/css/jquery-tabs.css", "blocks/css/jquery.wysiwyg.css",) }
+        css = {"all": (
+            "blocks/css/jquery-tabs.css", 
+            "blocks/wymeditor/skins/default/skin.css",
+            "blocks/css/wymeditor.css",
+        )}
         js = (
             "blocks/js/jquery.js",
             "blocks/js/jquery-ui.js",
+            
+            #** WYSIWYG editor **
+            "blocks/wymeditor/jquery.wymeditor.js",
+            "blocks/wymeditor/plugins/hovertools/jquery.wymeditor.hovertools.js",
+            "blocks/wymeditor/plugins/resizable/jquery.wymeditor.resizable.js",
+            
+            #** dialogs and utils**
             "blocks/js/jquery.selectboxes.js",
             "blocks/js/jquery.url.js",
-            "blocks/js/jquery.wysiwyg.js",
+            #"blocks/js/jquery.wysiwyg.js",
             "blocks/js/jquery.blockUI.js",
-            "blocks/js/jquery.json.js",
-            "blocks/js/jquery.jsonrpc.js",
+            #"blocks/js/jquery.json.js",
+            #"blocks/js/jquery.jsonrpc.js",
             "blocks/js/jquery.htmlClean.js",
+            
+            #** WYSIWYG editor init **
             "blocks/js/lang.js",
         )
 
