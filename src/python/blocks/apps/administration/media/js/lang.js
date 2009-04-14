@@ -268,10 +268,14 @@ function fixhtml(html)
 	// just in case of double formatting problems
 	html = html.replace("<p><p>", "<p>");
 	html = html.replace("</p></p>",  "</p>");
-		
+	
 	xp = get_xhtml_parser();
 	html = xp.parse(html);
-		
+
+	// if after the parser there's some problem with format then reformat
+	if (html != "" && (html.substr(0, 1) != '<' || html.substr(-1) != '>'))
+		html = fixhtml(html);
+
 	return html;
 }
 
@@ -328,6 +332,8 @@ $(document).ready(
 	                    //wym.resizable();
 	                    
 	                    // fix content
+	                    //console.debug(obj[0].id);
+	                    //console.debug(wym.xhtml());
 				 		wym.html(fixhtml(wym.xhtml()));
 				 		wym.update();
 	                    
