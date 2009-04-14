@@ -177,66 +177,99 @@ $.popup = function()
     }
 };
 
+function get_xhtml_parser()
+{
+	if (window.__XhtmlSaxListener__ == undefined)
+	{
+		var SaxListener_Ex = {
+			remove_scripts: true,
+			remove_embeded_styles: true,
+			avoided_tags: ['div','span'],
+			_avoiding_tags_implicitly: true,
+			avoidStylingTagsAndAttributes: function() {},
+			allowStylingTagsAndAttributes: function() {},
+			openBlockTag: function(tag, attributes)
+			{
+				if (tag == "h1") tag = "h3";
+				if (tag == "h2") tag = "h3";
+				this.output += this.helper.tag(tag, this.validator.getValidTagAttributes(tag, attributes), true);
+			},
+			closeBlockTag: function(tag)
+			{
+				if (tag == "h1") tag = "h3";
+				if (tag == "h2") tag = "h3";
+				this.output = this.output.replace(/<br \/>$/, '')+this._getClosingTagContent('before', tag)+"</"+tag+">"+this._getClosingTagContent('after', tag);
+			}
+		};
+		var SL_validator = {
+			skiped_attributes: ['style','class'],
+			skiped_attribute_values: ['MsoNormal','main1']
+		};
+		
+	    var sl = new WYMeditor.XhtmlSaxListener();
+		$.extend(sl, SaxListener_Ex);
+		$.extend(sl.validator, SL_validator);
+		
+		window.__XhtmlSaxListener__ = new WYMeditor.XhtmlParser(sl);
+	}
+	
+	return window.__XhtmlSaxListener__;
+}
+
 function fixhtml(html)
 {
-	if (html != "")
+	if (html == "") return html;
+	
+	// check if content is formated
+	if (html.substr(0, 1) != '<')
 	{
-		if (html.substr(0, 1) != '<')
+		var pos = html.indexOf('<p>');
+		if (pos == -1)
 		{
-			var pos = html.indexOf('<p>');
-			if (pos != -1 && pos + 1 != html.length)
-			{
-				var s1 = html.substring(0, pos);
-				var s2 = html.substring(pos);
-				html = '<p>' + s1 + '</p>' + s2;
-			}
-			else
-				html = '<p>' + html + '</p>';
+			// no paragraphs assume it's text only
+			
+			var line = [];
+			var sp = html.split("\n\n");	
+			for(x = 0; x < sp.length; x++)
+				if (sp[x] != "") line[x] = "<p>" + sp[x] + "</p>";
+			html = line.join("");
+			
+			line = [];
+			sp = html.split("<br /><br />");
+			for(x = 0; x < sp.length; x++)
+				if (sp[x] != "") line[x] = "<p>" + sp[x] + "</p>";
+			html = line.join("");
 		}
 		
-		if (html.substr(-4) != '</p>' && html.substr(-1) != '>')
+		// if has some paragraphs let's fix the start text
+		else if (pos != -1 && pos + 1 != html.length)
 		{
-			var p1 = html.lastIndexOf('</');
-			var p2 = html.lastIndexOf('>');
-			if (p1 != -1 && p2 != -1 && p2 + 1 != html.length)
-			{
-				var s1 = html.substring(0, p2 + 1);
-				var s2 = html.substring(p2 + 1);
-				html = s1 + '<p>' + s2 + '</p>';
-			}
+			var s1 = html.substring(0, pos);
+			var s2 = html.substring(pos);
+			html = '<p>' + s1 + '</p>' + s2;
 		}
 	}
 	
-	var SaxListener_Ex = {
-		remove_scripts: true,
-		remove_embeded_styles: true,
-		avoided_tags: ['div','span'],
-		_avoiding_tags_implicitly: true,
-		avoidStylingTagsAndAttributes: function() {},
-		allowStylingTagsAndAttributes: function() {},
-		openBlockTag: function(tag, attributes)
+	// check if last text is formatted
+	if (html.substr(-4) != '</p>' && html.substr(-1) != '>')
+	{
+		var p1 = html.lastIndexOf('</');
+		var p2 = html.lastIndexOf('>');
+		if (p1 != -1 && p2 != -1 && p2 + 1 != html.length)
 		{
-			if (tag == "h1") tag = "h3";
-			if (tag == "h2") tag = "h3";
-			this.output += this.helper.tag(tag, this.validator.getValidTagAttributes(tag, attributes), true);
-		},
-		closeBlockTag: function(tag)
-		{
-			if (tag == "h1") tag = "h3";
-			if (tag == "h2") tag = "h3";
-			this.output = this.output.replace(/<br \/>$/, '')+this._getClosingTagContent('before', tag)+"</"+tag+">"+this._getClosingTagContent('after', tag);
+			var s1 = html.substring(0, p2 + 1);
+			var s2 = html.substring(p2 + 1);
+			html = s1 + '<p>' + s2 + '</p>';
 		}
-	};
-	var SL_validator = {
-		skiped_attributes: ['style','class'],
-		skiped_attribute_values: ['MsoNormal','main1']
-	};
+	}
 	
-    var sl = new WYMeditor.XhtmlSaxListener();
-	$.extend(sl, SaxListener_Ex);
-	$.extend(sl.validator, SL_validator);
+	// TODO: fix middle text formating (ex: </p>some text not wrapped<p>)
 	
-	var xp = new WYMeditor.XhtmlParser(sl);
+	// just in case of double formatting problems
+	html = html.replace("<p><p>", "<p>");
+	html = html.replace("</p></p>",  "</p>");
+		
+	xp = get_xhtml_parser();
 	html = xp.parse(html);
 		
 	return html;
@@ -257,69 +290,78 @@ WYMeditor.editor.prototype.toggleHtml = function() {
 $(document).ready(
     function()
     {
-        LOCALE_TABS = $("#languages > ul")
+        LOCALE_TABS = $("#languages > ul");
 
         LOCALE_TABS.initPanel__init = function(obj)
         {
-        	obj.wymeditor({
-        		//lang: 'pt',
-        		logoHtml: '',
-        		
-        		toolsItems: [
-		 			{'name': 'Bold', 'title': 'Strong', 'css': 'wym_tools_strong'}, 
-		 			{'name': 'Italic', 'title': 'Emphasis', 'css': 'wym_tools_emphasis'},
-		 			{'name': 'InsertOrderedList', 'title': 'Ordered_List', 'css': 'wym_tools_ordered_list'},
-		 			{'name': 'InsertUnorderedList', 'title': 'Unordered_List', 'css': 'wym_tools_unordered_list'},
-		 			{'name': 'Indent', 'title': 'Indent', 'css': 'wym_tools_indent'},
-		 			{'name': 'Outdent', 'title': 'Outdent', 'css': 'wym_tools_outdent'},
-		 			{'name': 'Undo', 'title': 'Undo', 'css': 'wym_tools_undo'},
-		 			{'name': 'Redo', 'title': 'Redo', 'css': 'wym_tools_redo'},
-		 			{'name': 'CreateLink', 'title': 'Link', 'css': 'wym_tools_link'},
-		 			{'name': 'Unlink', 'title': 'Unlink', 'css': 'wym_tools_unlink'},
-		 			{'name': 'InsertImage', 'title': 'Image', 'css': 'wym_tools_image'},
-		 			{'name': 'InsertTable', 'title': 'Table', 'css': 'wym_tools_table'},
-		 			{'name': 'Paste', 'title': 'Paste_From_Word', 'css': 'wym_tools_paste'},
-		 			{'name': 'ToggleHtml', 'title': 'HTML', 'css': 'wym_tools_html'}
-        		],
-
-        		classesItems: [],
-        		
-                updateSelector: "input:submit",
-                updateEvent:    "click",
-                
-                postInit: function(wym)
-                {
-                    //wym.hovertools();
-                    //wym.resizable();
-                    
-                    var editor = $(wym._doc.body);
-                    var element = $(wym._box).find(wym._options.htmlValSelector);
-                    
-                    editor.bind("paste", function()
-                    {
-                    	var last = wym.xhtml();
-					 	setTimeout(function ()
-					 	{
-					 		var last = fixhtml(wym.xhtml());
-					 		
-					 		wym.html(last);
-					 		wym.update();
-					 	}, 10);
-                    });
-                    /*
-                    element.bind("paste", function()
-                    {
-                    	var el = $(this);
-                    	var last = el.val();
-					 	setTimeout(function ()
-					 	{
-					 		el.val(last);
-					 	}, 10);
-                    });
-                    */
-                    
-                }
-            });
+        	if (obj[0]._WYM_ == undefined)
+        	{
+	        	obj.wymeditor({
+	        		//lang: 'pt',
+	        		logoHtml: '',
+	        		
+	        		toolsItems: [
+			 			{'name': 'Bold', 'title': 'Strong', 'css': 'wym_tools_strong'}, 
+			 			{'name': 'Italic', 'title': 'Emphasis', 'css': 'wym_tools_emphasis'},
+			 			{'name': 'InsertOrderedList', 'title': 'Ordered_List', 'css': 'wym_tools_ordered_list'},
+			 			{'name': 'InsertUnorderedList', 'title': 'Unordered_List', 'css': 'wym_tools_unordered_list'},
+			 			{'name': 'Indent', 'title': 'Indent', 'css': 'wym_tools_indent'},
+			 			{'name': 'Outdent', 'title': 'Outdent', 'css': 'wym_tools_outdent'},
+			 			{'name': 'Undo', 'title': 'Undo', 'css': 'wym_tools_undo'},
+			 			{'name': 'Redo', 'title': 'Redo', 'css': 'wym_tools_redo'},
+			 			{'name': 'CreateLink', 'title': 'Link', 'css': 'wym_tools_link'},
+			 			{'name': 'Unlink', 'title': 'Unlink', 'css': 'wym_tools_unlink'},
+			 			{'name': 'InsertImage', 'title': 'Image', 'css': 'wym_tools_image'},
+			 			{'name': 'InsertTable', 'title': 'Table', 'css': 'wym_tools_table'},
+			 			{'name': 'Paste', 'title': 'Paste_From_Word', 'css': 'wym_tools_paste'},
+			 			{'name': 'ToggleHtml', 'title': 'HTML', 'css': 'wym_tools_html'}
+	        		],
+	
+	        		classesItems: [],
+	        		
+	                updateSelector: "input:submit",
+	                updateEvent:    "click",
+	                
+	                postInit: function(wym)
+	                {
+	                    //wym.hovertools();
+	                    //wym.resizable();
+	                    
+	                    // fix content
+				 		wym.html(fixhtml(wym.xhtml()));
+				 		wym.update();
+	                    
+	                    var editor = $(wym._doc.body);
+	                    var element = $(wym._box).find(wym._options.htmlValSelector);
+	                    
+	                    editor.bind("paste", function()
+	                    {
+	                    	var last = wym.xhtml();
+						 	setTimeout(function ()
+						 	{
+						 		var last = fixhtml(wym.xhtml());
+						 		
+						 		wym.html(last);
+						 		wym.update();
+						 	}, 10);
+	                    });
+	                    /*
+	                    element.bind("paste", function()
+	                    {
+	                    	var el = $(this);
+	                    	var last = el.val();
+						 	setTimeout(function ()
+						 	{
+						 		el.val(last);
+						 	}, 10);
+	                    });
+	                    */
+	                    
+	                }
+	            });
+	        	
+	        	obj[0]._WYM_ = true;
+        	}
         };
 
         LOCALE_TABS.initPanel = function()
@@ -330,13 +372,13 @@ $(document).ready(
         LOCALE_TABS.tabs();
 
         var panel = $("#languages div.ui-tabs-panel")[LOCALE_TABS.data('selected.tabs')];
-        $(panel).find("textarea").each(LOCALE_TABS.initPanel);
+        $(panel).find("textarea.vLargeTextField").each(LOCALE_TABS.initPanel);
 
         LOCALE_TABS.bind('tabsshow',
             function(event, ui)
             {
                 var panel = $("#languages div.ui-tabs-panel")[ui.index];
-                $(panel).find("textarea").each(LOCALE_TABS.initPanel);
+                $(panel).find("textarea.vLargeTextField").each(LOCALE_TABS.initPanel);
             }
         );
 
