@@ -179,29 +179,31 @@ $.popup = function()
 
 function fixhtml(html)
 {
-	
-	if (html.substr(0, 1) != '<')
+	if (html != "")
 	{
-		var pos = html.indexOf('<p>');
-		if (pos != -1)
+		if (html.substr(0, 1) != '<')
 		{
-			var s1 = html.substring(0, pos);
-			var s2 = html.substring(pos);
-			html = '<p>' + s1 + '</p>' + s2;
+			var pos = html.indexOf('<p>');
+			if (pos != -1 && pos + 1 != html.length)
+			{
+				var s1 = html.substring(0, pos);
+				var s2 = html.substring(pos);
+				html = '<p>' + s1 + '</p>' + s2;
+			}
+			else
+				html = '<p>' + html + '</p>';
 		}
-		else
-			html = '<p>' + html + '</p>';
-	}
-	
-	if (html.substr(-4) != '</p>' && html.substr(-1) != '>')
-	{
-		var p1 = html.lastIndexOf('</');
-		var p2 = html.lastIndexOf('>');
-		if (p1 != -1 && p2 != -1)
+		
+		if (html.substr(-4) != '</p>' && html.substr(-1) != '>')
 		{
-			var s1 = html.substring(0, p2 + 1);
-			var s2 = html.substring(p2 + 1);
-			html = s1 + '<p>' + s2 + '</p>';
+			var p1 = html.lastIndexOf('</');
+			var p2 = html.lastIndexOf('>');
+			if (p1 != -1 && p2 != -1 && p2 + 1 != html.length)
+			{
+				var s1 = html.substring(0, p2 + 1);
+				var s2 = html.substring(p2 + 1);
+				html = s1 + '<p>' + s2 + '</p>';
+			}
 		}
 	}
 	
@@ -224,17 +226,16 @@ function fixhtml(html)
 			if (tag == "h2") tag = "h3";
 			this.output = this.output.replace(/<br \/>$/, '')+this._getClosingTagContent('before', tag)+"</"+tag+">"+this._getClosingTagContent('after', tag);
 		}
-	}
+	};
 	var SL_validator = {
 		skiped_attributes: ['style','class'],
-		skiped_attribute_values: ['MsoNormal','main1'],
+		skiped_attribute_values: ['MsoNormal','main1']
 	};
 	
     var sl = new WYMeditor.XhtmlSaxListener();
 	$.extend(sl, SaxListener_Ex);
 	$.extend(sl.validator, SL_validator);
 	
-	sl.avoidStylingTagsAndAttributes();
 	var xp = new WYMeditor.XhtmlParser(sl);
 	html = xp.parse(html);
 		
@@ -278,8 +279,7 @@ $(document).ready(
 		 			{'name': 'InsertImage', 'title': 'Image', 'css': 'wym_tools_image'},
 		 			{'name': 'InsertTable', 'title': 'Table', 'css': 'wym_tools_table'},
 		 			{'name': 'Paste', 'title': 'Paste_From_Word', 'css': 'wym_tools_paste'},
-		 			{'name': 'ToggleHtml', 'title': 'HTML', 'css': 'wym_tools_html'},
-		 			//{'name': 'Preview', 'title': 'Preview', 'css': 'wym_tools_preview'}
+		 			{'name': 'ToggleHtml', 'title': 'HTML', 'css': 'wym_tools_html'}
         		],
 
         		classesItems: [],

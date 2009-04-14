@@ -3873,10 +3873,10 @@ WYMeditor.WymClassExplorer.prototype.initIframe = function(iframe) {
       wym._iframe.contentWindow.event.returnValue = false;
     };
     
-    this._doc.body.onpaste = function() {
+    /*this._doc.body.onpaste = function() {
       wym._iframe.contentWindow.event.returnValue = false;
       wym.paste(window.clipboardData.getData("Text"));
-    };
+    };*/
     
     //callback can't be executed twice, so we check
     if(this._initialized) {

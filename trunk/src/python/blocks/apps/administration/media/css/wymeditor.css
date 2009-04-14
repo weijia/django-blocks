@@ -1,7 +1,7 @@
 .wym_skin_default
 {
 	clear: both;
-	width:100%;
+	width: 600px;
 }
 
 .wym_skin_default .wym_area_right
@@ -22,5 +22,5 @@
 
 .wym_skin_default .wym_section
 {
-	width:100%;
+	//width:100%;
 }
