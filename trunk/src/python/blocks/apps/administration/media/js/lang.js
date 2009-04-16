@@ -177,6 +177,11 @@ $.popup = function()
     }
 };
 
+WYMeditor.XhtmlSaxListener.prototype.closeBlockTag = function(tag)
+{
+  this.output = this.output + this._getClosingTagContent('before', tag)+"</"+tag+">"+this._getClosingTagContent('after', tag);
+};
+
 function get_xhtml_parser()
 {
 	if (window.__XhtmlSaxListener__ == undefined)
@@ -198,7 +203,7 @@ function get_xhtml_parser()
 			{
 				if (tag == "h1") tag = "h3";
 				if (tag == "h2") tag = "h3";
-				this.output = this.output.replace(/<br \/>$/, '')+this._getClosingTagContent('before', tag)+"</"+tag+">"+this._getClosingTagContent('after', tag);
+				this.output = this.output + this._getClosingTagContent('before', tag)+"</"+tag+">"+this._getClosingTagContent('after', tag);
 			}
 		};
 		var SL_validator = {
@@ -216,9 +221,11 @@ function get_xhtml_parser()
 	return window.__XhtmlSaxListener__;
 }
 
-function fixhtml(html)
+function fixhtml(html, parser)
 {
 	if (html == "") return html;
+	
+	if (parser == undefined) parser = true;
 	
 	// check if content is formated
 	if (html.substr(0, 1) != '<')
@@ -269,12 +276,15 @@ function fixhtml(html)
 	html = html.replace("<p><p>", "<p>");
 	html = html.replace("</p></p>",  "</p>");
 	
-	xp = get_xhtml_parser();
-	html = xp.parse(html);
-
-	// if after the parser there's some problem with format then reformat
-	if (html != "" && (html.substr(0, 1) != '<' || html.substr(-1) != '>'))
-		html = fixhtml(html);
+	if (parser)
+	{
+		xp = get_xhtml_parser();
+		html = xp.parse(html);
+	
+		// if after the parser there's some problem with format then reformat
+		if (html != "" && (html.substr(0, 1) != '<' || html.substr(-1) != '>'))
+			html = fixhtml(html, parser);
+	}
 
 	return html;
 }
@@ -287,7 +297,8 @@ WYMeditor.editor.prototype.toggleHtml = function() {
 		if (!tool.parent().hasClass("wym_tools_html"))
 			tool.toggle();
 	});
-	this.html(fixhtml(this.xhtml()));
+	var html = this.xhtml();
+	this.html(fixhtml(html, false));
 	this.update();
 };
 
@@ -333,8 +344,9 @@ $(document).ready(
 	                    
 	                    // fix content
 	                    //console.debug(obj[0].id);
-	                    //console.debug(wym.xhtml());
-				 		wym.html(fixhtml(wym.xhtml()));
+	                    //console.debug("XXX: " + wym.xhtml());
+	                    
+				 		wym.html(fixhtml(wym.xhtml(), false));
 				 		wym.update();
 	                    
 	                    var editor = $(wym._doc.body);
@@ -345,8 +357,7 @@ $(document).ready(
 	                    	var last = wym.xhtml();
 						 	setTimeout(function ()
 						 	{
-						 		var last = fixhtml(wym.xhtml());
-						 		
+						 		var last = fixhtml(wym.xhtml());						 		
 						 		wym.html(last);
 						 		wym.update();
 						 	}, 10);
