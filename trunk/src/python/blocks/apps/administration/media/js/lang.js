@@ -258,7 +258,7 @@ function fixhtml(html, parser)
 	}
 	
 	// check if last text is formatted
-	if (html.substr(-4) != '</p>' && html.substr(-1) != '>')
+	if (html.substr(-4) != '</p>' && html.substr(html.length - 1) != '>')
 	{
 		var p1 = html.lastIndexOf('</');
 		var p2 = html.lastIndexOf('>');
@@ -282,7 +282,7 @@ function fixhtml(html, parser)
 		html = xp.parse(html);
 	
 		// if after the parser there's some problem with format then reformat
-		if (html != "" && (html.substr(0, 1) != '<' || html.substr(-1) != '>'))
+		if (html != "" && (html.substr(0, 1) != '<' || html.substr(html.length -1) != '>'))
 			html = fixhtml(html, parser);
 	}
 
