@@ -27,11 +27,13 @@ class Command(BaseCommand):
         query_string = " ".join(args)
         
         models = site.get_registered_models()
-        smodels = [search_options for model, search_options in models]
+        smodels = [search_options for model, search_options in models if search_options.instanciate(None)]
         
         backend.verbosity = int(options.get('verbosity'))
         a = time.time()
+        backend.start()
         results = backend.search(query_string, smodels)
+        backend.stop()
         b = time.time()
         
         print "results in %.3f sec(s)" % ((b-a)*1000)

@@ -79,7 +79,7 @@ class SearchResult(object):
     you need the whole result set, use SearchResults.load_all_results()
     instead.
     """
-    def __init__(self, app_label, model_name, pk, score):
+    def __init__(self, app_label, model_name, pk, keys, score):
         self.model = models.get_model(app_label, model_name)
         self.pk = pk
         self.score = score

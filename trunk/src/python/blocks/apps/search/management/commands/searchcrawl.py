@@ -47,7 +47,7 @@ class Command(BaseCommand):
     requires_model_validation = True
     can_import_settings = False
             
-    def load_crawlers(self):
+    def load_crawlers(self, verbosity):
         from blocks.apps import search
         from blocks.apps.search import backend
         
@@ -58,14 +58,12 @@ class Command(BaseCommand):
             crawler_class = get_crawler(crawler_path)
             if crawler_class is None:
             	raise ImproperlyConfigured, "%r isn't an available search crawlers." % crawler_class
-            crawlers.append(crawler_class(backend))
+            crawlers.append(crawler_class(backend, verbosity))
         return crawlers
 	        
     def handle(self, *args, **options):
         verbosity = int(options.get('verbosity'))
-        crawlers = self.load_crawlers()
+        crawlers = self.load_crawlers(verbosity)
         
         for crawler in crawlers:
-            if verbosity >= 2:
-                print crawler.__class__
             crawler.crawl()
