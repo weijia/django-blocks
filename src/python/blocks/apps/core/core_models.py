@@ -75,6 +75,14 @@ class BaseModel(models.Model):
             return None
         return TranslationWrapper(trans[0])
     translation = property(get_translation)
+    
+    def _get_language(self):
+        cnt = self.get_translation()
+        if cnt is not None:
+            return cnt.language
+        else:
+            return None
+    locale = property(_get_language)
 
     class Meta:
         abstract = True

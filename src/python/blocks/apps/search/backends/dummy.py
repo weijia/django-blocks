@@ -3,8 +3,13 @@ from blocks.apps.search.query import RELEVANCE
 from blocks.apps.search.results import SearchResults
 
 class DummyBackend(BaseSearchEngine):
-
-    def update(self, doc_id, fields):
+    def start(self):
+        pass
+    
+    def stop(self):
+        pass
+    
+    def update(self, doc_id, model, fields, date):
         pass
 
     def remove(self, doc_id):

@@ -5,8 +5,13 @@ class SearchEngineBackend(object):
     """
     Abstract search engine base class.
     """
+    def start(self):
+        raise NotImplementedError
+    
+    def stop(self):
+        raise NotImplementedError
 
-    def update(self, doc_id, fields):
+    def update(self, doc_id, model, fields, date):
         raise NotImplementedError
 
     def remove(self, doc_id):
