@@ -171,12 +171,18 @@ class XapianBackend(SearchEngineBackend):
         keys = [k.split('=') for k in qs.split('&')] if qs != '' else []
         return (app_label, model_name, pk_val, keys, match.percent)
 
-    def search(self, query, models, order_by=RELEVANCE, limit=25, offset=0):        
+    def search(self, query, models=None, order_by=RELEVANCE, limit=25, offset=0):        
         # Start an enquire session.
         enquire = xapian.Enquire(self.db)
         
         # Parse the query string to produce a Xapian::Query object.
         qp = xapian.QueryParser()
+        
+        
+        if models is None:
+            from blocks.apps.search import site
+            m = site.get_registered_models()
+            models = [search_options for model, search_options in m if search_options.instanciate(None)]
         
         for m in models:
             print m.fields
