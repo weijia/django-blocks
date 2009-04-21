@@ -2,8 +2,6 @@ from django.conf import settings
 from django.core.management.base import CommandError, BaseCommand
 from django.core.exceptions import ImproperlyConfigured
 
-from blocks.apps.search import site
-
 from optparse import make_option
 import time
 
@@ -26,13 +24,10 @@ class Command(BaseCommand):
         # level.
         query_string = " ".join(args)
         
-        models = site.get_registered_models()
-        smodels = [search_options for model, search_options in models if search_options.instanciate(None)]
-        
         backend.verbosity = int(options.get('verbosity'))
         a = time.time()
         backend.start()
-        results = backend.search(query_string, smodels)
+        results = backend.search(query_string)
         backend.stop()
         b = time.time()
         
