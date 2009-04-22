@@ -52,7 +52,7 @@ class BaseModel(models.Model):
     creation_date = property(_get_creation_date)
 
     def _get_creation_user(self):
-        return self.get_creation().user.username
+        return self.get_creation().user
     creation_user = property(_get_creation_user)
 
     def _get_lastchange_date(self):
@@ -60,7 +60,7 @@ class BaseModel(models.Model):
     lastchange_date = property(_get_lastchange_date)
 
     def _get_lastchange_user(self):
-        return self.get_lastchange().user.username
+        return self.get_lastchange().user
     lastchange_user = property(_get_lastchange_user)
     
     def get_translation(self, lang = None):
