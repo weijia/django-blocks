@@ -17,7 +17,7 @@ DOC_ID_VALUE_INDEX = 0
 DOC_DT_VALUE_INDEX = 1
 DOC_KEY_TERM_PREFIX = 'K'
 
-DOC_DT_FORMAT = '%Y-%m-%d %H:%M:%S.%f'
+DOC_DT_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 def normalize_word(text):
     #text = text.lower()
@@ -80,7 +80,7 @@ class XapianBackend(SearchEngineBackend):
         full_doc_id = DOC_ID_TERM_PREFIX + doc_id
         doc.add_term(full_doc_id)
         doc.add_value(DOC_ID_VALUE_INDEX, doc_id)
-        doc.add_value(DOC_DT_VALUE_INDEX, datetime.strftime(date.value, DOC_DT_FORMAT))
+        doc.add_value(DOC_DT_VALUE_INDEX, "%s.%s" % (datetime.strftime(date.value, DOC_DT_FORMAT), date.value.microsecond ) )
     
         if not self.writable:
             return
@@ -96,12 +96,14 @@ class XapianBackend(SearchEngineBackend):
         try:
             l_doc = self._get_document(full_doc_id)
             z = l_doc.get_value(DOC_DT_VALUE_INDEX)
-            ldt = datetime.strptime(z, DOC_DT_FORMAT)
+            z = z.split('.')
+            ldt = datetime.strptime(z[0], DOC_DT_FORMAT)
+            ldt = datetime(ldt.year, ldt.month, ldt.day, ldt.hour, ldt.minute, ldt.second, int(z[1]))
         except KeyError:
             if self.verbosity > 1:
                 print "document id %s not found" % full_doc_id
             ldt = datetime(1900, 1, 1)       
-        
+
         if ldt < date.value:
             if self.verbosity > 1:
                 print "last change %s" % datetime.strftime(date.value, DOC_DT_FORMAT)
