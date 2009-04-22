@@ -49,7 +49,7 @@ def staticpage(request, url):
     else:
         t = loader.get_template(DEFAULT_TEMPLATE)
 
-    c = RequestContext(request, {'page': f, })
+    c = RequestContext(request, {'page': f,  'object': f})
 
     response = HttpResponse(t.render(c))
     #populate_xheaders(request, response, StaticPage, f.id)
