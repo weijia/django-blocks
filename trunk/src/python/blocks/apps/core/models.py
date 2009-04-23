@@ -122,7 +122,7 @@ class MenuItem(core_models.BaseModel):
 class MenuItemTranslation(core_models.BaseContentTranslation):
     model = models.ForeignKey(MenuItem, related_name="translations")
 
-    caption = models.CharField(_('Caption'), max_length=50)
+    caption = models.CharField(_('Caption'), max_length=100)
     description = models.CharField(_('Description'), max_length=200, blank=True)
 
     class Meta:
