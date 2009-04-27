@@ -10,6 +10,7 @@ setup(
 
 	packages = find_packages(SRC_PATH),
 	package_dir = { '': SRC_PATH, },
+	include_package_data = True,    # include everything in source control
 
 	# blog still uses reStructuredText, so ensure that the docutils and Pygments get installed
 	install_requires = ['PIL', 'docutils', 'Pygments'],
