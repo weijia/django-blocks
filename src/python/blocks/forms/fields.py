@@ -94,11 +94,10 @@ class BlocksImageField(ImageField):
         if img.size[WIDTH] != size['width'] or img.size[HEIGHT] != size['height']:
             
             if self.mode[0] == -1:
-                print "RESIZE MODE: thumbnail (%s, %s)" % self.mode
                 im = img
                 img = Image.new("RGBA", (size['width'], size['height']))
                 dr = ImageDraw.Draw(img)
-                dr.rectangle([(0,0), (size['width'], size['height'])], None) #ImageColor.getrgb("#fff")
+                #dr.rectangle([(0,0), (size['width'], size['height'])], None) #ImageColor.getrgb("#fff")
             
                 im.thumbnail((size['width'], size['height']), Image.ANTIALIAS)
             
@@ -107,7 +106,6 @@ class BlocksImageField(ImageField):
                 
                 img.paste(im, (x, y))
             else:
-                print "RESIZE MODE: fit (%s, %s)" % self.mode
                 img = ImageOps.fit(img, (size['width'], size['height']), Image.ANTIALIAS, 0, self.mode)
                 
             try:
