@@ -24,3 +24,42 @@
 {
 	//width:100%;
 }
+
+.wym_skin_default .wym_buttons li.wym_tools_container a
+{
+	background:transparent url(../img/bticons.gif) no-repeat scroll 0 0;
+	background-position: 0 0;
+}
+.wym_skin_default .wym_buttons li.wym_tools_container.para a
+{
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_container.h1 a
+{
+	background-position: 0 -24px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_container.h2 a
+{
+	background-position: 0 -48px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_container.h3 a
+{
+	background-position: 0 -72px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_container.h4 a
+{
+	background-position: 0 -96px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_container.h5 a
+{
+	background-position: 0 -120px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_container.h6 a
+{
+	background-position: 0 -144px;
+}
