@@ -35,6 +35,35 @@ def show_menu_item(context, menu_item, menu_type=None):
 register.inclusion_tag('blocks/menu_item.html', takes_context=True)(show_menu_item)
 
 
+
+class GetMenuNode(Node):
+    def __init__(self, menu, url, varname):
+        self.menu = Variable(menu)
+        self.url = Variable(url)
+        self.varname = varname
+
+    def render(self, context):
+        menu = self.menu.resolve(context)
+        url = self.url.resolve(context)
+        context[self.varname] = MenuItem.objects.get(menu__name=menu, url=url)
+        return ''
+
+def get_menu(parser, token):
+    """
+    {% menu MENU_NAME in MENU_URL as MENU_ITEM_NAME %}
+    """
+    bits = token.contents.split()
+    if len(bits) != 6:
+        raise template.TemplateSyntaxError, "'%s' tag takes 5 arguments" % bits[0]
+    if bits[2] != "in":
+        raise template.TemplateSyntaxError, "First argument to '%s' tag must be 'in'" % bits[0]
+    if bits[4] != "as":
+        raise template.TemplateSyntaxError, "Third argument to '%s' tag must be 'as'" % bits[0]
+
+    return GetMenuNode(bits[1], bits[3], bits[5])
+register.tag('menu', get_menu)
+
+
 class ReverseNamedURLNode(Node):
     def __init__(self, named_url, parser):
         self.named_url = named_url
