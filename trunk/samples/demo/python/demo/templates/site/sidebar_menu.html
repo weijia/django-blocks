@@ -1,0 +1,7 @@
+{% load i18n %}
+{% load contenttypes %}
+
+<div class="title"><h2>{{ BLOCKS_TITLE|upper }}</h2></div>
+<div id ="newsmenu" class="menuv last">
+	{% show_sub_menu 'primary' BLOCKS_URL %}
+</div>

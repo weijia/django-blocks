@@ -1,14 +1,13 @@
-{% extends "site/base.html" %}
+{% extends "site/base_2c.html" %}
 {% load i18n %}
 {% load contenttypes %}
 
 {% block class %}static{% endblock %}
 
-{% block body %}
-	<div id="cntbody" class="colcn">
-        {% block page %}{% endblock %}
-        <p class="meta">
-        	{% include "common/author.html" %}<br />
-        </p>
-	</div>
+{% block content %}
+	{% block page%}{% endblock %}
+{% endblock %}
+
+{% block sidebar %}
+	{% include "site/sidebar_menu.html" %}
 {% endblock %}
