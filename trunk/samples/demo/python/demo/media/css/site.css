@@ -1,0 +1,373 @@
+body{	background-color: #ccc;}div#container{	background-color: #333;}div#content{	width: 920px;	padding: 0px 15px;	background-color: #fff;	float: left;}
+div#spacer{	display: block;	width: 950px;	height: 10px;	background-color: #fff;	float: left;}
+div#header,
+div#footer
+{
+    clear: both;
+}
+
+
+div#header
+{
+	text-align: left;
+	padding: 10px 15px;	background-color: #fff;	width: 920px;	float: left;
+}
+div#logo
+{
+	float: left;
+}
+div#language{	float: right;}div#language form{	float: left;}div#language input{	border: none;	margin-right: 6px;}
+div#heading
+{
+	display: block;
+	width: 920px;
+	height: 200px;
+	background: #999 url(../img/header.png) no-repeat 0 0;
+	vertical-align: middle;	margin: 8px 0 0 0;
+	float: left;
+}
+
+
+div#mainmenu
+{
+	float: none;
+	clear: both;
+	background-color: #333;
+}
+
+div#contents
+{
+	float: left;
+}
+
+div#footer
+{	background: transparent url(../img/logob.png) no-repeat center 20px;
+	margin-top: 8px;
+	padding: 45px 0;
+	height: 37px;
+	margin-bottom: 10px;
+	text-align: center;	color: #666;
+}
+
+
+h1,h2,h3,h4,h5,h6 { color: #666; clear: both; }
+h1,h2,h3 { font-weight: bold; }
+h4,h5,h6 { font-weight: normal; }
+
+h4 { font-size: 1.3em; }
+
+a { color: #333; }
+a:hover { color: #666; }
+a:link, a:visited { color: #666; }
+
+.block
+{
+	margin-bottom: 1em;
+}
+
+.block div.bbody
+{
+	padding: .5em 0 1em;
+	margin: 0;
+	font-size: 9pt;
+}
+.block div.bbody .item{	float: none;}
+p img
+{
+	float: none;
+}
+
+.section h1 a:hover,
+.section h2 a:hover,
+.section h3 a:hover,
+.section h4 a:hover,
+.section h5 a:hover,
+.section h6 a:hover
+{
+	color: #666;
+}
+
+.links a
+{
+	padding: 0.2em 0.5em;
+	margin-right: 0.1em;
+	border: 1px solid #999;
+	background: #fff;
+	text-decoration: none;
+}
+
+.links a:hover
+{
+	background-color: #999;
+	color: #fff;
+}
+
+
+/* Page Numbers */
+.pages
+{
+	padding: 1em;
+	margin: 1em 0;
+	clear: left;
+	font-size: 85%;
+}
+
+.pages a,
+.pages span
+{
+	display: block;
+	float: left;
+	padding: 0.2em 0.5em;
+	margin-right: 0.1em;
+	background: #000;
+    color: #fff;
+}
+
+.pages span.current
+{
+	font-weight: bold;
+	background: #333;
+}
+
+.pages a
+{
+	text-decoration: none;
+}
+
+.pages a:hover
+{
+	background-color: #000;
+	color: #fff;
+}
+
+.pages a.nextprev
+{
+	font-weight: bold;
+}
+
+.pages span.nextprev
+{
+	color: #666;
+}
+
+.pages span.nextprev
+{
+	color: #999;
+}
+
+.pages .nextprev-next
+{
+	float: right;
+}
+
+/* MENUS */
+.menu
+{
+	display: block;
+	height: 32px;
+	line-height: 32px;	float: left;
+}
+.menuv{	clear: left;}
+.menu ul,
+.menuv ul
+{
+	padding-left: 0;
+	margin: 0px;
+	list-style-type: none;
+}
+
+.menu ul li
+{
+	float: left;
+	display: inline;
+	height: 1.4em;
+}
+
+.menu ul li a,
+.menuv ul li a
+{
+	line-height: 1.2em;
+	height: 1.2em;
+
+	font-size: 1em;
+	text-decoration: none;
+}
+.menu ul li a
+{	color: #fff;
+	padding: 0 1.4em;
+	border-left: 1px solid #fff;
+}.menuv ul li a{	color: #333;}
+
+.menu ul li.first a
+{
+	border-left: none;
+}
+
+.menu ul li.last a
+{
+	padding-right: 0;
+}
+
+.menuv ul li a
+{
+	padding: .8em 10px;
+	border-bottom: 1px dotted #000;
+	display: block;
+}
+
+.menuv ul li.first a
+{
+	border-top: 1px dotted #000;
+}
+
+
+.menu ul li.active a,
+.menuv ul li.active a
+{
+	font-weight: bold;
+}
+
+.menu ul li a:hover,
+.menuv ul li a:hover
+{
+	text-decoration: underline;
+}div#mainmenu ul li a{	text-transform: uppercase;}ul li a,ul li a:link,ul li a:visited{	color: #fff;}.menuv ul li a,.menuv ul li a:link,.menuv ul li a:visited{	color: #333;}
+
+div#search .menu
+{
+	float: right;
+	height: 22px;
+	line-height: 1em;
+}
+
+div#search .menu ul li a
+{
+	color: #666;
+}
+div#search .menu ul li a
+{
+	border-color: #666;
+}
+
+img.thumbnail
+{
+	float: left;
+	margin: 0 10px 5px 0;
+}
+
+h2
+{
+    padding: .4em 10px;    background-color: #a22;
+    margin: 0;
+    font-size: .9em;
+    font-weight: normal;
+    color: white;
+}
+
+div#sidebar ul
+{
+    padding-left: 0;
+    margin-left: 0;
+    list-style: none;
+}
+
+div#sidebar ul li
+{
+   margin: 0;
+	font-size: .9em;
+	color: #666;
+}
+.event{	padding-top: 1em;}p.text{	clear: left;}
+.date
+{
+	text-decoration: none;
+    color: #680;
+    font-size: 8pt;    margin-bottom: .2em;
+}
+.item
+{
+	float: left;	width: 100%;
+	margin-top: 6px;}
+
+.item p
+{
+	line-height: 1.2em;
+	margin-bottom: 1em;
+}
+
+.nospace .item p
+{
+	margin-bottom: 0;
+}
+
+.item h4
+{
+	height: auto;
+	margin: 0 0 4px;
+	clear: right;
+	margin-bottom: 6px;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.separator .item
+{
+	border-bottom: 1px dotted #333;
+	margin-bottom: 6px;
+}
+
+.separator .item.last
+{
+	border-bottom: none;
+	padding-top: 0;
+}div#news .item{	padding-bottom: 1em;}
+.more
+{
+	float:left;
+	margin: 14px 0;
+	width: 100%;
+}
+
+.more a
+{
+	height: 1.2em;
+	font-size: .8em;
+	text-decoration: none;
+	color: #333;
+	float:right;
+	
+	padding: .4em 10px;
+}
+.more a:hover
+{
+	text-decoration: underline;
+}
+
+.quote
+{
+	float: left;
+	border-top: 1px solid #ccc;
+	padding: 5px 0;
+}
+
+.quote h4
+{
+	color: #a30;
+	font-size: 1.2em;
+	margin-bottom: .8em;
+}
+
+.quote blockquote
+{
+	color: #CC6600;
+	margin: .8em 0 0 1.5em;
+}
+.quote .author
+{
+	font-size: 10px;
+	color: #666;
+	float:right;
+	text-align: right;
+}
+
+.image{	float: left;	padding: 4px 12px 4px 0px;}p.meta{	font-style: italic;}.flag{	width:18px;	height:12px;}
