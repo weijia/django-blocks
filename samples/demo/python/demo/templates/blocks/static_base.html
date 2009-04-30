@@ -1,0 +1,14 @@
+{% extends "site/base.html" %}
+{% load i18n %}
+{% load contenttypes %}
+
+{% block class %}static{% endblock %}
+
+{% block body %}
+	<div id="cntbody" class="colcn">
+        {% block page %}{% endblock %}
+        <p class="meta">
+        	{% include "common/author.html" %}<br />
+        </p>
+	</div>
+{% endblock %}

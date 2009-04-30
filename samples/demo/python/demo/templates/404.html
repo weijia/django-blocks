@@ -1,0 +1,13 @@
+{% extends "site/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Page not found' %}{% endblock %}
+
+{% block class %}error{% endblock %}
+
+{% block body %}
+	<div id="cntbody" class="colcn">
+        <h2>{% trans 'Page not found' %}</h2>
+        <div>{% trans "We're sorry, but the requested page could not be found." %}</div>
+    </div>
+{% endblock %}
