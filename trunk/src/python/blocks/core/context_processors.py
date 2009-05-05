@@ -9,13 +9,12 @@ def media(request):
         url = fix_url(bits[1])
     else:
         url = '/'
-    
-    title = get_menu_title(bits[1])
 
     context = {
         'BLOCKS_URL': url,
         'BLOCKS_FULL_URL': request.get_full_path(),
-        'BLOCKS_TITLE': title,
+        'BLOCKS_TITLE': get_menu_title(bits[1]),
+        'BLOCKS_FULL_TITLE': get_menu_title(request.get_full_path()),
         'BLOCKS_LANGUAGES': settings.BLOCKS_LANGUAGES,
         'BLOCKS_USELANG': settings.BLOCKS_USELANG,
         'BLOCKS_SETTINGS': settings,
