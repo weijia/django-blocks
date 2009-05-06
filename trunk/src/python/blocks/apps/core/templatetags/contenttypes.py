@@ -144,3 +144,8 @@ def do_menutitem_list(parser, token):
     return MenuItemListNode(bits[2], bits[4])
 
 register.tag('menuitems', do_menutitem_list)
+
+@register.filter
+def startswith(value, arg):
+    """Usage, {% if value|starts_with:"arg" %}"""
+    return value.startswith(arg)
