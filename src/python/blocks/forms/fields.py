@@ -97,7 +97,10 @@ class BlocksImageField(ImageField):
                 im = img
                 img = Image.new("RGBA", (size['width'], size['height']))
                 dr = ImageDraw.Draw(img)
-                #dr.rectangle([(0,0), (size['width'], size['height'])], None) #ImageColor.getrgb("#fff")
+                
+                # if is a jpeg just draw a white rectang
+                if 'jfif' in im.info:
+                    dr.rectangle([(-1, -1), (size['width'] + 1, size['height'] + 1)], ImageColor.getrgb("#fff"))
             
                 im.thumbnail((size['width'], size['height']), Image.ANTIALIAS)
             
