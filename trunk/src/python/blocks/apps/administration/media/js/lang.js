@@ -323,10 +323,10 @@ $(document).ready(
 			 			{'name': 'Indent', 'title': 'Indent', 'css': 'wym_tools_indent'},
 			 			{'name': 'Outdent', 'title': 'Outdent', 'css': 'wym_tools_outdent'},
 			 			
-			 			{'name': 'P',  'title': 'Paragraph', 'css': 'wym_tools_container para'},
-			 			{'name': 'H3', 'title': 'Heading_3', 'css': 'wym_tools_container h3'},
-			 			{'name': 'H4', 'title': 'Heading_4', 'css': 'wym_tools_container h4'},
-			 			{'name': 'H5', 'title': 'Heading_5', 'css': 'wym_tools_container h5'},
+			 			{'name': 'P',  'title': 'Paragraph', 'css': 'wym_tools_containerex para'},
+			 			{'name': 'H3', 'title': 'Heading_3', 'css': 'wym_tools_containerex h3'},
+			 			{'name': 'H4', 'title': 'Heading_4', 'css': 'wym_tools_containerex h4'},
+			 			{'name': 'H5', 'title': 'Heading_5', 'css': 'wym_tools_containerex h5'},
 			 			
 			 			{'name': 'Undo', 'title': 'Undo', 'css': 'wym_tools_undo'},
 			 			{'name': 'Redo', 'title': 'Redo', 'css': 'wym_tools_redo'},
@@ -346,7 +346,7 @@ $(document).ready(
 	                postInit: function(wym)
 	                {
 	                    // handle click event on containers buttons
-						jQuery(wym._box).find('li.wym_tools_container a').click(function() {
+						jQuery(wym._box).find('li.wym_tools_containerex a').unbind("click").click(function() {
 							wym.container(jQuery(this).attr(WYMeditor.NAME));
 							return(false);
 						});
