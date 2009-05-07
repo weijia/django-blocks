@@ -66,7 +66,7 @@ def append_menu_children(list, menu):
     childs = menu.children()
     for it in childs:
         if it.url != '/':
-            list.append( [it.url, "%s (%s)" % (it.name_with_spacer(), it.relurl)] )
+            list.append( [it.url, "%s" % (it.name_with_spacer())] )
             append_menu_children(list, it)
             
 

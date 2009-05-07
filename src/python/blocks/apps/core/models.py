@@ -23,7 +23,9 @@ class MenuItem(core_models.BaseModel):
     def save(self, force_insert=False, force_update=False):
         from blocks.apps.core.menus import clean_ranks
         from blocks.core.utils import fix_url
-                
+        from django.template.defaultfilters import slugify   
+        
+        self.relurl = slugify(self.relurl.replace(' ', ''))
         self.relurl = fix_url(self.relurl)
         
         # Calculate level
