@@ -1,6 +1,9 @@
 from django.template import loader, RequestContext
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 #from django.core.xheaders import populate_xheaders
+from django.shortcuts import render_to_response
+from django.contrib.sites.models import Site
+from django.core import urlresolvers
 
 DEFAULT_TEMPLATE = 'blocks/default.html'
 
@@ -54,3 +57,11 @@ def staticpage(request, url):
     response = HttpResponse(t.render(c))
     #populate_xheaders(request, response, StaticPage, f.id)
     return response
+
+def robots(request):
+    current_site = Site.objects.get_current()
+    protocol = request.is_secure() and 'https' or 'http'
+    admin_url = urlresolvers.reverse('admin_index')
+    sitemap_url = urlresolvers.reverse('django.contrib.sitemaps.views.sitemap')
+    sitemap_url = ('%s://%s%s' % (protocol, current_site.domain, sitemap_url))
+    return render_to_response('blocks/robots.txt', {'admin_url': admin_url, 'sitemap_url': sitemap_url}, mimetype = 'text/plain')
