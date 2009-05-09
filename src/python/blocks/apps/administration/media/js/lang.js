@@ -223,7 +223,7 @@ function get_xhtml_parser()
 
 function fixhtml(html, parser)
 {
-	if (html == "") return html;
+	if (html == "" || html == "<br />" ) return '';
 	
 	if (parser == undefined) parser = true;
 	
