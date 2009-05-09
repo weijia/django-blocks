@@ -45,7 +45,10 @@ class GetMenuNode(Node):
     def render(self, context):
         menu = self.menu.resolve(context)
         url = self.url.resolve(context)
-        context[self.varname] = MenuItem.objects.get(menu__name=menu, url=url)
+        try:
+            context[self.varname] = MenuItem.objects.get(menu__name=menu, url=url)
+        except:
+            pass
         return ''
 
 def get_menu(parser, token):
