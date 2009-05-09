@@ -25,7 +25,10 @@ class MenuItem(core_models.BaseModel):
         from blocks.core.utils import fix_url
         from django.template.defaultfilters import slugify   
         
-        self.relurl = slugify(self.relurl.replace(' ', ''))
+        parts = self.relurl.split('/')
+        parts = [slugify(p.replace(' ', '')) for p in parts]
+        
+        self.relurl = '/'.join(parts)
         self.relurl = fix_url(self.relurl)
         
         # Calculate level
