@@ -7,21 +7,27 @@ from blocks.apps.core.models import Menu, MenuItem, StaticPage
 register = template.Library()
 
 def show_menu(context, menu_name, menu_type=None):
-    menu = Menu.objects.get(name=menu_name)
-    childs = menu.root_item.children()
-    context['menus'] = childs if len(childs) > 0 else None
-    context['menu_type'] = menu_type
+    try:
+        menu = Menu.objects.get(name=menu_name)
+        childs = menu.root_item.children()
+        context['menus'] = childs if len(childs) > 0 else None
+        context['menu_type'] = menu_type
+    except:
+        pass
     return context
 register.inclusion_tag('blocks/menu.html', takes_context=True)(show_menu)
 
 def show_sub_menu(context, menu_name, url, menu_type=None):
-    if isinstance(menu_name, str) or isinstance(menu_name, unicode):
-        menu = MenuItem.objects.get(menu__name=menu_name, url=url)
-    else:
-        menu = menu_name
-    childs = menu.children()
-    context['menus'] = childs if len(childs) > 0 else None
-    context['menu_type'] = menu_type
+    try:
+        if isinstance(menu_name, str) or isinstance(menu_name, unicode):
+            menu = MenuItem.objects.get(menu__name=menu_name, url=url)
+        else:
+            menu = menu_name
+        childs = menu.children()
+        context['menus'] = childs if len(childs) > 0 else None
+        context['menu_type'] = menu_type
+    except:
+        pass
     return context
 register.inclusion_tag('blocks/menu_submenu.html', takes_context=True)(show_sub_menu)
 
@@ -127,9 +133,12 @@ class MenuItemListNode(template.Node):
         self.varname = varname
 
     def render(self, context):
-        menu = MenuItem.objects.get(url=self.url.resolve(context))
-        if menu:
-            context[self.varname] = menu.children()
+        try:
+            menu = MenuItem.objects.get(url=self.url.resolve(context))
+            if menu:
+                context[self.varname] = menu.children()
+        except:
+            pass
         return ''
 
 def do_menutitem_list(parser, token):
