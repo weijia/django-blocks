@@ -69,6 +69,38 @@ div#footer
 	margin-bottom: 10px;
 }
 
+form th,
+form td
+{
+	padding: 2px 4px;
+}
+
+form td.aligned
+{
+	padding: 4px 2px;
+}
+
+form tbody td
+{
+	overflow: hidden;
+}
+
+form tr.row1
+{
+	background-color: #eee;
+}
+
+form tr.row2
+{
+	background-color: #fff;
+}
+
+form tbody th
+{
+	background-color: #dddfff;
+}
+
+
 /* MODULES */
 .clockbox, .calendarbox { border:1px solid #ccc; margin-bottom:5px; padding: 1em; background:white; }
 .clockbox table, .calendarbox table { border-collapse: collapse; width: 1%; }

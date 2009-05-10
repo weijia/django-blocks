@@ -32,7 +32,7 @@ class DelAdminFileWidget(AdminFileWidget):
         options = []
         for it in BlocksImageField.MODE_OPTIONS:
             options.append('<option value="%s">%s</option>' % (it[1], it[0]))
-        output.append(item % ('inline', _('mode'), '<select name="%s_mode">%s</select>' % (name, u''.join(options))))
+        output.append(item % ('input', _('mode'), '<select name="%s_mode">%s</select>' % (name, u''.join(options))))
         
         if value and thumbnail != None:
             output.append(item % ('delete', _('Delete?'), '<input type="checkbox" name="%s_delete"/>' % name)) # split colon to force "Delete" that is already translated

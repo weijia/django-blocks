@@ -8,7 +8,12 @@ from django.conf import settings
 from blocks.apps.core.models import *
 from blocks.apps.core.menus import get_parent_choices, get_menus_choices, MenuItemChoiceField, move_item_or_clean_ranks
 from blocks.apps.core.forms import StaticPageAdminForm, BaseContentAdminForm
+from blocks.apps.core.managers import STATUS_DISABLED, STATUS_DRAFT, STATUS_PUBLISHED
 import re
+
+def make_published(modeladmin, request, queryset):
+    queryset.update(status=STATUS_PUBLISHED)
+make_published.short_description = _("Mark selected as published")
 
 
 class BaseAdmin(admin.ModelAdmin):
@@ -51,7 +56,7 @@ class BaseContentAdmin(BaseAdmin):
     list_filter = ('status', 'promoted')
     search_fields = ('name',)
     list_display = ('name', 'creation_user', 'lastchange_date', 'status', 'promoted')
-
+    actions = [make_published]
 
 
 class MultiLanguageInline(admin.options.InlineModelAdmin):
@@ -122,32 +127,28 @@ class MenuItemAdmin(BaseAdmin):
 
 class MenuAdmin(admin.ModelAdmin):
     menu_item_admin_class = MenuItemAdmin
-
-    def __call__(self, request, url):
-        ''' Overriden to route extra URLs.'''
-
-        if url:
-            if url.endswith('items/add'):
-                return self.add_menu_item(request, unquote(url[:-10]))
-            if url.endswith('items'):
-                return HttpResponseRedirect('../')
-            match = re.match('^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)$', url)
-            if match:
-                return self.edit_menu_item(request, match.group('menu_pk'), match.group('menu_item_pk'))
-            match = re.match('^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/delete$', url)
-            if match:
-                return self.delete_menu_item(request, match.group('menu_pk'), match.group('menu_item_pk'))
-            match = re.match('^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/history$', url)
-            if match:
-                return self.history_menu_item(request, match.group('menu_pk'), match.group('menu_item_pk'))
-            match = re.match('^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/move_up$', url)
-            if match:
-                return self.move_up_item(request, match.group('menu_pk'), match.group('menu_item_pk'))
-            match = re.match('^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/move_down$', url)
-            if match:
-                return self.move_down_item(request, match.group('menu_pk'), match.group('menu_item_pk'))
-
-        return super(MenuAdmin, self).__call__(request, url)
+    
+    def get_urls(self):
+        from django.conf.urls.defaults import patterns, url
+        from django.utils.functional import update_wrapper
+        
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                return self.admin_site.admin_view(view)(*args, **kwargs)
+            return update_wrapper(wrapper, view)
+        
+        urls = super(MenuAdmin, self).get_urls()
+        
+        print "bla"
+        urlpatterns = patterns('',
+            (r'^(?P<menu_pk>[-\w]+)/items/add/$', wrap(self.add_menu_item)),
+            (r'^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/$', wrap(self.edit_menu_item)),
+            (r'^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/delete/$', wrap(self.delete_menu_item)),
+            (r'^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/history/$', wrap(self.history_menu_item)),
+            (r'^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/move_up/$', wrap(self.move_up_item)),
+            (r'^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/move_down/$', wrap(self.move_down_item)),
+        )
+        return urlpatterns + urls
 
     def get_object_with_change_permissions(self, request, model, obj_pk):
         ''' Helper function that returns a menu/menuitem if it exists and if the user has the change permissions '''
@@ -241,9 +242,9 @@ class StaticPageAdmin(BaseContentAdmin):
         (None,  {'fields': ('name', 'menu', 'relative', 'template')}),
         (_('Publishing Options'), {'fields': ('publish_date', 'unpublish_date', 'status',), 'classes': ('collapse', )}),
     )
-    list_filter = ('status', 'promoted', 'menu',)
+    list_filter = ('status', 'promoted', )
     search_fields = ('name', 'url','status', 'promoted')
-    list_display = ('name', 'url', 'creation_user', 'lastchange_date', 'status')
+    list_display = ('name', 'url', 'status')
     
     def get_form(self, request, obj=None, **kwargs):
         from django.forms import ChoiceField
