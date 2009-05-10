@@ -159,7 +159,6 @@ class BlocksImageField(ImageField):
             for size in self.sizes:
                 delattr(field, size['name'])
             dirname = os.path.dirname(field.path)
-            print dirname
             #if os.path.exists(dirname):
             #    shutil.rmtree(dirname, True)
                 
@@ -203,8 +202,8 @@ class BlocksImageField(ImageField):
         elif data is None:
             self.mode = None
             setattr(instance, self.name + '___mode', None)
-        else:
-            print "delete images"
+        #else:
+        #    print "delete images"
 
 
     def get_db_prep_save(self, value):
