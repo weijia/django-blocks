@@ -5,13 +5,19 @@ from django.shortcuts import render_to_response
 from django.contrib.sites.models import Site
 from django.core import urlresolvers
 
+from blocks.apps.core.models import MenuItem
+
 DEFAULT_TEMPLATE = 'blocks/default.html'
+
+def menuitem(request, item_id):
+    m = MenuItem.objects.get(pk=item_id)
+    url = u"../../menu/%s/items/%s/" % (m.menu.id, m.id)
+    return HttpResponseRedirect(url)
 
 def staticpage(request, url):
     from blocks.apps.core.models import StaticPage
     from django.conf import settings
 
-    
     if not url.endswith('/') and settings.APPEND_SLASH:
         return HttpResponseRedirect("%s/" % request.path)
     if not url.startswith('/'):
@@ -61,7 +67,10 @@ def staticpage(request, url):
 def robots(request):
     current_site = Site.objects.get_current()
     protocol = request.is_secure() and 'https' or 'http'
-    admin_url = urlresolvers.reverse('admin_index')
+    try:
+        admin_url = urlresolvers.reverse('admin_index')
+    except urlresolvers.NoReverseMatch:
+        admin_url = "/admin/"
     sitemap_url = urlresolvers.reverse('django.contrib.sitemaps.views.sitemap')
     sitemap_url = ('%s://%s%s' % (protocol, current_site.domain, sitemap_url))
     return render_to_response('blocks/robots.txt', {'admin_url': admin_url, 'sitemap_url': sitemap_url}, mimetype = 'text/plain')

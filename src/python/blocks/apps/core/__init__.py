@@ -1,6 +1,12 @@
 import os
 from django.conf import settings
 
+if not hasattr(settings, 'BLOCKS_ADMIN_HELP'):
+    settings.BLOCKS_ADMIN_HELP = {}
+
+if not hasattr(settings, 'ADMIN_MEDIA_ROOT'):
+    settings.ADMIN_MEDIA_ROOT = "%sadmin/" % (settings.MEDIA_URL)
+
 if not hasattr(settings, 'TEMPLATE_DIRS'):
     settings.TEMPLATE_DIRS = []
 settings.TEMPLATE_DIRS += (os.path.join(os.path.dirname(__file__), "templates"),)

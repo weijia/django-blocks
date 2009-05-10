@@ -25,6 +25,7 @@ def normalize_word(text):
     text = text.replace("\r", "");
     if isinstance(text, str):
         try:
+            import sys
             word = unicode(text,  sys.stdin.encoding)
         except UnicodeDecodeError:
             pass

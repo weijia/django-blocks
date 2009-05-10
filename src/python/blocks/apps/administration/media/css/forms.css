@@ -74,6 +74,8 @@ label.required { font-weight: bold; color:#666; }
 .form.row label.inline { margin-left:20px; }
 .form.row .required label, label.required { color: #C00010 !important; }
 
+.inline-group .aligned label { width: auto; }
+
 .checkbox input { float: left; }
 
 /* RADIO BUTTONS */
@@ -83,7 +85,7 @@ form ul.inline { margin-left:0; padding:0; }
 form ul.inline li { float:left; padding-right:7px; }
 
 /* ALIGNED FIELDSETS */
-.aligned label { display:block; padding:0 1em 3px 0; }
+.aligned label { display:block; padding:0 1em 3px 0; float: none; }
 .aligned label.inline { display:inline; float:none; }
 .colMS .aligned .vLargeTextField, .colMS .aligned .vXMLLargeTextField { width:350px; }
 form .aligned ul { margin-left:7em; padding-left:30px; }
@@ -102,7 +104,7 @@ form .wide p.help { padding-left:38px; }
 /* COLLAPSED FIELDSETS */
 fieldset.collapsed * { display:none; }
 fieldset.collapsed h2, fieldset.collapsed { display:block !important; }
-fieldset.collapsed h2 { color:#999; }
+fieldset.collapsed h2 { color:#999; background-image: none; }
 fieldset.collapsed .collapse-toggle, fieldset.collapse h2 a { padding:3px 5px !important; background:transparent; display:inline !important; font-size: .7em; }
 
 /* MONOSPACE TEXTAREAS */
@@ -163,26 +165,26 @@ table p.datetime { font-size:10px; margin-left:0; padding-left:0; }
 
 div.preview
 {
-	clear: left;
     float: left;
-    margin-right: 4px;
+    margin: 4px 4px;
 }
 
 div.inline
 {
     float: left;
-    margin-right: 2px;
+    margin: 4px 2px;
 }
 
-div.inline label
+div.input label
 {
     width: auto;
+    float: left;
 	line-height: 22px;
 	margin: 0.5em 0;
 	padding-bottom: 0;
 }
 
-div.inline .delete
+.inline-group div.inline .delete
 {
     display: none;
 }
