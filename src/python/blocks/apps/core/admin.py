@@ -138,8 +138,6 @@ class MenuAdmin(admin.ModelAdmin):
             return update_wrapper(wrapper, view)
         
         urls = super(MenuAdmin, self).get_urls()
-        
-        print "bla"
         urlpatterns = patterns('',
             (r'^(?P<menu_pk>[-\w]+)/items/add/$', wrap(self.add_menu_item)),
             (r'^(?P<menu_pk>[-\w]+)/items/(?P<menu_item_pk>[-\w]+)/$', wrap(self.edit_menu_item)),
