@@ -275,17 +275,24 @@ function fixhtml(html, parser)
 	// just in case of double formatting problems
 	html = html.replace("<p><p>", "<p>");
 	html = html.replace("</p></p>",  "</p>");
-	
+
 	if (parser)
 	{
+		html = html.replace("<br />", "§BR§");
+		console.debug("O: " + html);
+		
 		xp = get_xhtml_parser();
 		html = xp.parse(html);
+		
+		html = html.replace("§BR§", "<br />");
+		
+		console.debug("M: " + html);
 	
 		// if after the parser there's some problem with format then reformat
 		if (html != "" && (html.substr(0, 1) != '<' || html.substr(html.length -1) != '>'))
 			html = fixhtml(html, parser);
 	}
-
+	
 	return html;
 }
 
@@ -343,6 +350,30 @@ $(document).ready(
 	                updateSelector: "input:submit",
 	                updateEvent:    "click",
 	                
+	                postInitDialog: function(wym, wdw)
+	                {
+						// the URL to the Django filebrowser, depends on your URLconf
+						var fb_url = '/admin/filebrowser/';
+						  
+						var dlg = jQuery(wdw.document.body);
+						if (dlg.hasClass('wym_dialog_image')) {
+							// this is an image dialog
+							var bt = dlg.find('.wym_src').css('width', '200px').attr('id', 'filebrowser');
+							bt.after('<a id="fb_link" title="Filebrowser" href="#">Filebrowser</a>');
+							
+							var fs = dlg.find('fieldset');
+							fs.append('<a id="link_filebrowser"><img id="image_filebrowser" /></a><br /><span id="help_filebrowser"></span>');
+						
+							dlg.find('#fb_link')
+								.click(function() 
+								{
+									fb_window = wdw.open(fb_url + '?_popup=1&pop=1', 'filebrowser', 'height=600,width=840,resizable=yes,scrollbars=yes');
+									fb_window.focus();
+									return false;
+								});
+						}
+	                },
+	                
 	                postInit: function(wym)
 	                {
 	                    // handle click event on containers buttons
@@ -351,6 +382,9 @@ $(document).ready(
 							return(false);
 						});
 					
+						// Filebrowser callback
+				        wymeditor_filebrowser(wym, wdw);
+				        
 	                    //wym.hovertools();
 	                    //wym.resizable();
 	                    
