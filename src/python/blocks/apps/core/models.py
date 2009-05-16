@@ -7,7 +7,6 @@ from blocks.apps.core.managers import BaseManager
 
 from itertools import chain
 
-
 #
 # Menus
 #
@@ -221,8 +220,6 @@ class StaticPage(core_models.BaseContentModel):
     def _get_lead(self):
         s1 = self._get_body()
         i = s1.find('</p>')
-        if i == -1:
-            i = s1.find('<br>')
         s2 = s1[:i + 4] if i != -1 else s1
         return mark_safe(s2)
     lead = property(_get_lead)
@@ -231,7 +228,7 @@ class StaticPage(core_models.BaseContentModel):
         s1 = self._get_body()
         s2 = self._get_lead()
         if len(s1) != len(s2):
-            s1 = s1[len(s2) + 4:]
+            s1 = s1[len(s2):]
         else:
             s1 = ""
         return mark_safe(s1)
