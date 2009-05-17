@@ -18,7 +18,10 @@ if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
 
 sitemaps = {}
 
-admin_url = urlresolvers.reverse('admin_index')
+try:
+    admin_url = urlresolvers.reverse('%sadmin_index' % site.name)
+except urlresolvers.NoReverseMatch:
+    admin_url = '/%s' % site.root_path
 
 for model, model_admin in site._registry.items():
     isok = getattr(model, 'get_absolute_url', None) and getattr(model.objects, 'published', None)
