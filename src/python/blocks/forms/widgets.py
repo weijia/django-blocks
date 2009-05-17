@@ -53,13 +53,13 @@ class DelAdminFileWidget(AdminFileWidget):
 DEFAULT_WIDTH = 500
 DEFAULT_HEIGHT = 300
 
-class GeoLocationWidget(forms.widgets.Widget):
+class GeoLocationWidget(forms.TextInput):
     def __init__(self, *args, **kw):
         self.map_width = kw.get("map_width", DEFAULT_WIDTH)
         self.map_height = kw.get("map_height", DEFAULT_HEIGHT)
 
         super(GeoLocationWidget, self).__init__(*args, **kw)
-        self.inner_widget = forms.widgets.HiddenInput()
+        self.inner_widget = forms.HiddenInput()
 
     def render(self, name, value, *args, **kwargs):
         from django.utils.safestring import mark_safe

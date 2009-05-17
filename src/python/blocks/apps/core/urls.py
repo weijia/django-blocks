@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib.sitemaps import GenericSitemap
 from django.contrib.admin import site
+from django.core import urlresolvers
 
 from blocks.apps.core.models import StaticPage
 
@@ -17,6 +18,8 @@ if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
 
 sitemaps = {}
 
+admin_url = urlresolvers.reverse('admin_index')
+
 for model, model_admin in site._registry.items():
     isok = getattr(model, 'get_absolute_url', None) and getattr(model.objects, 'published', None)
     if isok:
@@ -29,6 +32,9 @@ for model, model_admin in site._registry.items():
 
 urlpatterns += patterns('',
     #(r'^json/', request.rpc_request),
+    
+    # menuitem history fix
+    (r'^%s/core/menuitem/(?P<item_id>\d+)/$' % admin_url.strip('/'), 'blocks.apps.core.views.menuitem'),
     
     # the sitemap and robots
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps} ),
