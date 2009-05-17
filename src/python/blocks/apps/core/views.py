@@ -68,9 +68,9 @@ def robots(request):
     current_site = Site.objects.get_current()
     protocol = request.is_secure() and 'https' or 'http'
     try:
-        admin_url = urlresolvers.reverse('admin_index')
+        admin_url = urlresolvers.reverse('%sadmin_index' % site.name)
     except urlresolvers.NoReverseMatch:
-        admin_url = "/admin/"
+        admin_url = '/%s' % site.root_path
     sitemap_url = urlresolvers.reverse('django.contrib.sitemaps.views.sitemap')
     sitemap_url = ('%s://%s%s' % (protocol, current_site.domain, sitemap_url))
     return render_to_response('blocks/robots.txt', {'admin_url': admin_url, 'sitemap_url': sitemap_url}, mimetype = 'text/plain')
