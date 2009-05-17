@@ -16,6 +16,12 @@ if hasattr(settings, 'BLOCKS_BLOG_URL'):
 if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
     urlpatterns += patterns('', (r'^%s/' % settings.BLOCKS_AGGREGATOR_URL.strip('/'), include('blocks.apps.aggregator.urls')), )
 
+if not hasattr(settings, 'FILEBROWSER_URL_ADMIN'):
+    settings.FILEBROWSER_URL_ADMIN = '/admin/filebrowser/'
+
+if getattr(settings, 'FILEBROWSER_ENABLED', False):
+    urlpatterns += patterns('', (r'^%s/' % settings.FILEBROWSER_URL_ADMIN.strip('/'), include('filebrowser.urls')), )
+
 sitemaps = {}
 
 try:
