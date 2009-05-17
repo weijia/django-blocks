@@ -170,8 +170,11 @@ class XapianBackend(SearchEngineBackend):
         """
         guid = match.document.get_value(DOC_ID_VALUE_INDEX)
         app_label, model_name, pk_val = guid.split('://')[1].split('/')
-        pk_val, qs = pk_val.split('?')
-        keys = [k.split('=') for k in qs.split('&')] if qs != '' else []
+        try:
+            pk_val, qs = pk_val.split('?')
+            keys = [k.split('=') for k in qs.split('&')] if qs != '' else []
+        except:
+            keys = []
         return (app_label, model_name, pk_val, keys, match.percent)
 
     def search(self, query, models=None, order_by=RELEVANCE, limit=25, offset=0):        
