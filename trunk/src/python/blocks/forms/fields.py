@@ -8,6 +8,7 @@ from widgets import DelAdminFileWidget, GeoLocationWidget
 from forms import GeoLocationFormField, BlocksImageFormField
 import shutil
 
+
 class ThumbnailField:
     '''
     Instances of this class will be used to access data of the
@@ -211,10 +212,10 @@ class BlocksImageField(ImageField):
             Overwrite get_db_prep_save to allow saving nothing to the database
             if image has been deleted
         '''
+        v = u''
         if value:
-            return super(BlocksImageField, self).get_db_prep_save(value)
-        else:
-            return u''
+            v = super(BlocksImageField, self).get_db_prep_save(value)
+        return v
 
     def contribute_to_class(self, cls, name):
         '''
@@ -227,12 +228,10 @@ class BlocksImageField(ImageField):
 
 
 class GeoLocationField(Field):
-    widget = GeoLocationWidget
-
+    def get_internal_type(self):
+        return "CharField"
+    
     def formfield(self, **kwargs):
-        '''
-        Specify form field and widget to be used on the forms
-        '''
         kwargs['widget'] = GeoLocationWidget
         kwargs['form_class'] = GeoLocationFormField
         return super(GeoLocationField, self).formfield(**kwargs)
@@ -242,6 +241,10 @@ class GeoLocationField(Field):
             a, b = value.split(',')
         else:
             a, b = value
-
         lat, lng = float(a), float(b)
         return "%f,%f" % (lat, lng)
+    
+#class HTMLField(TextField):
+#    def formfield(self, **kwargs):
+#        kwargs['widget'] = widgets.HTMLWidget
+#        return super(HTMLField, self).formfield(**defaults)

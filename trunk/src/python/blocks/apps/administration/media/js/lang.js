@@ -383,7 +383,7 @@ $(document).ready(
 						});
 					
 						// Filebrowser callback
-				        wymeditor_filebrowser(wym, wdw);
+				        // wymeditor_filebrowser(wym, wdw);
 				        
 	                    //wym.hovertools();
 	                    //wym.resizable();
