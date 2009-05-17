@@ -48,20 +48,21 @@
 							<li><a href="/admin/logout/">{% trans 'Log out' %}</a></li>
 						</ul>
 					</div>
-					{% endif %}
 					
-					{% if BLOCKS_SETTINGS.FILEBROWSER_ENABLED %}
+						{% if BLOCKS_SETTINGS.FILEBROWSER_ENABLED %}
 					<div class="module">
 						<h2>{% trans 'Tools' %}</h2>
 						<ul>
 							<li><a href="{{ BLOCKS_SETTINGS.FILEBROWSER_URL_ADMIN }}">{% trans 'File Browser' %}</a></li>
 						</ul>
 					</div>
+						{% endif %}
 					{% endif %}
 										
 					{% block sidebar %}{% endblock %}
 					
 					{% block filters %}{% endblock %}
+					
 				</div>
 				{% endif %}
 				
