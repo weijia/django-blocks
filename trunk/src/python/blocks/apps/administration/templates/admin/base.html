@@ -50,11 +50,15 @@
 					</div>
 					{% endif %}
 					
-					<!-- div class="module">
-						<h2>{% trans 'Content' %}</h2>
-						{% block object-tools %}{% endblock %}
-					</div -->
-					
+					{% if BLOCKS_SETTINGS.FILEBROWSER_ENABLED %}
+					<div class="module">
+						<h2>{% trans 'Tools' %}</h2>
+						<ul>
+							<li><a href="{{ BLOCKS_SETTINGS.FILEBROWSER_URL_ADMIN }}">{% trans 'File Browser' %}</a></li>
+						</ul>
+					</div>
+					{% endif %}
+										
 					{% block sidebar %}{% endblock %}
 					
 					{% block filters %}{% endblock %}

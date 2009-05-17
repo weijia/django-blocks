@@ -133,6 +133,8 @@ class MenuAdmin(admin.ModelAdmin):
         from django.conf.urls.defaults import patterns, url
         from django.utils.functional import update_wrapper
         
+        print "URLS!!"
+        
         def wrap(view):
             def wrapper(*args, **kwargs):
                 return self.admin_site.admin_view(view)(*args, **kwargs)
@@ -149,6 +151,7 @@ class MenuAdmin(admin.ModelAdmin):
         )
         return urlpatterns + urls
 
+    
     def get_object_with_change_permissions(self, request, model, obj_pk):
         ''' Helper function that returns a menu/menuitem if it exists and if the user has the change permissions '''
         try:
