@@ -112,6 +112,10 @@ INSTALLED_APPS = (
     'blocks.apps.core',
     'blocks.apps.administration',
 
+    # django-blocks add-ons applications
+    #'blocks.apps.aggregator',
+    'blocks.apps.aggregator',
+
     # django-blocks based applications 
     'demo.apps.site',
     'demo.apps.news',
@@ -120,7 +124,7 @@ INSTALLED_APPS = (
 ## BLOCKS SETTINGS ##
 
 BLOCKS_SP_REDIRECT = True
-#BLOCKS_AGGREGATOR_URL = '/feeds/'
+BLOCKS_AGGREGATOR_URL = '/feeds/'
 #BLOCKS_BLOG_URL = '/blog/'
 
 

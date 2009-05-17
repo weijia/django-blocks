@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}				
-	<div id="history" class="colcn last">
+	<div id="history" class="collg">
 		<h2>{% trans 'LATEST ACTIONS' %}</h2>
 		<div class="items separator">
 		{% for log in history %}
@@ -20,6 +20,27 @@
 		{% empty %}
 			<p>{% trans 'no contribution to the site yet' %}</p>
 		{% endfor %}
+		</div>
+	</div>
+	
+	<div id="feeds" class="colsm last">
+		<h2>{% trans 'Latest Feeds' %}</h2>
+		<div class="bbody">
+			{% load humanize %}
+			{% load aggregator %}
+			{% get_feed_list as feed_list limit 6 %}
+			{% for item in feed_list %}
+			<div class="item">
+				<span class="feed"><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id }}/">{{ item.feed.title }}</a></span><br />
+				<span class="date">{{ item.date_modified|naturalday:"F j, Y" }} @ {{ item.date_modified|date:"H:i" }}</span><br />
+				<a class="title" href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id}}/{{ item.id }}/" target="_new">{{ item.title }}</a>
+			</div>
+			{% empty %}
+				<p>{% trans 'no feeds' %}</p>
+			{% endfor %}
+			<div class="more">
+				<a href="{{ BLOCKS_AGGREGATOR_URL }}">{% trans 'MORE' %} {% trans 'FEEDS' %}</a>
+			</div>
 		</div>
 	</div>
 {% endblock %}
