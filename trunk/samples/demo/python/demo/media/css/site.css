@@ -262,7 +262,7 @@ h2
     font-size: .9em;
     font-weight: normal;
     color: white;
-}
+}.textblock h2{	font-size: 1.2em;	font-weight: bold;	background-color: transparent;	padding-left: 0px;}
 
 div#sidebar ul
 {
