@@ -133,8 +133,6 @@ class MenuAdmin(admin.ModelAdmin):
         from django.conf.urls.defaults import patterns, url
         from django.utils.functional import update_wrapper
         
-        print "URLS!!"
-        
         def wrap(view):
             def wrapper(*args, **kwargs):
                 return self.admin_site.admin_view(view)(*args, **kwargs)
