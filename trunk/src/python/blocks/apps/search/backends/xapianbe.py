@@ -191,7 +191,6 @@ class XapianBackend(SearchEngineBackend):
             models = [search_options for model, search_options in m if search_options.instanciate(None)]
         
         for m in models:
-            print m.fields
             for field in m.fields:
                 if field.key is not None:
                     key = DOC_KEY_TERM_PREFIX + field.key.upper()
