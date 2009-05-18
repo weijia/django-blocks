@@ -65,6 +65,7 @@ def staticpage(request, url):
     return response
 
 def robots(request):
+    from django.contrib.admin import site
     current_site = Site.objects.get_current()
     protocol = request.is_secure() and 'https' or 'http'
     try:
