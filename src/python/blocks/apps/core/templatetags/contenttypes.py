@@ -160,4 +160,7 @@ register.tag('menuitems', do_menutitem_list)
 @register.filter
 def startswith(value, arg):
     """Usage, {% if value|starts_with:"arg" %}"""
-    return value.startswith(arg)
+    if isinstance(value, str) or isinstance(value, unicode):
+        return value.startswith(arg)
+    else:
+        return False
