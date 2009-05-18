@@ -72,6 +72,9 @@ def robots(request):
         admin_url = urlresolvers.reverse('%sadmin_index' % site.name)
     except urlresolvers.NoReverseMatch:
         admin_url = '/%s' % site.root_path
-    sitemap_url = urlresolvers.reverse('django.contrib.sitemaps.views.sitemap')
+    try:
+        sitemap_url = urlresolvers.reverse('django.contrib.sitemaps.views.sitemap')
+    except urlresolvers.NoReverseMatch:
+        sitemap_url = '/sitemap.xml'
     sitemap_url = ('%s://%s%s' % (protocol, current_site.domain, sitemap_url))
     return render_to_response('blocks/robots.txt', {'admin_url': admin_url, 'sitemap_url': sitemap_url}, mimetype = 'text/plain')
