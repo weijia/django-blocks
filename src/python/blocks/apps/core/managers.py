@@ -6,6 +6,7 @@ from django.db.transaction import savepoint_state
 from django.db.models import options
 from django.db.models.query import QuerySet
 from django.db.models.sql import BaseQuery
+from django.core import signals
     	
 from datetime import datetime
 
@@ -15,6 +16,17 @@ try:
     import thread
 except ImportError:
     import dummy_thread as thread
+
+_connections  = {}
+
+# Register an event that closes the database connections
+# when a Django request is finished.
+def close_connection(**kwargs):
+    global _connections
+    for connection in _connections.itervalues():
+        connection.close()
+    _connections = {}
+signals.request_finished.connect(close_connection)
 
 class MultiDBManager(Manager):
 
@@ -41,13 +53,13 @@ class MultiDBManager(Manager):
     def get_db_wrapper(self):
         db_name = getattr(self.model._meta, 'db_name', None)
         if not db_name is None:
-            settings_dict = settings.DATABASES[db_name]
-            backend = load_backend(settings_dict['DATABASE_ENGINE'])
-
-            wrapper = backend.DatabaseWrapper(self._get_settings(settings_dict))
-            wrapper._cursor()
-
-            return wrapper
+            if not _connections.has_key(db_name):
+                settings_dict = settings.DATABASES[db_name]
+                backend = load_backend(settings_dict['DATABASE_ENGINE'])
+                wrapper = backend.DatabaseWrapper(self._get_settings(settings_dict))
+                wrapper._cursor()
+                _connections[db_name] = wrapper
+            return _connections[db_name]
         else:
             from django.db import connection
             return connection
