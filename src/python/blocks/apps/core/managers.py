@@ -30,16 +30,23 @@ signals.request_finished.connect(close_connection)
 
 class MultiDBManager(Manager):
 
-    def get_query_set(self):
-        connection = self.get_db_wrapper()
-        if connection.features.uses_custom_query_class:
-            Query = connection.ops.query_class(BaseQuery)
+    @staticmethod
+    def get_db_connection(model):
+        db_name = getattr(model._meta, 'db_name', None)
+        if not db_name is None:
+            if not _connections.has_key(db_name):
+                settings_dict = settings.DATABASES[db_name]
+                backend = load_backend(settings_dict['DATABASE_ENGINE'])
+                wrapper = backend.DatabaseWrapper(MultiDBManager._get_settings(settings_dict))
+                wrapper._cursor()
+                _connections[db_name] = wrapper
+            return _connections[db_name]
         else:
-            Query = BaseQuery
-        qs = QuerySet(self.model, Query(self.model, connection))
-        return qs
-       
-    def _get_settings(self, settings_dict):
+            from django.db import connection
+            return connection
+    
+    @staticmethod
+    def _get_settings(settings_dict):
         return {
             'DATABASE_HOST': settings_dict.get('DATABASE_HOST'),
             'DATABASE_NAME': settings_dict.get('DATABASE_NAME'),
@@ -48,23 +55,17 @@ class MultiDBManager(Manager):
             'DATABASE_PORT': settings_dict.get('DATABASE_PORT'),
             'DATABASE_USER': settings_dict.get('DATABASE_USER'),
             'TIME_ZONE': settings.TIME_ZONE,
-        }
-
-    def get_db_wrapper(self):
-        db_name = getattr(self.model._meta, 'db_name', None)
-        if not db_name is None:
-            if not _connections.has_key(db_name):
-                settings_dict = settings.DATABASES[db_name]
-                backend = load_backend(settings_dict['DATABASE_ENGINE'])
-                wrapper = backend.DatabaseWrapper(self._get_settings(settings_dict))
-                wrapper._cursor()
-                _connections[db_name] = wrapper
-            return _connections[db_name]
+        }  
+        
+    def get_query_set(self):
+        connection = MultiDBManager.get_db_connection(self.model)
+        if connection.features.uses_custom_query_class:
+            Query = connection.ops.query_class(BaseQuery)
         else:
-            from django.db import connection
-            return connection
-            
-
+            Query = BaseQuery
+        qs = QuerySet(self.model, Query(self.model, connection))
+        return qs
+    
     def _insert(self, values, return_id=False, raw_values=False):
         query = sql.InsertQuery(self.model, self.get_db_wrapper())
         query.insert_values(values, raw_values)
