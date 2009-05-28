@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from blocks.apps.search.crawlers.base import Crawler
 from blocks.apps.search import site
+from datetime import date
 
 class ModelCrawler(Crawler):
 
@@ -15,8 +16,8 @@ class ModelCrawler(Crawler):
             for instance in search_options.manager.all():
                 for lang in settings.BLOCKS_LANGUAGES:
                     self.set_language(lang[0])
-                    search_options.instanciate(instance)
-                    self.backend.update(search_options.guid, search_options.fields, model, search_options.date)
+                    if hasattr(search_options.date, 'value')  and isinstance(search_options.date.value, date):
+                        self.backend.update(search_options.guid, search_options.fields, model, search_options.date)
         self.backend.stop()
     
     def set_language(self, lang):
