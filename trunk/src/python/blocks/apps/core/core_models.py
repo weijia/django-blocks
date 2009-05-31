@@ -29,7 +29,7 @@ class TranslationWrapper(object):
         self.model = model
 
     def __getattr__(self, name):
-        return mark_safe( getattr(self.model, name, None) )
+        return mark_safe( getattr(self.model, name, '') )
 
 class BaseModel(models.Model):
     name = models.CharField(_('name'), max_length=200, blank=False)
