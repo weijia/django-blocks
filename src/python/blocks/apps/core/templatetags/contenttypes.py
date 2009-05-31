@@ -20,7 +20,7 @@ register.inclusion_tag('blocks/menu.html', takes_context=True)(show_menu)
 def show_sub_menu(context, menu_name, url, menu_type=None):
     try:
         if isinstance(menu_name, str) or isinstance(menu_name, unicode):
-            menu = MenuItem.objects.get(menu__name=menu_name, url=url)
+            menu = MenuItem.objects.filter(menu__name=menu_name, url=url)[0]
         else:
             menu = menu_name
         childs = menu.children()
@@ -32,9 +32,6 @@ def show_sub_menu(context, menu_name, url, menu_type=None):
 register.inclusion_tag('blocks/menu_submenu.html', takes_context=True)(show_sub_menu)
 
 def show_menu_item(context, menu_item, menu_type=None):
-    if not isinstance(menu_item, MenuItem):
-        raise template.TemplateSyntaxError, 'Given argument must be a MenuItem object.'
-
     context['menu_item'] = menu_item
     context['menu_type'] = menu_type
     return context
