@@ -1,8 +1,9 @@
 {% if is_paginated %}
 {% load i18n %}
+{{ request }}
 <div class="pages">
     {% if page_obj.has_previous %}
-        <a title="{% trans 'goto' %} {% trans 'previous page' %}" href="?page={{ page_obj.previous_page_number }}{{ getvars }}" class="nextprev">&lsaquo;&lsaquo; {% trans 'previous' %}</a>
+        <a title="{% trans 'goto' %} {% trans 'previous page' %}" href="?{{ getvars }}page={{ page_obj.previous_page_number }}" class="nextprev">&lsaquo;&lsaquo; {% trans 'previous' %}</a>
     {% else %}
         <span class="nextprev">&lsaquo;&lsaquo; {% trans 'previous' %}</span>
     {% endif %}
@@ -11,19 +12,19 @@
         {% ifequal page page_obj.number %}
             <span class="current">{{ page }}</span>
         {% else %}
-            <a title="goto page {{ page }}" href="?page={{ page }}{{ getvars }}" class="page">{{ page }}</a>
+            <a title="goto page {{ page }}" href="?{{ getvars }}page={{ page }}" class="page">{{ page }}</a>
         {% endifequal %}
         
         {% if forloop.last %}
         	{% ifnotequal forloop.counter paginator.num_pages %}
             <span class="none">...</span>
-            <a title="goto page {{ paginator.num_pages }}" href="?page={{ paginator.num_pages }}{{ getvars }}" class="page">{{ paginator.num_pages }}</a>
+            <a title="goto page {{ paginator.num_pages }}" href="?{{ getvars }}page={{ paginator.num_pages }}" class="page">{{ paginator.num_pages }}</a>
             {% endifnotequal %}
         {% endif %}
     {% endfor %}
     
     {% if page_obj.has_next %}
-        <a title="{% trans 'goto' %} {% trans 'next page' %}" href="?page={{ page_obj.next_page_number }}{{ getvars }}" class="nextprev">{% trans 'next' %} &rsaquo;&rsaquo;</a>
+        <a title="{% trans 'goto' %} {% trans 'next page' %}" href="?{{ getvars }}page={{ page_obj.next_page_number }}" class="nextprev">{% trans 'next' %} &rsaquo;&rsaquo;</a>
     {% else %}
         <span class="nextprev">{% trans 'next' %} &rsaquo;&rsaquo;</span>
     {% endif %}
