@@ -1,25 +1,31 @@
 {% if is_paginated %}
+{% load i18n %}
 <div class="pages">
     {% if page_obj.has_previous %}
-        <a title="goto previous page" href="?page={{ page_obj.previous_page_number }}{{ getvars }}" class="nextprev">&lsaquo;&lsaquo; previous</a>
+        <a title="{% trans 'goto' %} {% trans 'previous page' %}" href="?page={{ page_obj.previous_page_number }}{{ getvars }}" class="nextprev">&lsaquo;&lsaquo; {% trans 'previous' %}</a>
     {% else %}
-        <span class="nextprev">&lsaquo;&lsaquo; previous</span>
+        <span class="nextprev">&lsaquo;&lsaquo; {% trans 'previous' %}</span>
     {% endif %}
-    {% for page in paginator.page_range %}
-        {% if page %}
-            {% ifequal page page_obj.number %}
-                <span class="current">{{ page }}</span>
-            {% else %}
-                <a title="goto page {{ page }}" href="?page={{ page }}{{ getvars }}" class="page">{{ page }}</a>
-            {% endifequal %}
+    
+    {% for page in paginator.page_range|slice:":20" %}
+        {% ifequal page page_obj.number %}
+            <span class="current">{{ page }}</span>
         {% else %}
-            ...
+            <a title="goto page {{ page }}" href="?page={{ page }}{{ getvars }}" class="page">{{ page }}</a>
+        {% endifequal %}
+        
+        {% if forloop.last %}
+        	{% ifnotequal forloop.counter paginator.num_pages %}
+            <span class="none">...</span>
+            <a title="goto page {{ paginator.num_pages }}" href="?page={{ paginator.num_pages }}{{ getvars }}" class="page">{{ paginator.num_pages }}</a>
+            {% endifnotequal %}
         {% endif %}
     {% endfor %}
+    
     {% if page_obj.has_next %}
-        <a title="goto next page" href="?page={{ page_obj.next_page_number }}{{ getvars }}" class="nextprev">next &rsaquo;&rsaquo;</a>
+        <a title="{% trans 'goto' %} {% trans 'next page' %}" href="?page={{ page_obj.next_page_number }}{{ getvars }}" class="nextprev">{% trans 'next' %} &rsaquo;&rsaquo;</a>
     {% else %}
-        <span class="nextprev">next &rsaquo;&rsaquo;</span>
+        <span class="nextprev">{% trans 'next' %} &rsaquo;&rsaquo;</span>
     {% endif %}
 </div>
 {% endif %}
