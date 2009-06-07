@@ -3,42 +3,65 @@ import random
 import hashlib
 
 from django.conf import settings
-from blocks.apps.cart.models import Cart, Item
+from blocks.apps.cart import models
 
 CART_ID = 'BLOCKS_CARTID'
+CART_HASH = 'BLOCKS_CARTHASH'
 
 class Cart:
     def __init__(self, request):
-        self.request = request
         cart_id = request.session.get(CART_ID)
-        self.cart = self.get(cart_id)
+        cart_hash = request.session.get(CART_HASH)
+        self.cart = self.get(request, cart_id, cart_hash)
         
     def __iter__(self):
         for item in self.cart.item_set.all():
             yield item
 
-    def get(self, card_id=None):
-        if cart_id:
+    def __unicode__(self):
+        return u'%s' % self.cart
+    items = property(__iter__)
+    
+    def get_items_count(self):
+        return self.cart.item_set.count()
+    items_count = property(get_items_count)
+    
+    def get_total_price(self):
+        total_price = 0;
+        for item in self.items:
+            total_price = total_price + item.total_price
+        return total_price
+    total_price = property(get_total_price)
+    
+    def get(self, request, cart_id=None, cart_hash=None):
+        cart = None
+        if cart_id and cart_hash:
             try:
-                cart = Cart.objects.get(hash=cart_id)
-            except Cart.DoesNotExist:
-                cart = self.new()
-        else:
-            cart = self.new()
+                cart = models.Cart.objects.get(pk=cart_id, hash=cart_hash)
+            except models.Cart.DoesNotExist:
+                pass
+        
+        if not cart:
+            cart = self.new(request)
+            
         return cart
     
-    def new(self):
+    def new(self, request):
         hash = hashlib.sha256(str(random.random()) + settings.SECRET_KEY).hexdigest()
-        cart = Cart(creation_date=datetime.datetime.now(), hash=hash)
+        cart = models.Cart(creation_date=datetime.datetime.now(), hash=hash)
         cart.save()
-        self.request.session[CART_ID] = cart.hash
+        request.session[CART_ID] = cart.id
+        request.session[CART_HASH] = cart.hash
         return cart
 
     def add(self, object, unit_price, quantity=1, tax=1 ):
+        quantity = convert_to_int(quantity or 1, 1)
         try:
-            item = Item.objects.get(cart=self.cart, object=object)
-        except Item.DoesNotExist:
-            item = Item(
+            item = models.Item.objects.get(cart=self.cart, object=object)
+            item.quantity = item.quantity + quantity
+            item.save()
+        except models.Item.DoesNotExist:
+            item = models.Item(
                 cart=self.cart,
                 object=object,
                 unit_price=unit_price,
@@ -46,21 +69,36 @@ class Cart:
                 tax=tax
             )
             item.save()
-        else:
+            
+    def update(self, object, unit_price, quantity=0, tax=1):
+        quantity = convert_to_int(quantity or 0)
+        try:
+            item = models.Item.objects.get(cart=self.cart, object=object)
+            if int(quantity) == 0:
+                self.remove(object)
+            else:
+                item.quantity = quantity
+                item.save()
+        except models.Item.DoesNotExist:
             pass
-            # just update the object
 
     def remove(self, object):
         try:
-            item = Item.objects.get(
+            item = models.Item.objects.get(
                 cart=self.cart,
                 object=object,
             ).delete()
-        except Item.DoesNotExist:
+        except models.Item.DoesNotExist:
             pass
            
 
     def clear(self):
         self.cart.delete()
-        self.request.session.pop(CART_ID)
 
+def convert_to_int(value, default=0):
+    if isinstance(value, str) or isinstance(value, unicode):
+        return int(float(value.replace(',', '.')))
+    elif isinstance(value, float):
+        return int(float)
+    return default
+    

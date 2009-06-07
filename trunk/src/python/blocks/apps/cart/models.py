@@ -18,24 +18,26 @@ class Cart(models.Model):
     creation_date = models.DateTimeField(verbose_name=_('creation date'))
     
     # profile as generic relation
-    profile_type = models.ForeignKey(ContentType)
-    profile_id = models.PositiveIntegerField()
+    profile_type = models.ForeignKey(ContentType, null=True, blank=True)
+    profile_id = models.PositiveIntegerField(null=True, blank=True)
 
     status = models.CharField(_('status'), max_length=2)
 
     class Meta:
+        db_table = 'blocks_cart'
         verbose_name = _('cart')
         verbose_name_plural = _('carts')
         ordering = ('-creation_date',)
 
     def __unicode__(self):
-        return unicode(self.creation_date)
+        return u'%s - %s (%s)' % (self.id, self.hash, self.status)
+
 
 class Item(models.Model):
     cart = models.ForeignKey(Cart, verbose_name=_('cart'))
     quantity = models.PositiveIntegerField(verbose_name=_('quantity'))
     unit_price = models.DecimalField(max_digits=18, decimal_places=2, verbose_name=_('unit price'))
-    tax = models.DecimalField(max_digits=2, decimal_places=5, verbose_name=_('tax'))
+    tax = models.DecimalField(max_digits=5, decimal_places=3, verbose_name=_('tax'))
     
     # product as generic relation
     content_type = models.ForeignKey(ContentType)
@@ -44,12 +46,13 @@ class Item(models.Model):
     objects = ItemManager()
 
     class Meta:
+        db_table = 'blocks_cart_item'
         verbose_name = _('item')
         verbose_name_plural = _('items')
         ordering = ('cart',)
 
     def __unicode__(self):
-        return u''
+        return self.object
 
     def total_price(self):
         return self.quantity * self.unit_price
