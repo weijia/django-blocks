@@ -40,7 +40,7 @@ urlpatterns += patterns('',
     # rss feeds
     (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': rss_feeds}),
     
-    # blocks - static pages
+    # blocks
     (r'', include('blocks.apps.core.urls')),
     
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 

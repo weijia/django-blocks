@@ -161,3 +161,11 @@ def startswith(value, arg):
         return value.startswith(arg)
     else:
         return False
+    
+@register.filter
+def inlist(value, arg):
+    return value in arg
+
+@register.filter
+def less(value, arg):
+    return value > arg

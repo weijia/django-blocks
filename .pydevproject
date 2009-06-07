@@ -6,6 +6,7 @@
   
   <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/Django Blocks/src/python</path>
+<path>/Django Blocks/samples/demo/python</path>
 </pydev_pathproperty>
   
   
