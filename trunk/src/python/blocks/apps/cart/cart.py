@@ -81,6 +81,11 @@ class Cart:
                 item.save()
         except models.Item.DoesNotExist:
             pass
+        
+    def checkout(self, request):
+        self.cart.status = 'CK'
+        self.cart.save()
+        self.clear(request)
 
     def remove(self, object):
         try:
@@ -91,9 +96,13 @@ class Cart:
         except models.Item.DoesNotExist:
             pass
            
-
-    def clear(self):
+    def delete(self):
         self.cart.delete()
+        
+    def clear(self, request):
+        request.session.pop(CART_ID)
+        request.session.pop(CART_HASH)
+        self.cart = None
 
 def convert_to_int(value, default=0):
     if isinstance(value, str) or isinstance(value, unicode):
