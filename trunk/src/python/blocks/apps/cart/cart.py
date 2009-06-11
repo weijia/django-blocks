@@ -83,6 +83,7 @@ class Cart:
             pass
         
     def checkout(self, request):
+        self.cart.user = request.user
         self.cart.status = 'CK'
         self.cart.save()
         self.clear(request)

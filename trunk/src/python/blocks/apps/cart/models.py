@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-
+from django.contrib.auth.models import User
 
 class ItemManager(models.Manager):
     def get(self, *args, **kwargs):
@@ -17,10 +17,7 @@ class Cart(models.Model):
     hash = models.CharField(max_length=64)
     creation_date = models.DateTimeField(verbose_name=_('creation date'))
     
-    # profile as generic relation
-    profile_type = models.ForeignKey(ContentType, null=True, blank=True)
-    profile_id = models.PositiveIntegerField(null=True, blank=True)
-
+    user =  models.ForeignKey(User, null=True, blank=True)
     status = models.CharField(_('status'), max_length=2)
 
     class Meta:

@@ -43,10 +43,10 @@ def cart_remove_item(request, queryset, object_id):
 
 @login_required
 def cart_checkout(request):
+    cart = Cart(request)
     if cart.get_items_count() > 0:
         user = request.user
         try:
-            cart = Cart(request)
             profile = user.get_profile()
             return direct_to_template(request, template='cart/checkout_confirm.html', extra_context={'cart': cart, 'profile': profile, })
         except ObjectDoesNotExist:
