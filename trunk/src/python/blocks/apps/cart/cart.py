@@ -56,6 +56,10 @@ class Cart:
 
     def add(self, object, unit_price, quantity=1, tax=1 ):
         quantity = convert_to_int(quantity or 1, 1)
+        if hasattr(object, 'stock'):
+            limit = convert_to_int(object.stock, 0)
+            if quantity > limit:
+                quantity = limit
         try:
             item = models.Item.objects.get(cart=self.cart, object=object)
             item.quantity = item.quantity + quantity
@@ -72,6 +76,10 @@ class Cart:
             
     def update(self, object, unit_price, quantity=0, tax=1):
         quantity = convert_to_int(quantity or 0)
+        if hasattr(object, 'stock'):
+            limit = convert_to_int(object.stock, 0)
+            if quantity > limit:
+                quantity = limit
         try:
             item = models.Item.objects.get(cart=self.cart, object=object)
             if int(quantity) == 0:
@@ -86,6 +94,13 @@ class Cart:
         self.cart.user = request.user
         self.cart.status = 'CK'
         self.cart.save()
+        
+        for item in self:
+            object = item.object
+            if hasattr(object, 'stock'):
+                object.stock = object.stock - item.quantity
+                object.save()
+        
         self.clear(request)
 
     def remove(self, object):
@@ -109,6 +124,8 @@ def convert_to_int(value, default=0):
     if isinstance(value, str) or isinstance(value, unicode):
         return int(float(value.replace(',', '.')))
     elif isinstance(value, float):
-        return int(float)
+        return int(value)
+    elif isinstance(value, int):
+        return value
     return default
     
