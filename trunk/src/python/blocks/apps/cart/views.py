@@ -78,11 +78,20 @@ def cart_confirm(request):
         current_site = Site.objects.get_current()
         context = { 'site': current_site, 'cart': cart, 'profile': profile }
         
+        
+        # send email to the user
         subject = render_to_string('cart/checkout_email_subject.txt', context)
         subject = ''.join(subject.splitlines())
         message = render_to_string('cart/checkout_email.txt', context)
-        
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [profile.user.email])
+        
+        # send email to the shop manager
+        subject = render_to_string('cart/checkout_manager_email_subject.txt', context)
+        subject = ''.join(subject.splitlines())
+        message = render_to_string('cart/checkout_manager_email.txt', context)
+        recipient_list = ["%s <%s>" % mail_tuple for mail_tuple in settings.BLOCKS_SHOP_MANAGERS]
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
+        
     
         cart.checkout(request)
         return direct_to_template(request, template='cart/checkout_complete.html')

@@ -9,10 +9,11 @@ CART_ID = 'BLOCKS_CARTID'
 CART_HASH = 'BLOCKS_CARTHASH'
 
 class Cart:
-    def __init__(self, request):
-        cart_id = request.session.get(CART_ID)
-        cart_hash = request.session.get(CART_HASH)
-        self.cart = self.get(request, cart_id, cart_hash)
+    def __init__(self, request=None):
+        if request:
+            cart_id = request.session.get(CART_ID)
+            cart_hash = request.session.get(CART_HASH)
+            self.cart = self.get(request, cart_id, cart_hash)
         
     def __iter__(self):
         for item in self.cart.item_set.all():
@@ -56,10 +57,6 @@ class Cart:
 
     def add(self, object, unit_price, quantity=1, tax=1 ):
         quantity = convert_to_int(quantity or 1, 1)
-        if hasattr(object, 'stock'):
-            limit = convert_to_int(object.stock, 0)
-            if quantity > limit:
-                quantity = limit
         try:
             item = models.Item.objects.get(cart=self.cart, object=object)
             item.quantity = item.quantity + quantity
@@ -76,10 +73,6 @@ class Cart:
             
     def update(self, object, unit_price, quantity=0, tax=1):
         quantity = convert_to_int(quantity or 0)
-        if hasattr(object, 'stock'):
-            limit = convert_to_int(object.stock, 0)
-            if quantity > limit:
-                quantity = limit
         try:
             item = models.Item.objects.get(cart=self.cart, object=object)
             if int(quantity) == 0:
@@ -94,13 +87,6 @@ class Cart:
         self.cart.user = request.user
         self.cart.status = 'CK'
         self.cart.save()
-        
-        for item in self:
-            object = item.object
-            if hasattr(object, 'stock'):
-                object.stock = object.stock - item.quantity
-                object.save()
-        
         self.clear(request)
 
     def remove(self, object):

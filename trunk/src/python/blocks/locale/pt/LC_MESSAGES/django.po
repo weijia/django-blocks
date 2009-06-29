@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-05 22:11+0100\n"
+"POT-Creation-Date: 2009-06-29 01:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,8 @@ msgstr "Gerir os utilizadores, grupos e funcionalidades do sítio de administra�
 
 #: apps/administration/__init__.py:15
 msgid "Determine access to features by selecting permissions for groups."
-msgstr "Determinar os acessos às funcionalidades seleccionando as permissões dos grupos"
+msgstr "Determinar os acessos às funcionalidades seleccionando as permissões dos "
+"grupos"
 
 #: apps/administration/__init__.py:16
 msgid "List, add, and edit users."
@@ -73,13 +74,16 @@ msgstr "Listar, adicionar e editar páginas."
 msgid ""
 "If you want to add a static page, like a contact page or an about page, use "
 "a page."
-msgstr "Se voçê pretende adicionar uma página estática, como uma página de contacto ou uma página de about, usar uma página."
+msgstr "Se voçê pretende adicionar uma página estática, como uma página de contacto "
+"ou uma página de about, usar uma página."
 
 #: apps/administration/__init__.py:37
+#, fuzzy
 msgid "Configure templates wich controls how content appears in your site."
 msgstr ""
 
 #: apps/administration/__init__.py:38
+#, fuzzy
 msgid ""
 "Views are customized lists of content on your system; they are highly "
 "configurable and give you control over how lists of content are presented."
@@ -87,17 +91,19 @@ msgstr ""
 
 #: apps/administration/__init__.py:39
 msgid "Customize your menu navigation."
-msgstr ""
+msgstr "Costumizar o menu de navegação"
 
 #: apps/administration/__init__.py:43
 msgid "Feed Aggregator"
 msgstr "Agregador de Feeds"
 
 #: apps/administration/__init__.py:44
+#, fuzzy
 msgid "Manage your site's feeds."
 msgstr ""
 
 #: apps/administration/__init__.py:45
+#, fuzzy
 msgid "Add you feeds here."
 msgstr ""
 
@@ -107,10 +113,12 @@ msgid "Weblog"
 msgstr "Weblog"
 
 #: apps/administration/__init__.py:50
+#, fuzzy
 msgid "Manage your site's blogs."
 msgstr ""
 
 #: apps/administration/__init__.py:51
+#, fuzzy
 msgid "Add you blogs here."
 msgstr ""
 
@@ -149,20 +157,31 @@ msgid "Log out"
 msgstr "Sair"
 
 #: apps/administration/templates/admin/base.html:54
-msgid "Content"
-msgstr "Conteúdo"
+msgid "Tools"
+msgstr "Ferramentas"
+
+#: apps/administration/templates/admin/base.html:56
+msgid "File Browser"
+msgstr "Gestor de Ficheiros"
 
 #: apps/administration/templates/admin/base_site.html:4
 msgid "Django-Blocks site admin"
 msgstr "Django-Blocks sítio de administração"
 
-#: apps/administration/templates/admin/change_list.html:15
-#, python-format
+#: apps/administration/templates/admin/change_list.html:19
 #, fuzzy
 msgid "Add %(name)s"
 msgstr "Adicionar %(name)s"
 
-#: apps/administration/templates/admin/change_list.html:31
+#: apps/administration/templates/admin/change_list.html:27
+#: apps/cart/templates/admin/cart/change_form.html:18
+#, fuzzy
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: apps/administration/templates/admin/change_list.html:54
 #, fuzzy
 msgid "Filter"
 msgstr "Filtro"
@@ -171,7 +190,8 @@ msgstr "Filtro"
 msgid ""
 "Welcome to the administration section. Here you may control how your site "
 "functions."
-msgstr "Bem-vindo à secção de administração. Aqui voçê pode controlar como funciona o seu sítio."
+msgstr "Bem-vindo à secção de administração. Aqui voçê pode controlar como funciona "
+"o seu sítio."
 
 #: apps/administration/templates/admin/index.html:21
 #, fuzzy
@@ -208,16 +228,67 @@ msgstr "As Minhas Acções"
 msgid "None available"
 msgstr ""
 
-#: apps/administration/templates/blocks/imagetabular.html:15
-#: forms/widgets.py:38
-#, fuzzy
-msgid "Delete?"
-msgstr "Remover?"
+#: apps/administration/templates/filebrowser/index.html:29
+msgid "New Folder"
+msgstr "Nova Pasta"
 
-#: apps/administration/templates/blocks/multilang.html:25
+#: apps/administration/templates/filebrowser/index.html:30
 #, fuzzy
-msgid "View on site"
-msgstr "Ver no sítio"
+msgid "Generate Images"
+msgstr "Imagens da Página Estática"
+
+#: apps/administration/templates/filebrowser/index.html:31
+#, fuzzy
+msgid "Upload"
+msgstr "entrada"
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:8
+#, fuzzy
+msgid "Select"
+msgstr "Apagar"
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:16
+msgid "Select File"
+msgstr "Selecionar Ficheiro"
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:28
+msgid "Make Thumbnail"
+msgstr "Criar Thumbnail"
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:31
+#, fuzzy
+msgid "View Image"
+msgstr "imagem"
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:51
+#, fuzzy
+msgid "Generate Image Versions"
+msgstr ""
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:59
+#, fuzzy
+msgid "Rename"
+msgstr "nome"
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:69
+#, fuzzy
+msgid "Are you sure you want to delete this file?"
+msgstr ""
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:69
+#, fuzzy
+msgid "Delete File"
+msgstr "Apagar"
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:72
+#, fuzzy
+msgid "Are you sure you want to delete this Folder?"
+msgstr ""
+
+#: apps/administration/templates/filebrowser/include/filelisting.html:72
+#, fuzzy
+msgid "Delete Folder"
+msgstr "Apagar"
 
 #: apps/administration/templatetags/admin.py:17
 #, fuzzy
@@ -227,13 +298,13 @@ msgstr "__label__"
 #: apps/administration/templatetags/admin.py:19
 #: apps/administration/templatetags/admin.py:20
 #: apps/core/core_models.py:35
-#: apps/core/models.py:165
+#: apps/core/models.py:175
 #, fuzzy
 msgid "name"
 msgstr "nome"
 
 #: apps/blog/models.py:16
-#: apps/core/models.py:257
+#: apps/core/models.py:265
 msgid "title"
 msgstr "título"
 
@@ -242,12 +313,12 @@ msgid "lead"
 msgstr "entrada"
 
 #: apps/blog/models.py:18
-#: apps/core/models.py:258
+#: apps/core/models.py:266
 msgid "body"
 msgstr "corpo"
 
 #: apps/blog/models.py:21
-#: apps/core/core_models.py:85
+#: apps/core/core_models.py:93
 msgid "publish date"
 msgstr "data de publicação"
 
@@ -288,25 +359,178 @@ msgstr "Entradas de Blog"
 msgid "Publishing options"
 msgstr "Opções de Publicação"
 
-#: apps/core/admin.py:31
-#: apps/core/admin.py:32
-#: apps/core/admin.py:228
+#: apps/cart/models.py:17
+#, fuzzy
+msgid "None"
+msgstr ""
+
+#: apps/cart/models.py:18
+msgid "New"
+msgstr "Novo"
+
+#: apps/cart/models.py:19
+msgid "Reviewed"
+msgstr "Revisto"
+
+#: apps/cart/models.py:20
+msgid "Aproved and Awaiting"
+msgstr "Aprovado e Em Espera"
+
+#: apps/cart/models.py:21
+msgid "Aproved and Sent"
+msgstr "Aprovado e Enviado"
+
+#: apps/cart/models.py:22
+msgid "Rejected"
+msgstr "Rejeitado"
+
+#: apps/cart/models.py:27
+msgid "creation date"
+msgstr "data de criação"
+
+#: apps/cart/models.py:30
+msgid "status"
+msgstr "estado"
+
+#: apps/cart/models.py:34
+#: apps/cart/models.py:43
+msgid "cart"
+msgstr "carrinho"
+
+#: apps/cart/models.py:35
+msgid "carts"
+msgstr "carrinhos"
+
+#: apps/cart/models.py:44
+msgid "quantity"
+msgstr "quantidate"
+
+#: apps/cart/models.py:45
+msgid "unit price"
+msgstr "preço unitário"
+
+#: apps/cart/models.py:46
+msgid "tax"
+msgstr "imposto"
+
+#: apps/cart/models.py:56
+#, fuzzy
+msgid "item"
+msgstr "Sítios"
+
+#: apps/cart/models.py:57
+#, fuzzy
+msgid "items"
+msgstr "Sítios"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:3
+msgid "Profile"
+msgstr "Perfil"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:5
+#: apps/core/models.py:143
+#: apps/core/templates/admin/core/menu/change_form.html:24
+msgid "Name"
+msgstr "Nome"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:9
+#, fuzzy
+msgid "Address"
+msgstr "Adicionar"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:13
+#, fuzzy
+msgid "Phone"
+msgstr ""
+
+#: apps/cart/templates/admin/cart/cart_detail.html:19
+msgid "Shoping Cart"
+msgstr "Carrinho de Compras"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:23
+msgid "Product"
+msgstr "Producto"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:24
+msgid "Reference"
+msgstr "Referência"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:25
+msgid "Quantity"
+msgstr "Quantidade"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:26
+msgid "Unit price"
+msgstr "Preço unitário"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:27
+msgid "Total Price"
+msgstr "Preço Total"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:40
+#, fuzzy
+msgid "total"
+msgstr "título"
+
+#: apps/cart/templates/admin/cart/cart_detail.html:45
+msgid "no products in the shoping cart"
+msgstr "nenhum produto no carrinho de compras"
+
+#: apps/cart/templates/admin/cart/change_form.html:7
+#: apps/core/templates/admin/core/menuitem/object_history.html:20
+#, fuzzy
+msgid "History"
+msgstr "Histórico"
+
+#: apps/cart/templates/admin/cart/change_form.html:8
+#: apps/core/templates/blocks/multilang.html:25
+#, fuzzy
+msgid "View on site"
+msgstr "Ver no sítio"
+
+#: apps/cart/templates/admin/cart/change_form.html:37
+#, fuzzy
+msgid "Save"
+msgstr ""
+
+#: apps/cart/templates/admin/cart/change_form.html:38
+#: apps/core/templates/admin/core/menuitem/delete_confirmation.html:20
+#, fuzzy
+msgid "Delete"
+msgstr "Apagar"
+
+#: apps/cart/templates/admin/cart/change_form.html:39
+#, fuzzy
+msgid "Save and continue editing"
+msgstr ""
+
+#: apps/core/admin.py:16
+#, fuzzy
+msgid "Mark selected as published"
+msgstr ""
+
+#: apps/core/admin.py:51
+#: apps/core/admin.py:52
+#: apps/core/admin.py:243
 msgid "Publishing Options"
 msgstr "Opções de Publicação"
 
-#: apps/core/admin.py:183
-#: apps/core/admin.py:195
+#: apps/core/admin.py:198
+#: apps/core/admin.py:210
 #, python-format
+#, fuzzy
 msgid "The menu item \"%s\" was moved successfully."
 msgstr ""
 
-#: apps/core/admin.py:185
+#: apps/core/admin.py:200
 #, python-format
+#, fuzzy
 msgid "The menu item \"%s\" is not allowed to move down."
 msgstr ""
 
-#: apps/core/admin.py:197
+#: apps/core/admin.py:212
 #, python-format
+#, fuzzy
 msgid "The menu item \"%s\" is not allowed to move up."
 msgstr ""
 
@@ -315,173 +539,195 @@ msgid "image"
 msgstr "imagem"
 
 #: apps/core/core_models.py:16
-#: apps/core/models.py:166
+#: apps/core/models.py:176
 msgid "description"
 msgstr "descrição"
 
 #: apps/core/core_models.py:23
+#, fuzzy
 msgid "Image"
 msgstr ""
 
 #: apps/core/core_models.py:24
+#, fuzzy
 msgid "Images"
 msgstr ""
 
-#: apps/core/core_models.py:85
+#: apps/core/core_models.py:93
+#, fuzzy
 msgid "auto publish at date expecified or when the content was published"
 msgstr ""
 
-#: apps/core/core_models.py:86
+#: apps/core/core_models.py:94
+#, fuzzy
 msgid "unpublish date"
 msgstr ""
 
-#: apps/core/core_models.py:86
+#: apps/core/core_models.py:94
+#, fuzzy
 msgid "auto unpublish at date expecified"
 msgstr ""
 
-#: apps/core/core_models.py:87
+#: apps/core/core_models.py:95
 msgid "promoted"
 msgstr "promover"
 
 #: apps/core/forms.py:25
+#, fuzzy
 msgid "can't have more than one content with the same name"
 msgstr ""
 
 #: apps/core/forms.py:60
 #, python-format
+#, fuzzy
 msgid "can't associate more than one page to the same menu (url: %s)"
 msgstr ""
 
-#: apps/core/managers.py:11
+#: apps/core/managers.py:85
 msgid "Draft"
 msgstr "Esboço"
 
-#: apps/core/managers.py:12
+#: apps/core/managers.py:86
 msgid "Published"
 msgstr "Publicado"
 
-#: apps/core/managers.py:13
+#: apps/core/managers.py:87
 msgid "Disabled"
 msgstr "Desabilitado"
 
 #: apps/core/menus.py:55
-#: apps/core/models.py:139
+#: apps/core/models.py:149
+#, fuzzy
 msgid "Root"
 msgstr ""
 
-#: apps/core/models.py:15
+#: apps/core/models.py:14
+#, fuzzy
 msgid "Parent"
 msgstr ""
 
-#: apps/core/models.py:16
-#: apps/core/models.py:187
+#: apps/core/models.py:15
+#: apps/core/models.py:197
 msgid "URL"
 msgstr "URL"
 
-#: apps/core/models.py:17
+#: apps/core/models.py:16
+#, fuzzy
 msgid "url relative to parent menu"
 msgstr ""
 
-#: apps/core/models.py:19
+#: apps/core/models.py:18
+#, fuzzy
 msgid "Level"
 msgstr ""
 
-#: apps/core/models.py:20
+#: apps/core/models.py:19
+#, fuzzy
 msgid "Rank"
 msgstr ""
 
-#: apps/core/models.py:21
-#: apps/core/models.py:157
+#: apps/core/models.py:20
+#: apps/core/models.py:167
+#, fuzzy
 msgid "Menu"
 msgstr ""
 
-#: apps/core/models.py:125
+#: apps/core/models.py:21
+msgid "absolute"
+msgstr "absoluto"
+
+#: apps/core/models.py:135
 msgid "Caption"
 msgstr "Etiqueta"
 
-#: apps/core/models.py:126
+#: apps/core/models.py:136
 msgid "Description"
 msgstr "Descrição"
 
-#: apps/core/models.py:133
-#: apps/core/templates/admin/core/menu/change_form.html:24
-msgid "Name"
-msgstr "Nome"
-
-#: apps/core/models.py:134
+#: apps/core/models.py:144
+#, fuzzy
 msgid "Root Item"
 msgstr ""
 
-#: apps/core/models.py:158
+#: apps/core/models.py:168
 #: apps/core/templates/admin/core/menuitem/change_form.html:19
 #: apps/core/templates/admin/core/menuitem/change_form.html:24
 #: apps/core/templates/admin/core/menuitem/delete_confirmation.html:16
 #: apps/core/templates/admin/core/menuitem/object_history.html:16
+#, fuzzy
 msgid "Menus"
 msgstr ""
 
-#: apps/core/models.py:168
-#: apps/core/models.py:192
+#: apps/core/models.py:178
+#: apps/core/models.py:202
+#, fuzzy
 msgid "template"
 msgstr ""
 
-#: apps/core/models.py:169
+#: apps/core/models.py:179
+#, fuzzy
 msgid ""
 "Example: 'homepage.html'. If this isn't provided, the system will use "
 "'default.html'."
 msgstr ""
 
-#: apps/core/models.py:189
+#: apps/core/models.py:199
 msgid "relative"
 msgstr "relativo"
 
-#: apps/core/models.py:190
+#: apps/core/models.py:200
+#, fuzzy
 msgid ""
 "If a page is relative then the page slug (normalized name) is appended to "
 "the url."
 msgstr ""
 
-#: apps/core/models.py:193
+#: apps/core/models.py:203
+#, fuzzy
 msgid "You must provide a template to be used in this page."
 msgstr ""
 
-#: apps/core/models.py:195
+#: apps/core/models.py:205
+#, fuzzy
 msgid "slug"
 msgstr ""
 
-#: apps/core/models.py:249
+#: apps/core/models.py:257
 msgid "Static Page"
 msgstr "Página Estática"
 
-#: apps/core/models.py:250
+#: apps/core/models.py:258
 msgid "Static Pages"
 msgstr "Páginas Estáticas"
 
-#: apps/core/models.py:271
+#: apps/core/models.py:279
 msgid "Static Page Translation"
 msgstr "Tradução da Página Estática"
 
-#: apps/core/models.py:272
+#: apps/core/models.py:280
 msgid "Static Page Translations"
 msgstr "Traduções da Página Estática"
 
-#: apps/core/models.py:280
+#: apps/core/models.py:288
 msgid "Static Page Image"
 msgstr "Imagem da Página Estática"
 
-#: apps/core/models.py:281
+#: apps/core/models.py:289
 msgid "Static Page Images"
 msgstr "Imagens da Página Estática"
 
 #: apps/core/templates/admin/core/menu/change_form.html:8
+#, fuzzy
 msgid "Menu Items"
 msgstr ""
 
 #: apps/core/templates/admin/core/menu/change_form.html:11
+#, fuzzy
 msgid "Add an item"
 msgstr ""
 
 #: apps/core/templates/admin/core/menu/change_form.html:25
+#, fuzzy
 msgid "Url"
 msgstr ""
 
@@ -490,6 +736,7 @@ msgid "Move"
 msgstr "Mover"
 
 #: apps/core/templates/admin/core/menu/change_form.html:36
+#, fuzzy
 msgid "[Root]"
 msgstr ""
 
@@ -511,37 +758,61 @@ msgstr "Adicionar Item"
 msgid "Items"
 msgstr "Items"
 
-#: apps/core/templates/admin/core/menuitem/delete_confirmation.html:20
+#: apps/core/templates/blocks/imagetabular.html:15
+#: forms/widgets.py:38
 #, fuzzy
-msgid "Delete"
-msgstr "Apagar"
+msgid "Delete?"
+msgstr "Remover?"
 
-#: apps/core/templates/admin/core/menuitem/object_history.html:20
+#: apps/core/templates/core/pagination.html:6
+#: apps/core/templates/core/pagination.html:27
 #, fuzzy
-msgid "History"
-msgstr "Histórico"
+msgid "goto"
+msgstr ""
 
-#: forms/fields.py:45
+#: apps/core/templates/core/pagination.html:6
+#, fuzzy
+msgid "previous page"
+msgstr ""
+
+#: apps/core/templates/core/pagination.html:6
+#: apps/core/templates/core/pagination.html:8
+#, fuzzy
+msgid "previous"
+msgstr ""
+
+#: apps/core/templates/core/pagination.html:27
+#, fuzzy
+msgid "next page"
+msgstr ""
+
+#: apps/core/templates/core/pagination.html:27
+#: apps/core/templates/core/pagination.html:29
+#, fuzzy
+msgid "next"
+msgstr ""
+
+#: forms/fields.py:46
 msgid "Center"
 msgstr "Centrar"
 
-#: forms/fields.py:46
+#: forms/fields.py:47
 msgid "Top Left"
 msgstr "Superior Esquerdo"
 
-#: forms/fields.py:47
+#: forms/fields.py:48
 msgid "Top Right"
 msgstr "Superior Direito"
 
-#: forms/fields.py:48
+#: forms/fields.py:49
 msgid "Bottom Left"
 msgstr "Inferior Esquerdo"
 
-#: forms/fields.py:49
+#: forms/fields.py:50
 msgid "Bottom Right"
 msgstr "Inferior Direito"
 
-#: forms/fields.py:50
+#: forms/fields.py:51
 msgid "Add Borders (if needed)"
 msgstr "Adicionar Rebordos (se necessário)"
 

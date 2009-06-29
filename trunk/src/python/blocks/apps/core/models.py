@@ -18,23 +18,29 @@ class MenuItem(core_models.BaseModel):
     level = models.IntegerField(_('Level'), default=0, editable=False)
     rank = models.IntegerField(_('Rank'), default=0, editable=False)
     menu = models.ForeignKey('Menu', related_name='contained_items', verbose_name=_('Menu'), null=True, blank=True, editable=False)
-
+    absolute = models.BooleanField(_('absolute'))
+    
     def save(self, force_insert=False, force_update=False):
         from blocks.apps.core.menus import clean_ranks
         from blocks.core.utils import fix_url
         from django.template.defaultfilters import slugify   
         
-        parts = self.relurl.split('/')
-        parts = [slugify(p.replace(' ', '')) for p in parts]
+        # fix url
+        if not self.absolute:
+            parts = self.relurl.split('/')
+            parts = [slugify(p.replace(' ', '')) for p in parts]
         
-        self.relurl = '/'.join(parts)
-        self.relurl = fix_url(self.relurl)
+            self.relurl = '/'.join(parts)
+            self.relurl = fix_url(self.relurl)
         
         # Calculate level
         old_level = self.level
         if self.parent:
             self.level = self.parent.level + 1
-            self.url = self.parent.url[:-1] + self.relurl
+            if not self.absolute:
+                self.url = self.parent.url[:-1] + self.relurl
+            else:
+                self.url = self.relurl
         else:
             self.level = 0
             self.url = self.relurl       
