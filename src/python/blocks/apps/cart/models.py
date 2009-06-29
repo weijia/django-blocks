@@ -13,12 +13,21 @@ class ItemManager(models.Manager):
             del(kwargs['object'])
         return super(ItemManager, self).get(*args, **kwargs)
 
+STATUS_CHOICES = (
+    ('',   _('None')),
+    ('CK', _('New')), 
+    ('RV', _('Reviewed')), 
+    ('AA', _('Aproved and Awaiting')), 
+    ('AS', _('Aproved and Sent')), 
+    ('RJ', _('Rejected')), 
+)
+
 class Cart(models.Model):
     hash = models.CharField(max_length=64)
     creation_date = models.DateTimeField(verbose_name=_('creation date'))
     
     user =  models.ForeignKey(User, null=True, blank=True)
-    status = models.CharField(_('status'), max_length=2)
+    status = models.CharField(_('status'), max_length=2, choices=STATUS_CHOICES)
 
     class Meta:
         db_table = 'blocks_cart'
@@ -27,7 +36,7 @@ class Cart(models.Model):
         ordering = ('-creation_date',)
 
     def __unicode__(self):
-        return u'%s - %s (%s)' % (self.id, self.hash, self.status)
+        return u'%s - %s (%s)' % (self.id, self.user, self.status)
 
 
 class Item(models.Model):
