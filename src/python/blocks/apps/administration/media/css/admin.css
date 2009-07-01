@@ -14,8 +14,21 @@ a:hover {
 
 .admin.block
 {
-	border: none;
-    margin: .3em;
+	border: none !important;
+	border-top: 1px solid #D9EAF5 !important;
+    margin-right: 10px;
+    float: left;
+    width: 320px;
+}
+
+.admin.block.left
+{
+	clear: both;
+}
+
+.admin.block.right
+{
+	margin-right: 0;
 }
 
 dl

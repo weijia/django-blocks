@@ -12,7 +12,9 @@ body { text-align: center; }
 .container { text-align: left; }
 
 /* Fixes IE margin bugs */
-* html .column { overflow-x: hidden; }
+* html .column, .block, .module, 
+.span-1, .span-2, .span-3, .span-4
+{ overflow-x: hidden; }
 
 
 /* Elements

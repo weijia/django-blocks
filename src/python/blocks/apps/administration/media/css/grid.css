@@ -38,7 +38,7 @@ div.last { margin-right: 0; }
 /* Use these classes to set the width of a column. */
 .span-1  { width: 230px;}
 .span-2  { width: 470px;}
-.span-3  { width: 710px;}
+.span-3  { width: 700px;}
 .span-4, div.span-4 { width: 950px; margin: 0; }
 
 
