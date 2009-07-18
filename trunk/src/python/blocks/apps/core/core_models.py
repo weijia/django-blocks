@@ -40,8 +40,6 @@ def mark_external_links(text):
         e = pos[1] + diff
         anc = text[s:e]
         if not (LINKS_REL.match(anc) or LINKS_DOM.match(anc)):
-            print anc
-            print LINKS_REL.match(anc)
             rep = ''
             if LINKS_PB1.match(anc):
                 rep = LINKS_PB2.sub('<a class="external" \g<2>\g<1>\g<3></a>', anc)
