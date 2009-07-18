@@ -5,11 +5,19 @@ from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
+from django.contrib.sites.models import Site
 
 from blocks.apps.core.managers import STATUS_CHOICES, BaseManager
 from blocks import forms
 
-
+import re
+LINKS_PA1 = re.compile('<a [^>]*href="[^"]*"[^>]*>[^<]*</a>')
+LINKS_PA2 = re.compile('<a ([^>]*href="[^"]*"[^>]*>[^<]*)</a>')
+LINKS_PB1 = re.compile('<a [^>]*target="[^"]*"[^>]*>[^<]*</a>')
+LINKS_PB2 = re.compile('<a ([^>]*)(target="[^"]*" )([^>]*>[^<]*)</a>')
+LINKS_REL = re.compile('^/')
+LINKS_DOM = re.compile('^https?://%s' % Site.objects.get_current().domain.replace('.', '\.'))
+    
 class Image(models.Model):
     article = None
 
@@ -25,24 +33,20 @@ class Image(models.Model):
         verbose_name_plural = _('Images')
 
 def mark_external_links(text):
-    import re
-    pa1 = re.compile('<a [^>]*href="[^"]*"[^>]*>[^<]*</a>')
-    pa2 = re.compile('<a ([^>]*href="[^"]*"[^>]*>[^<]*)</a>')
-    pb1 = re.compile('<a [^>]*target="[^"]*"[^>]*>[^<]*</a>')
-    pb2 = re.compile('<a ([^>]*)(target="[^"]*" )([^>]*>[^<]*)</a>')
     diff = 0
-    for m in pa1.finditer(text):
+    for m in LINKS_PA1.finditer(text):
         pos = m.span()
         s = pos[0] + diff
         e = pos[1] + diff
         anc = text[s:e]
-        rep = ''
-        if pb1.match(anc):
-            rep = pb2.sub('<a class="external" \g<2>\g<1>\g<3></a>', anc)
-        else:
-            rep = pa2.sub('<a class="external" target="_blank" \g<1></a>', anc)
-        diff +=  len(rep) - len(anc)
-        text = "%s%s%s" % (text[:s], rep, text[e:])
+        if not LINKS_REL.match(anc) or not LINKS_DOM.match(anc):
+            rep = ''
+            if LINKS_PB1.match(anc):
+                rep = LINKS_PB2.sub('<a class="external" \g<2>\g<1>\g<3></a>', anc)
+            else:
+                rep = LINKS_PA2.sub('<a class="external" target="_blank" \g<1></a>', anc)
+            diff +=  len(rep) - len(anc)
+            text = "%s%s%s" % (text[:s], rep, text[e:])
     return text
 
 class TranslationWrapper(object):
