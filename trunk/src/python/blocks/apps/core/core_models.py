@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from blocks.apps.core.managers import STATUS_CHOICES, BaseManager
 from blocks import forms
 
+
 class Image(models.Model):
     article = None
 
@@ -23,13 +24,38 @@ class Image(models.Model):
         verbose_name = _('Image')
         verbose_name_plural = _('Images')
 
+def mark_external_links(text):
+    import re
+    pa1 = re.compile('<a [^>]*href="[^"]*"[^>]*>[^<]*</a>')
+    pa2 = re.compile('<a ([^>]*href="[^"]*"[^>]*>[^<]*)</a>')
+    pb1 = re.compile('<a [^>]*target="[^"]*"[^>]*>[^<]*</a>')
+    pb2 = re.compile('<a ([^>]*)(target="[^"]*" )([^>]*>[^<]*)</a>')
+    diff = 0
+    for m in pa1.finditer(text):
+        pos = m.span()
+        s = pos[0] + diff
+        e = pos[1] + diff
+        anc = text[s:e]
+        print pos
+        print anc
+        rep = ''
+        if pb1.match(anc):
+            print "HASt"
+            rep = pb2.sub('<a class="external" \g<2>\g<1>\g<3></a>', anc)
+        else:
+            print "NOt"
+            rep = pa2.sub('<a class="external" target="_blank" \g<1></a>', anc)
+        diff +=  len(rep) - len(anc)
+        print diff
+        text = "%s%s%s" % (text[:s], rep, text[e:])
+    return text
 
 class TranslationWrapper(object):
     def __init__(self, model):
         self.model = model
 
     def __getattr__(self, name):
-        return mark_safe( getattr(self.model, name, '') )
+        return mark_safe( mark_external_links(getattr(self.model, name, '')) )
 
 class BaseModel(models.Model):
     name = models.CharField(_('name'), max_length=200, blank=False)
