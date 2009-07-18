@@ -36,17 +36,12 @@ def mark_external_links(text):
         s = pos[0] + diff
         e = pos[1] + diff
         anc = text[s:e]
-        print pos
-        print anc
         rep = ''
         if pb1.match(anc):
-            print "HASt"
             rep = pb2.sub('<a class="external" \g<2>\g<1>\g<3></a>', anc)
         else:
-            print "NOt"
             rep = pa2.sub('<a class="external" target="_blank" \g<1></a>', anc)
         diff +=  len(rep) - len(anc)
-        print diff
         text = "%s%s%s" % (text[:s], rep, text[e:])
     return text
 
