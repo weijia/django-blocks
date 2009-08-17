@@ -15,7 +15,7 @@ svn co http://django-blocks.googlecode.com/svn/trunk/src/python/blocks/
 
 Django needs you to install PIL (python-imaging).
 
-For other database support:
+For additional database support (optional):
 
  - For supporting MySQL you need to install MySQLDB (python-mysqldb)
 
