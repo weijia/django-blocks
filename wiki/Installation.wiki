@@ -13,6 +13,14 @@ The easiest way to test django-blocks is to get it from svn
 svn co http://django-blocks.googlecode.com/svn/trunk/src/python/blocks/
 }}}
 
+Django needs you to install PIL (python-imaging).
+
+For other database support:
+
+ - For supporting MySQL you need to install MySQLDB (python-mysqldb)
+
+ - For supporting PostgreSQL you need to install PyGreSQL (python-pgsql)
+
 == Linux ==
 Almost all distribuitions of GNU/Linux comes with Python installed so you just need to install Django.
 
