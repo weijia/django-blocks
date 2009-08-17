@@ -1,14 +1,14 @@
 #summary So, What's a Block?
 #labels Phase-Design
 
-= Introduction =
+= So, What's a Block? =
 
-This will have some information on what's a block.
+A block is a area of content. Normally an Area in a Page but could be also a Page.
+
+http://django-blocks.googlecode.com/svn/trunk/src/art/pageblocks.png
+
+So a block could be a list of published news articles and ordered by publication date, The news article detail Page, etc.
 
 
-= Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+* WORK IN  PROGRESS *
