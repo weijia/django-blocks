@@ -1,0 +1,35 @@
+#summary How to Install django-blocks
+#labels Featured,Phase-Implementation
+
+= Introduction =
+
+This page will guide you on how to install django-blocks in your enviorment.
+
+
+= Installation =
+
+The easiest way to test django-blocks is to get it from svn
+{{{
+svn co http://django-blocks.googlecode.com/svn/trunk/src/python/blocks/
+}}}
+
+== Linux ==
+Almost all distribuitions of GNU/Linux comes with Python installed so you just need to install Django.
+
+== Macintosh ==
+The latest Macintosh comes with Python installed so you just need to install Django.
+
+== Windows ==
+Format it and install a real OS :-). Ok, if you don't want to do that you need to install Python and Django first.
+
+= Running Demo Sample =
+
+{{{
+svn co http://django-blocks.googlecode.com/svn/trunk/samples/demo/
+cd demo/python/demo
+./manage runserver
+}}}
+
+
+
+* WORK IN PROGRESS *
