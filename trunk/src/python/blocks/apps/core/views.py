@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.contrib.sites.models import Site
 from django.core import urlresolvers
 
-from blocks.apps.core.models import MenuItem
+from blocks.apps.core.models import *
 
 DEFAULT_TEMPLATE = 'blocks/default.html'
 
@@ -78,3 +78,7 @@ def robots(request):
         sitemap_url = '/sitemap.xml'
     sitemap_url = ('%s://%s%s' % (protocol, current_site.domain, sitemap_url))
     return render_to_response('blocks/robots.txt', {'admin_url': admin_url, 'sitemap_url': sitemap_url}, mimetype = 'text/plain')
+
+
+def sitemap(request):
+    return render_to_response('blocks/sitemap.html', {'sitemenus': Menu.objects.all(), })

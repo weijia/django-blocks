@@ -59,7 +59,7 @@ urlpatterns += patterns('',
     # the sitemap and robots
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps} ),
     (r'^robots.txt$',  'blocks.apps.core.views.robots' ),
-    
+    (r'^sitemap/$',    'blocks.apps.core.views.sitemap' ),
         
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs'
     # to INSTALLED_APPS to enable admin documentation:

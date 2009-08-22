@@ -161,6 +161,13 @@ class Menu(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+    def children(self):
+        root = self.contained_items.all()[0]
+        return root.children()
+
+    def has_children(self):
+        return self.children().count() > 0
 
     class Meta:
         db_table = 'blocks_menu'

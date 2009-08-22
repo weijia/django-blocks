@@ -70,22 +70,27 @@ class BaseModel(models.Model):
         return lst[0] if len(lst) > 0 else None
 
     def get_lastchange(self):
-        return self.get_history().latest('action_time')
+        lst = self.get_history()
+        return lst.latest('action_time') if len(lst) > 0 else None
 
     def _get_creation_date(self):
-        return self.get_creation().action_time
+        l = self.get_creation()
+        return l.action_time if l is not None else None
     creation_date = property(_get_creation_date)
 
     def _get_creation_user(self):
-        return self.get_creation().user
+        l = self.get_creation()
+        return l.user if l is not None else None
     creation_user = property(_get_creation_user)
 
     def _get_lastchange_date(self):
-        return self.get_lastchange().action_time
+        l = self.get_lastchange()
+        return l.action_time if l is not None else None
     lastchange_date = property(_get_lastchange_date)
 
     def _get_lastchange_user(self):
-        return self.get_lastchange().user
+        l = self.get_lastchange()
+        return l.user if l is not None else None
     lastchange_user = property(_get_lastchange_user)
     
     def get_translation(self, lang = None):
