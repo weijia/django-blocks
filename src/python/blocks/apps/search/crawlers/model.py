@@ -13,9 +13,14 @@ class ModelCrawler(Crawler):
         self.backend.start()
         for model, search_options in models:
             #ct = ContentType.objects.get_for_model(model)
+            if self.backend.verbosity > 1:
+            	print "getting data from %s" % model
             for instance in search_options.manager.all():
                 for lang in settings.BLOCKS_LANGUAGES:
+                    #if self.backend.verbosity > 1:
+                    #    print "add data %s" % instance
                     self.set_language(lang[0])
+                    search_options.instanciate(instance, lang[0])
                     if hasattr(search_options.date, 'value')  and isinstance(search_options.date.value, date):
                         self.backend.update(search_options.guid, search_options.fields, model, search_options.date)
         self.backend.stop()

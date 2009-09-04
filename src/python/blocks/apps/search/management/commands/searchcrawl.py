@@ -66,4 +66,6 @@ class Command(BaseCommand):
         crawlers = self.load_crawlers(verbosity)
         
         for crawler in crawlers:
+            if verbosity > 1:
+        			print "crawl with %s" % crawler
             crawler.crawl()
