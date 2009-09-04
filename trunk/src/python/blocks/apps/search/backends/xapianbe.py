@@ -119,8 +119,10 @@ class XapianBackend(SearchEngineBackend):
             if self.verbosity > 1:
                 print "update %s" % full_doc_id
             idx = 1
+            _fields_ = []
             for field in fields:
-                if not field.value is None:
+                if not field.value is None and field.name not in _fields_:
+                    _fields_.append(field.name)
                     value = normalize_word(smart_unicode(field.value))
                     #doc.add_value(idx, value)
                     indexer.index_text(value)
@@ -190,9 +192,11 @@ class XapianBackend(SearchEngineBackend):
             m = site.get_registered_models()
             models = [search_options for model, search_options in m if search_options.instanciate(None)]
         
+        _keys_ = []
         for m in models:
             for field in m.fields:
-                if field.key is not None:
+                if field.key is not None and field.key not in _keys_:
+                    _keys_.append(field.key)
                     key = DOC_KEY_TERM_PREFIX + field.key.upper()
                     qp.add_boolean_prefix(field.key, key)
                     if self.verbosity > 1:

@@ -12,13 +12,15 @@ class ModelSearch(object):
         self.site = site
         self.manager = manager or model._default_manager
         self._fields = self.fields
-        self._date_field = self.date
+        self._date_field = DateField(self.date)
         self.keys.append(Field('locale', 'lang'))
     
-    def instanciate(self, model_instance):
+    def instanciate(self, model_instance, lang=None):
         self.fields = self._parse_fields(model_instance)
         self.guid = self._parse_guid(model_instance)
-        self.date = self._parse_field(self.date, model_instance)
+        self.date = self._parse_field(self._date_field, model_instance)
+        if lang is not None:
+            self.keys[0].value = lang
         return True
         
     def get_identifier(self):
