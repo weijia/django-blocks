@@ -138,6 +138,9 @@ class BlocksImageField(ImageField):
                     dirname = os.path.join(settings.MEDIA_ROOT, dirname)
                     if not os.path.exists(dirname):
                         os.mkdir(dirname)
+                    # see http://code.google.com/p/django-stdimage/issues/detail?id=31#c3
+                    if os.path.isfile(dst_fullpath):
+                        os.remove(dst_fullpath)
                     os.rename(filename, dst_fullpath)
 
                 setattr(instance, self.attname, dst)
