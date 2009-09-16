@@ -65,7 +65,7 @@ class Cart:
             item = models.Item(
                 cart=self.cart,
                 object=object,
-                unit_price=unit_price,
+                unit_price=str(unit_price),
                 quantity=quantity,
                 tax=tax
             )
