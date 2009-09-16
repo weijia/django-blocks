@@ -117,13 +117,22 @@ class BlocksImageField(ImageField):
             except IOError:
                 img.save(filename)
 
+    def _fixpath(self, path):
+        """
+        os.path.normcase:
+        Normalize the case of a pathname. On Unix and Mac OS X, this returns the path unchanged; on case-insensitive
+        filesystems, it converts the path to lowercase. On Windows, it also converts forward slashes to backward slashes.
+        needed for Windows path comparing!!
+        """
+        return os.path.normcase(os.path.abspath(path))
+
     def _create_sizes(self, instance=None, **kwargs):
         '''
         Renames the image, and calls methods to resize and create the other sizes
         '''
         field = getattr(instance, self.name, None)
         if field:
-            filename = field.path
+            filename = self._fixpath(field.path)
             self.mode = getattr(instance, self.name + '___mode', BlocksImageField.FIT_CENTER)
             
             if self.mode is None: return
@@ -131,18 +140,16 @@ class BlocksImageField(ImageField):
             ext = os.path.splitext(filename)[1].lower()
             dirname = os.path.join(self.get_directory_name(), str(instance._get_pk_val()))
             dst = os.path.join(dirname, '%s%s' % ('original', ext))
-            dst_fullpath = os.path.join(settings.MEDIA_ROOT, dst)
+            dst_fullpath = self._fixpath(os.path.join(settings.MEDIA_ROOT, dst))
 
-            if os.path.abspath(filename) != os.path.abspath(dst_fullpath):
+            if filename != dst_fullpath:
                 if os.path.exists(filename):
                     dirname = os.path.join(settings.MEDIA_ROOT, dirname)
                     if not os.path.exists(dirname):
                         os.mkdir(dirname)
-                    # see http://code.google.com/p/django-stdimage/issues/detail?id=31#c3
                     if os.path.isfile(dst_fullpath):
                         os.remove(dst_fullpath)
                     os.rename(filename, dst_fullpath)
-
                 setattr(instance, self.attname, dst)
                 instance.save()
 
