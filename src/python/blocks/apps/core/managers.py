@@ -1,7 +1,6 @@
 from django.db.models import Manager, Q, sql
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
-from django.db import load_backend
 from django.db.transaction import savepoint_state
 from django.db.models import options
 from django.db.models.query import QuerySet
@@ -35,6 +34,7 @@ class MultiDBManager(Manager):
         db_name = getattr(model._meta, 'db_name', None)
         if not db_name is None:
             if not _connections.has_key(db_name):
+                from django.db import load_backend
                 settings_dict = settings.DATABASES[db_name]
                 backend = load_backend(settings_dict['DATABASE_ENGINE'])
                 wrapper = backend.DatabaseWrapper(MultiDBManager._get_settings(settings_dict))
