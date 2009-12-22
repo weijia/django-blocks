@@ -126,6 +126,13 @@ class BlocksImageField(ImageField):
         """
         return os.path.normcase(os.path.abspath(path))
 
+    def _get_class_uuid(self, instance):
+        from hashlib import md5
+        m = md5()
+        m.update(instance.__class__.__name__)
+        class_uuid = m.hexdigest()
+        return "%s%s%s" % (class_uuid, os.path.sep, instance._get_pk_val())
+
     def _create_sizes(self, instance=None, **kwargs):
         '''
         Renames the image, and calls methods to resize and create the other sizes
@@ -138,15 +145,15 @@ class BlocksImageField(ImageField):
             if self.mode is None: return
             
             ext = os.path.splitext(filename)[1].lower()
-            dirname = os.path.join(self.get_directory_name(), str(instance._get_pk_val()))
+            dirname = os.path.join(self.get_directory_name(), self._get_class_uuid(instance))
             dst = os.path.join(dirname, '%s%s' % ('original', ext))
             dst_fullpath = self._fixpath(os.path.join(settings.MEDIA_ROOT, dst))
 
             if filename != dst_fullpath:
                 if os.path.exists(filename):
-                    dirname = os.path.join(settings.MEDIA_ROOT, dirname)
+                    dirname = self._fixpath(os.path.join(settings.MEDIA_ROOT, dirname))
                     if not os.path.exists(dirname):
-                        os.mkdir(dirname)
+                        os.makedirs(dirname)
                     if os.path.isfile(dst_fullpath):
                         os.remove(dst_fullpath)
                     os.rename(filename, dst_fullpath)
