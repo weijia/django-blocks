@@ -1,20 +1,21 @@
-from blocks.core.utils import fix_url, get_menu_title
+from blocks.core.utils import fix_url, fix_locale_url, get_menu_title
 from django.conf import settings
 
 def media(request):
     url = ''
-    bits = fix_url(request.get_full_path()).split('/')
+    full_url = fix_locale_url(request.get_full_path())
+    bits = full_url.split('/')
     
     if len(bits) > 2:
-        url = fix_url(bits[1])
+        url = bits[1]
     else:
         url = '/'
 
     context = {
-        'BLOCKS_URL': url,
-        'BLOCKS_FULL_URL': request.get_full_path(),
-        'BLOCKS_TITLE': get_menu_title(bits[1]),
-        'BLOCKS_FULL_TITLE': get_menu_title(request.get_full_path()),
+        'BLOCKS_URL': fix_url(url),
+        'BLOCKS_FULL_URL': full_url,
+        'BLOCKS_TITLE': get_menu_title(url),
+        'BLOCKS_FULL_TITLE': get_menu_title(full_url),
         'BLOCKS_LANGUAGES': settings.BLOCKS_LANGUAGES,
         'BLOCKS_USELANG': settings.BLOCKS_USELANG,
         'BLOCKS_SETTINGS': settings,

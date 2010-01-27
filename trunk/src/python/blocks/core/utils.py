@@ -64,12 +64,21 @@ def get_page_title(url):
     
 def fix_url(url):
     if url.startswith('http://') or url.startswith('https://'):
-        return url;
+        return url;        
     if not url.startswith('/'):
         url = "/" + url
     if not url.endswith('/'):
         url = url + "/"
     return url
+
+def fix_locale_url(url):
+    if url.startswith('http://') or url.startswith('https://'):
+        return url;
+    
+    if 'localeurl' in settings.INSTALLED_APPS:
+        url = '/'.join(url.split('/')[2:-1])
+    
+    return fix_url(url)
 
 import sgmllib, string
 
