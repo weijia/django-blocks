@@ -15,7 +15,8 @@ LINKS_PA1 = re.compile('<a [^>]*href="[^"]*"[^>]*>[^<]*</a>')
 LINKS_PA2 = re.compile('<a ([^>]*href="[^"]*"[^>]*>[^<]*)</a>')
 LINKS_PB1 = re.compile('<a [^>]*target="[^"]*"[^>]*>[^<]*</a>')
 LINKS_PB2 = re.compile('<a ([^>]*)(target="[^"]*" )([^>]*>[^<]*)</a>')
-LINKS_REL = re.compile('<a [^>]*href="/')
+LINKS_ABS = re.compile('<a [^>]*href="https?://')
+LINKS_REL = re.compile('<a [^>]*href="[.]?/?')
 LINKS_DOM = re.compile('<a [^>]*href="https?://%s' % Site.objects.get_current().domain.replace('.', '\.'))
     
 class Image(models.Model):
@@ -39,7 +40,7 @@ def mark_external_links(text):
         s = pos[0] + diff
         e = pos[1] + diff
         anc = text[s:e]
-        if not (LINKS_REL.match(anc) or LINKS_DOM.match(anc)):
+        if not ((LINKS_REL.match(anc) and not LINKS_ABS.match(anc)) or LINKS_DOM.match(anc)):
             rep = ''
             if LINKS_PB1.match(anc):
                 rep = LINKS_PB2.sub('<a class="external" \g<2>\g<1>\g<3></a>', anc)
