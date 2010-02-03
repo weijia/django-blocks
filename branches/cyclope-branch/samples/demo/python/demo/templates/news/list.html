@@ -1,0 +1,18 @@
+{% extends "news/base.html" %}
+{% load i18n %}
+
+{% block cntbody %}
+    <div id="items" class="collg separator">
+        <div class="title"><h2>{% trans 'NEWS AND EVENTS' %}</h2></div>
+        {% for item in object_list %}
+            {% include "news/image_item.html" %}
+        {% endfor %}
+    </div>
+
+    <div id="higlight" class="colsm last">
+        <div class="title"><h2>{% trans 'HIGHLIGHT' %}</h2></div>
+        {% for item in high_list %}
+            {% include "news/destaques_item.html" %}
+        {% endfor %}        
+    </div>
+{% endblock %}
