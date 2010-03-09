@@ -22,7 +22,9 @@ class MenuItem(core_models.BaseModel):
     
     def get_absolute_url(self):
         from django.conf import settings
-        return u"/%s%s" % (settings.LANGUAGE_CODE, self.url) if 'localeurl' in settings.INSTALLED_APPS else self.url
+        from django.utils.translation import trans_real
+        lang = trans_real.get_language()
+        return u"/%s%s" % (lang, self.url) if 'localeurl' in settings.INSTALLED_APPS else self.url
     
     def save(self, force_insert=False, force_update=False):
         from blocks.apps.core.menus import clean_ranks
