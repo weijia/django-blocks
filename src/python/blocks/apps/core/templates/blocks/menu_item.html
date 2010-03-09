@@ -1,6 +1,6 @@
 {% load contenttypes %}
 <li class="{% if forloop.first %}first{% endif %}{% if forloop.last %} last{% endif %}{% ifequal menu_item.url BLOCKS_URL  %} active{% else %}{% ifequal menu_item.url BLOCKS_FULL_URL  %} active{% endifequal %}{% endifequal %}">
-	<a href="{{ menu_item.url }}" title="{{ menu_item.translation.description }}">{{ menu_item.translation.caption }}</a>
+	<a href="{{ menu_item.get_absolute_url }}" title="{{ menu_item.translation.description }}">{{ menu_item.translation.caption }}</a>
 	{% ifequal menu_type 'drop' %}
 		{% show_sub_menu menu_item '' menu_type %}
 	{% endifequal %}

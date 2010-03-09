@@ -76,6 +76,8 @@ def fix_locale_url(url):
         return url;
     
     if 'localeurl' in settings.INSTALLED_APPS:
+        if not url.endswith('/'):
+            url = url + "/"
         url = '/'.join(url.split('/')[2:-1])
     
     return fix_url(url)
