@@ -20,6 +20,10 @@ class MenuItem(core_models.BaseModel):
     menu = models.ForeignKey('Menu', related_name='contained_items', verbose_name=_('Menu'), null=True, blank=True, editable=False)
     absolute = models.BooleanField(_('absolute'))
     
+    def get_absolute_url(self):
+        from django.conf import settings
+        return u"/%s%s" % (settings.LANGUAGE_CODE, self.url) if 'localeurl' in settings.INSTALLED_APPS else self.url
+    
     def save(self, force_insert=False, force_update=False):
         from blocks.apps.core.menus import clean_ranks
         from blocks.core.utils import fix_url
