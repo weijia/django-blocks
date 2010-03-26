@@ -14,7 +14,8 @@ svn co http://django-blocks.googlecode.com/svn/trunk/src/python/blocks/
 }}}
 
 NOTE: blocks needs to be on your system python path to be used globally.
-TODO: write some help on installing blocks on yous sistem.
+
+TODO: write some help on installing blocks system wide.
 
 Django needs you to install PIL (python-imaging).
 
