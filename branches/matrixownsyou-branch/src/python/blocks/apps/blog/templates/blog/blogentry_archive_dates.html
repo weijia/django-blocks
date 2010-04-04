@@ -1,0 +1,11 @@
+{% load blog %}
+{% get_blog_dates as dates_list %}
+{% if dates_list %}
+<ul>
+	{% for item in dates_list %}
+   <li><a href="/blog/{{ item|date:"Y" }}/{{ item|date:"M"|lower }}/">{{ item|date:"F Y" }}</a></li>
+   {% endfor %}
+</ul>
+{% else %}
+	<p>no tags</p>
+{% endif %}

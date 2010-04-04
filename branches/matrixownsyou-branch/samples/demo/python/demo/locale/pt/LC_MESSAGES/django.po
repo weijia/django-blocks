@@ -1,0 +1,458 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-04-12 03:01+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: settings.py:32
+msgid "Portuguese"
+msgstr ""
+
+#: settings.py:33
+msgid "English"
+msgstr ""
+
+#: apps/articles/admin.py:13
+#: apps/articles/models.py:32
+msgid "Articles"
+msgstr "Artigos"
+
+#: apps/articles/admin.py:14
+msgid "Manage Articles"
+msgstr "Gerir Artigos"
+
+#: apps/articles/admin.py:16
+msgid "Edit and create the Articles"
+msgstr "Editar e Criar Artigos"
+
+#: apps/articles/models.py:19
+#: apps/news/models.py:19
+#: apps/site/models.py:16
+msgid "image"
+msgstr "imagem"
+
+#: apps/articles/models.py:31
+msgid "Article"
+msgstr "Artigo"
+
+#: apps/articles/models.py:44
+#: apps/community/models.py:60
+#: apps/news/models.py:44
+msgid "title"
+msgstr "titulo"
+
+#: apps/articles/models.py:45
+#: apps/community/models.py:61
+#: apps/news/models.py:46
+msgid "lead"
+msgstr "entrada"
+
+#: apps/articles/models.py:46
+#: apps/community/models.py:62
+#: apps/news/models.py:47
+msgid "text"
+msgstr "texto"
+
+#: apps/articles/models.py:54
+msgid "Article Translation"
+msgstr "Tradução do Artigo"
+
+#: apps/articles/models.py:55
+msgid "Article Translations"
+msgstr "Traduções do Artigo"
+
+#: apps/community/admin.py:13
+#: templates/profiles/item.html:34
+msgid "Community"
+msgstr "Comunidade"
+
+#: apps/community/admin.py:14
+msgid "Manage the Community information"
+msgstr "Gerir a Informação da Comunidade"
+
+#: apps/community/admin.py:16
+msgid "Edit and create the Community Entities"
+msgstr "Editar e criar Entidades da Comunidade"
+
+#: apps/community/admin.py:17
+msgid "Edit and create Linux Distributions"
+msgstr "Editar e criar Distribuições Linux"
+
+#: apps/community/models.py:14
+#: apps/community/models.py:34
+msgid "logo"
+msgstr ""
+
+#: apps/community/models.py:15
+#: apps/community/models.py:35
+msgid "site"
+msgstr "sítio"
+
+#: apps/community/models.py:22
+msgid "Linux Distribution"
+msgstr "Distribuição Linux"
+
+#: apps/community/models.py:23
+msgid "Linux Distributions"
+msgstr "Distribuições Linux"
+
+#: apps/community/models.py:47
+msgid "Community Entity"
+msgstr "Entidade da Comunidade"
+
+#: apps/community/models.py:48
+msgid "Community Entities"
+msgstr "Entidades da Comunidade"
+
+#: apps/community/models.py:70
+msgid "Community Entity Translation"
+msgstr "Tradução de Entidades da Comunidade"
+
+#: apps/community/models.py:71
+msgid "Community Entity Translations"
+msgstr "Traduções de Entidades da Comunidade"
+
+#: apps/news/admin.py:13
+msgid "News"
+msgstr "Notícias"
+
+#: apps/news/admin.py:14
+msgid "Manage News contents"
+msgstr "Gerir conteúdos Notícia"
+
+#: apps/news/admin.py:16
+msgid "Edit and create the News Articles of the site"
+msgstr "Editar e criar Artigos Notícia do site"
+
+#: apps/news/admin.py:17
+msgid "Manage the News Articles Types of the site"
+msgstr "Gerir os Tipos de Artigos de Notícia do site"
+
+#: apps/news/models.py:17
+msgid "date"
+msgstr "data"
+
+#: apps/news/models.py:18
+msgid "local"
+msgstr "local"
+
+#: apps/news/models.py:31
+msgid "News Article"
+msgstr "Artigo de Notícia"
+
+#: apps/news/models.py:32
+msgid "News Articles"
+msgstr "Artigos de Notícia"
+
+#: apps/news/models.py:45
+msgid "date description"
+msgstr "descrição da data"
+
+#: apps/news/models.py:55
+msgid "News Article Translation"
+msgstr "Tradução de Entidades da Comunidade"
+
+#: apps/news/models.py:56
+msgid "News Article Translations"
+msgstr "Traduções de Entidades da Comunidade"
+
+#: apps/profiles/models.py:14
+msgid "first name"
+msgstr "primeiro nome"
+
+#: apps/profiles/models.py:15
+msgid "last name"
+msgstr "ultimo nome"
+
+#: apps/profiles/models.py:16
+msgid "e-mail address"
+msgstr "endereço de e-mail"
+
+#: apps/profiles/models.py:18
+msgid "avatar"
+msgstr "avatar"
+
+#: apps/profiles/models.py:19
+msgid "About me"
+msgstr "Sobre mim"
+
+#: apps/profiles/models.py:21
+#: templates/profiles/item.html:27
+msgid "Website"
+msgstr "sítio"
+
+#: apps/profiles/models.py:70
+msgid "User Profile"
+msgstr "Perfil de Utilizador"
+
+#: apps/profiles/models.py:71
+msgid "User Profiles"
+msgstr "Perfis de Utilizador"
+
+#: apps/site/models.py:17
+msgid "description"
+msgstr "descrição"
+
+#: apps/site/models.py:24
+msgid "Image"
+msgstr "Imagem"
+
+#: apps/site/models.py:25
+msgid "Images"
+msgstr "Imagens"
+
+#: apps/site/models.py:79
+msgid "source"
+msgstr "fonte"
+
+#: apps/site/models.py:79
+msgid "source (ex: linuxfoundation)"
+msgstr "fonte (ex: linuxfoundation)"
+
+#: apps/site/models.py:80
+msgid "source URL"
+msgstr "URL da fonte"
+
+#: apps/site/models.py:80
+msgid "source URL (ex: http://example.org/news/123/)"
+msgstr "URL da fonte  (ex: http://example.org/news/123/)"
+
+#: apps/site/models.py:82
+msgid "tag list"
+msgstr "lista de etiquetas"
+
+#: apps/site/models.py:82
+msgid "tags for this entry"
+msgstr "etiquetas desta entrada"
+
+#: templates/articles/base.html:12
+#: templates/site/homepage.html:11
+#: templates/site/homepage.html.py:20
+#: templates/site/homepage.html:32
+msgid "MORE"
+msgstr "MAIS"
+
+#: templates/articles/base.html:12
+#: templates/articles/detail.html:7
+#: templates/articles/list.html:6
+#: templates/site/homepage.html:15
+#: templates/site/homepage.html.py:20
+msgid "ARTICLES"
+msgstr "ARTIGOS"
+
+#: templates/articles/list.html:13
+#: templates/community/list.html:13
+#: templates/news/list.html:13
+msgid "HIGHLIGHT"
+msgstr "DESTAQUES"
+
+#: templates/blocks/search_list.html:8
+msgid "Search Results"
+msgstr "Resultados da Pesquisa"
+
+#: templates/common/author.html:2
+msgid "Created by"
+msgstr "Criado por"
+
+#: templates/common/author.html:2
+#: templates/common/author.html.py:4
+msgid "at"
+msgstr "em"
+
+#: templates/common/author.html:4
+msgid "Last change by"
+msgstr "Ultima alteração por"
+
+#: templates/common/tags.html:2
+msgid "Filed under"
+msgstr "Arquivado em"
+
+#: templates/community/base.html:12
+#: templates/news/base.html:12
+msgid "OTHER"
+msgstr "OUTRAS"
+
+#: templates/community/detail.html:7
+#: templates/community/list.html:6
+#: templates/site/homepage.html:6
+#: templates/site/homepage.html.py:11
+msgid "COMMUNITY"
+msgstr "COMUNIDADE"
+
+#: templates/news/detail.html:7
+#: templates/news/list.html:6
+#: templates/site/homepage.html:27
+#: templates/site/homepage.html.py:32
+msgid "NEWS AND EVENTS"
+msgstr "NOTÍCIAS E EVENTOS"
+
+#: templates/profiles/base.html:11
+msgid "OPTIONS"
+msgstr "OPÇÕES"
+
+#: templates/profiles/create_profile.html:4
+#: templates/profiles/create_profile.html:8
+#: templates/profiles/edit_profile.html:4
+#: templates/profiles/edit_profile.html:8
+#: templates/profiles/profile_detail.html:5
+msgid "PROFILE"
+msgstr "PERFIL"
+
+#: templates/profiles/form.html:3
+msgid "Sorry there are corrections needed in your form below:"
+msgstr "Desculpe, existem correcções necessárias no formulário em baixo:"
+
+#: templates/profiles/form.html:34
+msgid "save"
+msgstr "salvar"
+
+#: templates/profiles/item.html:7
+#: templates/registration/login.html:17
+#: templates/registration/registration_form.html:17
+#, fuzzy
+msgid "Username"
+msgstr "Utilizador"
+
+#: templates/profiles/item.html:11
+msgid "Date joined"
+msgstr "Data de inscrição"
+
+#: templates/profiles/item.html:15
+#, fuzzy
+msgid "Karma"
+msgstr "Karma"
+
+#: templates/profiles/item.html:20
+#, fuzzy
+msgid "E-mail"
+msgstr "E-mail"
+
+#: templates/profiles/item.html:41
+#, fuzzy
+msgid "About"
+msgstr "Sobre"
+
+#: templates/profiles/profile_detail.html:9
+msgid "LATEST ACTIONS"
+msgstr "ACÇÕES RECENTES"
+
+#: templates/profiles/profile_detail.html:18
+msgid "removed"
+msgstr "removido"
+
+#: templates/profiles/profile_detail.html:23
+msgid "This user have not contributed to the site"
+msgstr "Este utilizador ainda não contribuiu para este sítio"
+
+#: templates/profiles/profile_list.html:5
+#, fuzzy
+msgid "PROFILES"
+msgstr "ARTIGOS"
+
+#: templates/profiles/user.html:15
+msgid "Edit you user profile "
+msgstr "Edite o seu perfil"
+
+#: templates/profiles/user.html:16
+msgid "Reset your password "
+msgstr "Limpar a palavra-chave"
+
+#: templates/registration/activate.html:5
+#: templates/registration/activate.html:8
+msgid "ACCOUNT ACTIVATION"
+msgstr "ACTIVAÇÃO DE CONTA"
+
+#: templates/registration/login.html:4
+#: templates/registration/login.html:8
+msgid "LOG IN"
+msgstr "ENTRAR"
+
+#: templates/registration/login.html:21
+#: templates/registration/registration_form.html:31
+#, fuzzy
+msgid "Password"
+msgstr "Palavra-chave"
+
+#: templates/registration/login.html:24
+#: templates/site/base.html:53
+msgid "log in"
+msgstr "entrar"
+
+#: templates/registration/password_reset_email.html:2
+msgid "You're receiving this e-mail because you requested a password reset"
+msgstr "Está a receber este e-mail porque requesitou uma nova palavra-chave"
+
+#: templates/registration/password_reset_email.html:3
+#, python-format
+msgid "for your user account at %(site_name)s"
+msgstr "para a sua conta em %(site_name)s"
+
+#: templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Por favor ir para a seguinte página e escolha uma nova palavra-chave."
+
+#: templates/registration/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "O seu utilizador, caso tenha-o esquecido:"
+
+#: templates/registration/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "Obrigado por usar o nosso sítio!"
+
+#: templates/registration/password_reset_email.html:13
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "A equipa do %(site_name)s"
+
+#: templates/registration/registration_complete.html:4
+#: templates/registration/registration_complete.html:6
+msgid "REGISTRATION COMPLETE"
+msgstr "REGISTO COMPLETO"
+
+#: templates/registration/registration_complete.html:7
+msgid ""
+"An activation link has been sent to the email address you supplied, along "
+"with instructions for activating your account."
+msgstr "Um endereço de activação foi enviado para o endereço de e-mail que forneceu, "
+"junto com as instruções para activar a usa conta."
+
+#: templates/registration/registration_form.html:4
+#: templates/registration/registration_form.html:8
+msgid "REGISTER"
+msgstr "REGISTO"
+
+#: templates/registration/registration_form.html:24
+msgid "Email address"
+msgstr "Endereço de E-mail"
+
+#: templates/registration/registration_form.html:38
+#, fuzzy
+msgid "Password (again)"
+msgstr "Palavra-chave (novamente)"
+
+#: templates/registration/registration_form.html:45
+#: templates/site/base.html:52
+msgid "register"
+msgstr "registar"
+
+#: templates/site/base.html:49
+#, fuzzy
+msgid "admin"
+msgstr "admin"
+
+#: templates/site/base.html:50
+msgid "log out"
+msgstr "sair"
+

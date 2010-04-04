@@ -1,0 +1,24 @@
+{% if BLOCKS_USELANG %}
+<fieldset class="module aligned {{ fieldset.classes }}">
+{% endif %}
+  {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+  {% if fieldset.description %}<div class="description">{{ fieldset.description|safe }}</div>{% endif %}
+  {% for line in fieldset %}
+      <div class="form-row{% if line.errors %} errors{% endif %} {% for field in line %}{{ field.field.name }} {% endfor %} ">
+      {{ line.errors }}
+      {% for field in line %}
+      <div id="id_{{field.field.name}}_{{ lang.0 }}" class="fld_{{field.field.name}}{% if not line.fields|length_is:"1" %} field-box{% endif %}"{% ifequal field.field.name "language" %} style="display: none"{% endifequal %}>
+          
+          {% if field.is_checkbox %}
+              {{ field.field }}{{ field.label_tag }}
+          {% else %}
+              {{ field.label_tag }}{{ field.field }}
+          {% endif %}
+          {% if field.field.field.help_text %}<p class="help">{{ field.field.field.help_text|safe }}</p>{% endif %}
+      </div>
+      {% endfor %}
+      </div>
+  {% endfor %}
+{% if BLOCKS_USELANG %}
+</fieldset>
+{% endif %}

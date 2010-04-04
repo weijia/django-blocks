@@ -1,0 +1,17 @@
+{% extends "site/base_1c.html" %}
+{% load i18n %}
+
+{% block class %}search{% endblock %}
+
+{% block content %}
+	<div>
+		<h2>{% trans 'Search Results' %}</h2>
+		<p>your search for <strong>'{{ query }}'</strong> returned the following results:</p>
+	</div>
+	<div id="cntbody" class="colfl">
+    {% for item in object_list %}
+        {% include "blocks/search_item.html" %}
+    {% endfor %}
+	</div>
+	<p></p>
+{% endblock %}

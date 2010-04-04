@@ -1,0 +1,9 @@
+{% if menus %}
+<ul>
+    {% load contenttypes %}
+    {% for menu_item in menus %}
+        {% show_menu_item menu_item menu_type %}
+    {% endfor %}
+</ul>
+{% endif %}
+

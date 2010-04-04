@@ -1,0 +1,5 @@
+<div class="item">
+    <h4><a href="{{ item.object.get_absolute_url }}" class="hmagendtxt">{{ item.object.translation.title|striptags|truncatewords:16 }}</a></h4>
+    <p><a href="{{ item.object.get_absolute_url }}" class="hmagendtxt">{{ item.object.translation.lead|striptags|truncatewords:40 }}</a></p>
+    <p>{{ item.score }}%</a></p>
+</div>

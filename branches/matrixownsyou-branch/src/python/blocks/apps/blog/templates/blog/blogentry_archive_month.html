@@ -1,0 +1,11 @@
+{% extends "base_weblog.html" %}
+
+{% block title %}Weblog entries filed in {{ month|date:"F" }}{% endblock %}
+
+{% block content %}
+	<h1>Weblog entries filed in {{ month|date:"F" }}</h1>
+
+	<div class="block last">
+		{% include "blog/blogentry_list.html" %}
+	</div>
+{% endblock %}
