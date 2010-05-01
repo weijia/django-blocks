@@ -1,5 +1,0 @@
-<div class="item{% if forloop.last %} last{% endif %}">
-    <span class="date">{% if item.translation.date_desc %}{{ item.translation.date_desc }}{% else %}{{ item.date|date:"d M Y" }}{% endif %}{% if item.local %} - {{ item.local|upper }}{% endif %}</span>
-    <h4><a href="{{ item.get_absolute_url }}">{{ item.translation.title|striptags|truncatewords:20 }}</a></h4>
-    <p><a href="{{ item.get_absolute_url }}">{{ item.translation.lead|striptags|truncatewords:20 }}</a></p>
-</div>

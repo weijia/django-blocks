@@ -1,7 +1,0 @@
-{% load i18n %}
-<div class="item">
-    {% if item.image %}<a href="{{ item.get_absolute_url }}"><img src="{{ item.image.detail.url }}" alt="" width="254" height="160" /></a>{% endif %}
-    <span class="date">{% if item.translation.date_desc %}{{ item.translation.date_desc }}{% else %}{{ item.date|date:"d M Y" }}{% endif %}</span>
-    <h4><a href="{{ item.get_absolute_url }}" class="hmagendtxt">{{ item.get_translation.title }}</a></h4>
-    <p>{{ item.get_translation.lead }}</p>
-</div>

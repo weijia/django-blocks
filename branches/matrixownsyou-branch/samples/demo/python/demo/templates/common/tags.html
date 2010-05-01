@@ -1,2 +1,0 @@
-{% load i18n %}
-{% if object.tags %}<span class="tags">{% trans 'Filed under' %}: {% for tag in object.tags %}<a href="/tag/{{tag.name|slugify}}/">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</span>{% endif %}

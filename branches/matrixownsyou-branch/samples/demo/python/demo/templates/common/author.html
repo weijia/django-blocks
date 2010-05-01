@@ -1,5 +1,0 @@
-{% load i18n %}
-{% trans 'Created by' %} <a href="/profiles/{{ object.creation_user }}/">{% firstof object.creation_user.get_full_name object.creation_user.username %}</a> {% trans 'at' %} {{ object.creation_date|date:'Y-m-d j:m' }}
-{% ifnotequal object.lastchange_date object.publish_date %}
- | {% trans 'Last change by' %} <a href="/profiles/{{ object.lastchange_user }}/">{% firstof object.lastchange_user.first_name object.lastchange_user.username %}</a> {% trans 'at' %} {{ object.lastchange_date|date:'Y-m-d j:m' }}
-{% endifnotequal %}

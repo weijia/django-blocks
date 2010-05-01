@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: {{ admin_url }}
-
-Sitemap: {{ sitemap_url }}

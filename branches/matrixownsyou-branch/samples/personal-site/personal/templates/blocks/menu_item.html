@@ -1,1 +1,0 @@
-    <li class="{% ifequal menu_item.rank 0 %}first{% endifequal %}{% ifequal menu_item.url BLOCKS_URL  %} active{% else %}{% ifequal menu_item.url BLOCKS_FULL_URL  %} active{% endifequal %}{% endifequal %}"><a href="{{ menu_item.url }}" title="{{ menu_item.translation.description }}">{{ menu_item.translation.caption|upper }}</a></li>
