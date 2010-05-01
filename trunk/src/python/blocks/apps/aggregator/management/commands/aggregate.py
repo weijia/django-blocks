@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
 	requires_model_validation = False
 	can_import_settings = False
-            
+			
 	def handle(self, *args, **options):
 	  from blocks.apps.aggregator.feedupdator import update_feeds
 	  update_feeds(options.get('verbosity'))
