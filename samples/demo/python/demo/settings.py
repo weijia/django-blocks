@@ -12,16 +12,16 @@ from django.utils.translation import ugettext_lazy as _
 USE_MYSQL = False
 
 if USE_MYSQL:
-    DATABASE_ENGINE   = 'mysql'
-    DATABASE_NAME     = 'demo'
-    DATABASE_USER     = 'someusr'
-    DATABASE_PASSWORD = 'somepwd'
-    DATABASE_HOST     = 'localhost'
+	DATABASE_ENGINE   = 'mysql'
+	DATABASE_NAME	 = 'demo'
+	DATABASE_USER	 = 'someusr'
+	DATABASE_PASSWORD = 'somepwd'
+	DATABASE_HOST	 = 'localhost'
 
 else:
-    DATABASE_ENGINE   = 'sqlite3'
-    DATABASE_NAME     = os.path.join(os.path.dirname(__file__), "../../db/demo.db").replace('\\','/')
-    
+	DATABASE_ENGINE   = 'sqlite3'
+	DATABASE_NAME	 = os.path.join(os.path.dirname(__file__), "../../db/demo.db").replace('\\','/')
+	
 ## LOCALIZATION SETTINGS ##
 
 TIME_ZONE = 'Europe/Lisbon'
@@ -53,7 +53,7 @@ EMAIL_PORT = '1025'
 
 # specifies who should get code error notifications
 ADMINS = (
-    ('kimus', 'kimus@zlabs.org'),
+	('kimus', 'kimus@zlabs.org'),
 )
 
 # specifies who should get broken-link notifications when 
@@ -71,7 +71,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "media")
 ADMIN_MEDIA_PREFIX = "%sadmin/" % (MEDIA_URL)
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), "templates")
+	os.path.join(os.path.dirname(__file__), "templates")
 )
 
 # Make this unique, and don't share it with anybody.
@@ -80,45 +80,45 @@ SECRET_KEY = '5jhk&qv&nyu^ot&gk)p(%$65x7k9t)wjvg^d&ukcxv6eh*rxzf'
 ROOT_URLCONF = 'demo.urls'
 
 MIDDLEWARE_CLASSES = (
-#    'django.middleware.cache.CacheMiddleware',
-    'django.middleware.http.SetRemoteAddrFromForwardedFor',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    
-    'blocks.core.middleware.CommonMiddleware',
+#	'django.middleware.cache.CacheMiddleware',
+	'django.middleware.http.SetRemoteAddrFromForwardedFor',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.middleware.locale.LocaleMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	
+	'blocks.core.middleware.CommonMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS =(
-    'django.core.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    
-    'blocks.core.context_processors.media'
+	'django.core.context_processors.auth',
+	'django.core.context_processors.debug',
+	'django.core.context_processors.i18n',
+	'django.core.context_processors.media',
+	
+	'blocks.core.context_processors.media'
 )
 
 INSTALLED_APPS = (
-    'django.contrib.sites',
-    'django.contrib.auth',
-    'django.contrib.admin',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.humanize',
-    'django.contrib.markup',
-    
-    # django-blocks core applications
-    'blocks.apps.core',
-    'blocks.apps.administration',
+	'django.contrib.sites',
+	'django.contrib.auth',
+	'django.contrib.admin',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.humanize',
+	'django.contrib.markup',
+	
+	# django-blocks core applications
+	'blocks.apps.core',
+	'blocks.apps.administration',
 
-    # django-blocks add-ons applications
-    #'blocks.apps.aggregator',
-    'blocks.apps.aggregator',
+	# django-blocks add-ons applications
+	#'blocks.apps.aggregator',
+	'blocks.apps.aggregator',
 
-    # django-blocks based applications 
-    'demo.apps.site',
-    'demo.apps.news',
+	# django-blocks based applications 
+	'demo.apps.site',
+	'demo.apps.news',
 )
 
 ## BLOCKS SETTINGS ##

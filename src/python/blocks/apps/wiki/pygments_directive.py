@@ -8,8 +8,8 @@ DEFAULT = HtmlFormatter(noclasses=INLINESTYLES)
 
 # Add name -> formatter pairs for every variant you want to use
 VARIANTS = {
-    'linenos': HtmlFormatter(noclasses=INLINESTYLES, linenos=True),
-    'nolinenos': HtmlFormatter(noclasses=INLINESTYLES, linenos=False),
+	'linenos': HtmlFormatter(noclasses=INLINESTYLES, linenos=True),
+	'nolinenos': HtmlFormatter(noclasses=INLINESTYLES, linenos=False),
 }
 
 
@@ -20,15 +20,15 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name, TextLexer
 
 def pygments_directive(name, arguments, options, content, lineno, content_offset, block_text, state, state_machine):
-    try:
-        lexer = get_lexer_by_name(arguments[0])
-    except ValueError:
-        # no lexer found - use the text one instead of an exception
-        lexer = TextLexer()
-    # take an arbitrary option if more than one is given
-    formatter = options and VARIANTS[options.keys()[0]] or DEFAULT
-    parsed = highlight(u'\n'.join(content), lexer, formatter)
-    return [nodes.raw('', parsed, format='html')]
+	try:
+		lexer = get_lexer_by_name(arguments[0])
+	except ValueError:
+		# no lexer found - use the text one instead of an exception
+		lexer = TextLexer()
+	# take an arbitrary option if more than one is given
+	formatter = options and VARIANTS[options.keys()[0]] or DEFAULT
+	parsed = highlight(u'\n'.join(content), lexer, formatter)
+	return [nodes.raw('', parsed, format='html')]
 
 pygments_directive.arguments = (1, 0, 1)
 pygments_directive.content = 1

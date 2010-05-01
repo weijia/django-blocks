@@ -6,16 +6,16 @@ from blocks.apps.blog.models import BlogEntry
 from blocks.apps.blog.feeds import LatestEntries
 
 info_dict = {
-    'queryset': BlogEntry.objects.all(),
-    'template_object_name': 'blog',
-    'date_field': 'publish_date',
+	'queryset': BlogEntry.objects.all(),
+	'template_object_name': 'blog',
+	'date_field': 'publish_date',
 }
 
 idx_info_dict = {
-    'queryset': BlogEntry.objects.all(),
-    'template_name': 'blog/blogentry_archive.html',
-    'template_object_name': 'blog',
-    'paginate_by': 8,
+	'queryset': BlogEntry.objects.all(),
+	'template_name': 'blog/blogentry_archive.html',
+	'template_object_name': 'blog',
+	'paginate_by': 8,
 }
 
 feeds = { 'rss': LatestEntries, }

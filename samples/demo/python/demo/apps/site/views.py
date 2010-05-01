@@ -7,11 +7,11 @@ from django.contrib.admin.models import LogEntry
 
 # home page
 def index(request):
-    t = loader.get_template('site/homepage.html')
+	t = loader.get_template('site/homepage.html')
 
-    context = {
-        'news_list':  NewsArticle.objects.published()[:4],
-        'history':    LogEntry.objects.all()[:15],
-    }
-    c = RequestContext(request, context)
-    return HttpResponse(t.render(c))
+	context = {
+		'news_list':  NewsArticle.objects.published()[:4],
+		'history':	LogEntry.objects.all()[:15],
+	}
+	c = RequestContext(request, context)
+	return HttpResponse(t.render(c))
