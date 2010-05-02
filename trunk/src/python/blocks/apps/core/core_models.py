@@ -17,7 +17,6 @@ LINKS_PB1 = re.compile('<a [^>]*target="[^"]*"[^>]*>[^<]*</a>')
 LINKS_PB2 = re.compile('<a ([^>]*)(target="[^"]*" )([^>]*>[^<]*)</a>')
 LINKS_ABS = re.compile('<a [^>]*href="https?://')
 LINKS_REL = re.compile('<a [^>]*href="[.]?/?')
-LINKS_DOM = re.compile('<a [^>]*href="https?://%s' % Site.objects.get_current().domain.replace('.', '\.'))
 	
 class Image(models.Model):
 	article = None
@@ -34,6 +33,9 @@ class Image(models.Model):
 		verbose_name_plural = _('Images')
 
 def mark_external_links(text):
+
+	LINKS_DOM = re.compile('<a [^>]*href="https?://%s' % Site.objects.get_current().domain.replace('.', '\.'))
+
 	diff = 0
 	for m in LINKS_PA1.finditer(text):
 		pos = m.span()
