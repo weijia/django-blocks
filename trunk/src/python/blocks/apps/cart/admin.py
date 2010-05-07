@@ -3,6 +3,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms import ModelForm
 
 from blocks.apps.cart.models import Cart
+from blocks.apps.shop.models import Tax
+
 
 class CartAdminForm(ModelForm):
 	class Meta:
@@ -37,3 +39,10 @@ class CartAdmin(admin.ModelAdmin):
 		return super(CartAdmin, self).change_view(request, cart_pk, extra_context={'cart': cart,})
 	
 admin.site.register(Cart, CartAdmin)
+
+class TaxAdmin(admin.ModelAdmin):
+	"""
+	"""
+	pass
+
+admin.site.register(Tax, TaxAdmin)
