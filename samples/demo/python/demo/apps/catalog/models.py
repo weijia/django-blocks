@@ -2,6 +2,7 @@
 # $Id$
 #
 # Demo catalog models
+from django.conf import settings
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -29,7 +30,7 @@ class Category(core_models.BaseModel):
 	objects = CategoryManager()
 
 	class Meta:
-		db_table			= 'shop_category'
+		db_table			= 'catalog_category'
 		verbose_name		= _('category')
 		verbose_name_plural = _('categories')
 		ordering			= ('name',)
@@ -47,7 +48,7 @@ class CategoryTranslation(models.Model):
 		return u'%s: %s' % (self.article, self.language)
 
 	class Meta:
-		db_table			= 'shop_category_translation'
+		db_table			= 'catalog_category_translation'
 		ordering			= ["id"] # sets up default ordering by language
 		verbose_name		= _('Category Translation')
 		verbose_name_plural = _('Category Translations')
@@ -67,7 +68,7 @@ class Product(core_models.BaseModel):
 	objects = ProductManager()
 
 	class Meta:
-		db_table			= 'shop_product'
+		db_table			= 'catalog_product'
 		verbose_name		= _('product')
 		verbose_name_plural = _('products')
 
@@ -82,7 +83,7 @@ class ProductTranslation(models.Model):
 		return u'%s: %s' % (self.article, self.language)
 
 	class Meta:
-		db_table			= 'shop_product_translation'
+		db_table			= 'catalog_product_translation'
 		ordering			= ["id"] # sets up default ordering by language
 		verbose_name		= _('Product Translation')
 		verbose_name_plural = _('Product Translations')

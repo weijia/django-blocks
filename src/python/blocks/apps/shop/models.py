@@ -28,7 +28,12 @@ class Tax(models.Model):
 
 	def __unicode__(self):
 		nmr = self.tax * 100
-		return '%s%' % nmr
+		return '%s%%' % nmr
+
+	class Meta:
+		db_table			= 'blocks_shop_tax'
+		verbose_name		= _('tax')
+		verbose_name_plural = _('taxes')
 
 class AssetManager(models.Manager):
 	"""
@@ -41,7 +46,7 @@ class Asset(models.Model):
 	"""
 	tax = models.ForeignKey(Tax, null=False, blank=False)
 
-	# related model as generic relation
+	# related model as generic relation (to the "product")
 	content_type	= models.ForeignKey(ContentType)
 	object_id		= models.PositiveIntegerField()
 	content_object	= generic.GenericForeignKey('content_type', 'object_id')
@@ -63,12 +68,15 @@ class AssetKind(models.Model):
 	A sellable asset kind
 	"""
 
-	asset = models.ForeignKey(Asset, null=False, blank=False)
+	# related model as generic relation (to the "product")
+	content_type	= models.ForeignKey(ContentType)
+	object_id		= models.PositiveIntegerField()
+	content_object	= generic.GenericForeignKey('content_type', 'object_id')
 
 	reference	= models.CharField(_('reference'), max_length=50, null=True, blank=True)
 	unit_price	= models.DecimalField(max_digits=18, decimal_places=2, verbose_name=_('unit price'))
 	image		= BlocksImageField(_('image'), upload_to='images/shop/assets',
-		sizes=[('thumbnail', 160, 145), ('detail', 275, 335), ])
+		sizes=[('thumbnail', 160, 145), ('detail', 275, 335), ], null=True, blank=True)
 
 	objects = AssetKindManager()
 	

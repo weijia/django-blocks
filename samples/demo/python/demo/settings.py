@@ -111,6 +111,8 @@ INSTALLED_APPS = (
 	# django-blocks core applications
 	'blocks.apps.core',
 	'blocks.apps.administration',
+	'blocks.apps.shop',
+	'blocks.apps.cart',
 
 	# django-blocks add-ons applications
 	#'blocks.apps.aggregator',
@@ -119,6 +121,8 @@ INSTALLED_APPS = (
 	# django-blocks based applications 
 	'demo.apps.site',
 	'demo.apps.news',
+	'demo.apps.catalog',
+
 )
 
 ## BLOCKS SETTINGS ##
