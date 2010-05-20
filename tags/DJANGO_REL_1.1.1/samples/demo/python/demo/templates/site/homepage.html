@@ -1,0 +1,58 @@
+{% extends "site/base_2c.html" %}
+{% load i18n %}
+
+{% block content %}				
+	<div id="history" class="collg">
+		<h2>{% trans 'LATEST ACTIONS' %}</h2>
+		<div class="items separator">
+		{% for log in history %}
+			<div class="item">
+				<span class="date">{{ log.action_time|date:'Y-m-d j:i:s' }}</span>&nbsp;
+				<b>{{ log.user }}</b>&nbsp;
+				{{ log.change_message }}
+				{% if not log.is_deletion %}
+					<a href="{{ log.get_edited_object.get_absolute_url }}">{{ log.object_repr }}</a>
+				{% else %}
+					{{ log.object_repr }} {% trans 'removed' %}
+				{% endif %}
+				
+			</div>
+		{% empty %}
+			<p>{% trans 'no contribution to the site yet' %}</p>
+		{% endfor %}
+		</div>
+	</div>
+	
+	<div id="feeds" class="colsm last">
+		<h2>{% trans 'Latest Feeds' %}</h2>
+		<div class="bbody">
+			{% load humanize %}
+			{% load aggregator %}
+			{% get_feed_list as feed_list limit 6 %}
+			{% for item in feed_list %}
+			<div class="item">
+				<span class="feed"><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id }}/">{{ item.feed.title }}</a></span><br />
+				<span class="date">{{ item.date_modified|naturalday:"F j, Y" }} @ {{ item.date_modified|date:"H:i" }}</span><br />
+				<a class="title" href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.feed.id}}/{{ item.id }}/" target="_new">{{ item.title }}</a>
+			</div>
+			{% empty %}
+				<p>{% trans 'no feeds' %}</p>
+			{% endfor %}
+			<div class="more">
+				<a href="{{ BLOCKS_AGGREGATOR_URL }}">{% trans 'MORE' %} {% trans 'FEEDS' %}</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+	<div id="news" class="colsm">
+		<h2>{% trans 'NEWS AND EVENTS' %}</h2>
+		{% for item in news_list %}
+			{% include "news/item.html" %}
+		{% endfor %}
+		<div class="more">
+			<a href="/news/">{% trans 'MORE' %} {% trans 'NEWS AND EVENTS' %}</a>
+		</div>
+	</div>
+{% endblock %}

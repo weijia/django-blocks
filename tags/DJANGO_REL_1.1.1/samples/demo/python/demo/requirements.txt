@@ -1,0 +1,7 @@
+django==1.1.1
+django-localeurl
+django-tagging
+PIL
+
+# django-filebrowser before dependencies on fancy UI
+-e svn+http://django-filebrowser.googlecode.com/svn/trunk@540#egg=filebrowser_r540

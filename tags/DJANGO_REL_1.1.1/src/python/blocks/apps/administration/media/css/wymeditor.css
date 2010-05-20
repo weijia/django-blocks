@@ -1,0 +1,65 @@
+.wym_skin_default
+{
+	clear: both;
+	width: 600px;
+}
+
+.wym_skin_default .wym_area_right
+{
+	display: none !important;
+}
+
+.wym_skin_default .wym_area_main
+{
+	margin-right: 0 !important;
+}
+
+.wym_skin_default .wym_tools ul
+{
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.wym_skin_default .wym_section
+{
+	//width:100%;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_containerex a
+{
+	background:transparent url(../img/bticons.gif) no-repeat scroll 0 0;
+	background-position: 0 0;
+}
+.wym_skin_default .wym_buttons li.wym_tools_containerex.para a
+{
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_containerex.h1 a
+{
+	background-position: 0 -24px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_containerex.h2 a
+{
+	background-position: 0 -48px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_containerex.h3 a
+{
+	background-position: 0 -72px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_containerex.h4 a
+{
+	background-position: 0 -96px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_containerex.h5 a
+{
+	background-position: 0 -120px;
+}
+
+.wym_skin_default .wym_buttons li.wym_tools_containerex.h6 a
+{
+	background-position: 0 -144px;
+}

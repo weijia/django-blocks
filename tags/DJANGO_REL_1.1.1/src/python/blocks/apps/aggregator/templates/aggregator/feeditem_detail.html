@@ -1,0 +1,41 @@
+{% extends "base_aggregator.html" %}
+
+{% block content %}
+<div class="span-3 last textblock">	
+	{% if object %}
+
+	<div class="block last">
+		<h2>{{ object.title }}</h2>
+		<div class="bbody">
+			<span class="feed"><a href="{{ object.feed.public_url }}">{{ object.feed.title }}</a></span>
+			<span class="date">{{ object.date_modified|date:"j F Y H:m" }}</span>
+		</div>
+		<div class="bbody">
+			{{ object.content }}
+		</div>
+		<div class="bbody links">
+			<a href="{{ object.link }}">read original</a>
+			<a href="{{ BLOCKS_AGGREGATOR_URL }}{{ object.feed.id }}/">read more from '{{ object.feed.title }}'</a>
+		</div>
+	</div>
+	
+	{% else %}
+	<p>invalid feed</p>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="block feeds clear">
+	<h2>Feeds</h2>
+	<div class="bbody">
+		{% if feed_list %}
+			{% for item in feed_list %}
+		<p><span class="feed"><a href="{{ BLOCKS_AGGREGATOR_URL }}{{ item.id }}/">{{ item.title }}</a></span></p>
+			{% endfor %}
+		{% else %}
+		<p>no feeds</p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

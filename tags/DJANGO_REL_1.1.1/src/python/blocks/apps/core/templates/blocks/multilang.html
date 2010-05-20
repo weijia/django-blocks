@@ -1,0 +1,36 @@
+{% load i18n admin %}
+<script type="text/javascript">MEDIA_URL = "{{ MEDIA_URL }}blocks/";</script>
+<fieldset class="module">
+  <h2>{{ inline_admin_formset.opts.verbose_name_plural|title }}</h2>
+{{ inline_admin_formset.formset.management_form }}
+{{ inline_admin_formset.formset.non_form_errors }}
+
+	<div id="languages">
+
+    {% if BLOCKS_USELANG %}
+		<ul>
+		{% for lang in BLOCKS_LANGUAGES %}
+			<li value="{{ lang.0 }}"><a href="#lng_{{ lang.0 }}">{{ lang.1 }}</a></li>
+		{% endfor %}
+		</ul>
+    {% endif %}
+
+
+		{% for inline_admin_form in inline_admin_formset %}
+			{% get_language_byindex forloop.counter0 as lang %}
+
+		<div id="lng_{{ lang.0 }}">
+			<input type="hidden" class="translations-language" name="__translations-{{ forloop.counter0 }}-language" value="{{ lang.0 }}" />
+  			{% if inline_admin_form.show_url %}
+  			<p><a href="../../../r/{{ inline_admin_form.original.content_type_id }}/{{ inline_admin_form.original.id }}/">{% trans "View on site" %}</a></p>
+  			{% endif %}
+
+  			{% for fieldset in inline_admin_form %}
+    			{% include "blocks/multilang_fieldset.html" %}
+  			{% endfor %}
+
+  			{{ inline_admin_form.pk_field.field }}
+		</div>
+		{% endfor %}
+	</div>
+</fieldset>

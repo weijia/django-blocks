@@ -1,0 +1,13 @@
+{% extends "site/base_2c.html" %}
+{% load i18n %}
+{% load contenttypes %}
+
+{% block class %}static{% endblock %}
+
+{% block content %}
+	{% block page%}{% endblock %}
+{% endblock %}
+
+{% block sidebar %}
+	{% include "site/sidebar_menu.html" %}
+{% endblock %}

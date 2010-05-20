@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+<div class="block feeds clear">
+	<h2>Archives</h2>	
+	<div class="bbody">
+		{% include "blog/blogentry_archive_dates.html" %}
+	</div>
+</div>
+{% endblock %}

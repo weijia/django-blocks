@@ -1,0 +1,3 @@
+{{ comment.user_name }} posted the following comment:
+
+{{ comment.comment }}

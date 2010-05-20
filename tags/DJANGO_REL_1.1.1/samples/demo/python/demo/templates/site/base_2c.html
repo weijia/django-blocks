@@ -1,0 +1,11 @@
+{% extends "site/base.html" %}
+
+{% block body %}
+		<div id="contents" class="colcn">
+			{% block content %}{% endblock %}
+		</div>
+		
+		<div id="sidebar" class="colsm last">
+			{% block sidebar %}{% endblock %}
+		</div>
+{% endblock %}
