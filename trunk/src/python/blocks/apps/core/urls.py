@@ -31,7 +31,13 @@ if not hasattr(settings, 'FILEBROWSER_URL_ADMIN'):
 	settings.FILEBROWSER_URL_ADMIN = '/admin/filebrowser/'
 
 if getattr(settings, 'FILEBROWSER_ENABLED', False):
-	urlpatterns += patterns('', (r'^%s/' % settings.FILEBROWSER_URL_ADMIN.strip('/'), include('filebrowser.urls')), )
+	#from django.views.generic.simple import redirect_to
+	fb_root = settings.FILEBROWSER_URL_ADMIN.strip('/')
+	urlpatterns += patterns('',
+		#(r'^%s/$' % fb_root, redirect_to, {'url': 'browse/',}),
+		(r'^%s/' % fb_root, include('filebrowser.urls')),
+	)
+
 
 sitemaps = {}
 
