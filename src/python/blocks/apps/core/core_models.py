@@ -148,7 +148,7 @@ class BaseContentTranslation(models.Model):
 	Base content translation - language-based
 	"""
 	model = None
-	language  = models.CharField(max_length=2, choices=settings.BLOCKS_LANGUAGES, editable=True)
+	language  = models.CharField(max_length=5, choices=settings.BLOCKS_LANGUAGES, editable=True)
 
 	def __unicode__(self):
 		return u'%s: %s' % (self.model, self.language)
