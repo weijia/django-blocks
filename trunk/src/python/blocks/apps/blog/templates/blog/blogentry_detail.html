@@ -1,16 +1,16 @@
-{% extends "base_weblog.html" %}
+{% extends "blog/base_weblog.html" %}
 
 {% block title %}Weblog | {{ object.headline|escape }}{% endblock %}
 
 {% load humanize %}
-{% block content %}
+{% block blogcontent %}
 	
 	<div class="block last">
-		<h2>{{ blog.title }}</h2>
-		<div class="bbody">Posted by <strong>{{ blog.author }}</strong> | <span class="date">{{ blog.publish_date|naturalday:"F j, Y" }} @ {{ blog.publish_date|date:"H:i" }}</span>{% if blog.tags %}<span class="tags"> | Filed under: {% for tag in blog.tags %}<a href="/blog/tag/{{tag.name|slugify}}/">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</span>{% endif %}</div>
+		<h2>{{ blog.translation.title }}</h2>
+		<div class="bbody">Posted by <strong>{{ blog.creation_user }}</strong> | <span class="date">{{ blog.publish_date|naturalday:"F j, Y" }} @ {{ blog.publish_date|date:"H:i" }}</span>{% if blog.tags %}<span class="tags"> | Filed under: {% for tag in blog.tags %}<a href="/blog/tag/{{tag.name|slugify}}/">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</span>{% endif %}</div>
 		<div class="bbody">
-			{{ blog.lead }}
-			{{ blog.body }}
+			{{ blog.translation.lead }}
+			{{ blog.translation.body }}
 		</div>
 	</div>
 

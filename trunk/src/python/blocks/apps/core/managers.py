@@ -9,9 +9,19 @@ options.DEFAULT_NAMES += ('db_name',)
 
 
 class MultiDBManager(Manager):
-    def get_query_set(self):
+	def get_query_set(self):
 		db_name = getattr(self.model._meta, 'db_name', None)
 		return QuerySet(self.model, using=db_name)
+	
+	@staticmethod
+	def get_db_connection(model):
+		db_name = getattr(model._meta, 'db_name', None)
+		if not db_name is None:
+			from django.db import connections
+			return connections[db_name]
+		else:
+			from django.db import connection
+			return connection
 
 
 STATUS_DRAFT	 = 'N'
