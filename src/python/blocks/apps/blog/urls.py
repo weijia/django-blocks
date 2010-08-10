@@ -1,9 +1,10 @@
-from django.conf.urls.defaults import url, patterns
+from django.conf.urls.defaults import url, patterns, include
 from django.views.generic.list_detail import object_list
 from django.views.generic.date_based import object_detail, archive_day, archive_month, archive_year
+
 from blocks.apps.blog.views import entries_bytag
 from blocks.apps.blog.models import BlogEntry
-from blocks.apps.blog.feeds import LatestEntries
+#from blocks.apps.blog.feeds import LatestEntries
 
 info_dict = {
 	'queryset': BlogEntry.objects.all(),
@@ -18,7 +19,7 @@ idx_info_dict = {
 	'paginate_by': 8,
 }
 
-feeds = { 'rss': LatestEntries, }
+#feeds = { 'rss': LatestEntries, }
 
 urlpatterns = patterns('',
 
@@ -31,5 +32,7 @@ urlpatterns = patterns('',
    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/$', entries_bytag), 
    (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/page/(?P<page>\d+)/$', entries_bytag),
 
-   (r'^(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+   #(r'^(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+   
+   (r'^comments/', include('django.contrib.comments.urls')),
 )

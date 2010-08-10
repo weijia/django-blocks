@@ -1,8 +1,8 @@
-{% extends "base_weblog.html" %}
+{% extends "blog/base_weblog.html" %}
 
 {% block title %}Weblog entries filed in {{ month|date:"F" }}{% endblock %}
 
-{% block content %}
+{% block blogcontent %}
 	<h1>Weblog entries filed in {{ month|date:"F" }}</h1>
 
 	<div class="block last">

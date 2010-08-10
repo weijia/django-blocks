@@ -1,12 +1,10 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, include
 #from blocks.rpc import request
 from django.conf import settings
 from django.contrib.sitemaps import GenericSitemap
 from django.contrib.admin import site
 from django.core import urlresolvers
 from django.contrib import admin
-
-from blocks.apps.core.models import StaticPage
 
 
 urlpatterns = []
@@ -22,8 +20,11 @@ if settings.MEDIA_URL.startswith('/') and settings.DEBUG == True:
 	)
 
 if hasattr(settings, 'BLOCKS_BLOG_URL'):
-	urlpatterns += patterns('', (r'^%s/' % settings.BLOCKS_BLOG_URL.strip('/'), include('blocks.apps.blog.urls')), )
-						   
+	urlpatterns += patterns('', 
+		(r'^%s/' % settings.BLOCKS_BLOG_URL.strip('/'), include('blocks.apps.blog.urls')), 
+	)
+
+
 if hasattr(settings, 'BLOCKS_AGGREGATOR_URL'):
 	urlpatterns += patterns('', (r'^%s/' % settings.BLOCKS_AGGREGATOR_URL.strip('/'), include('blocks.apps.aggregator.urls')), )
 
