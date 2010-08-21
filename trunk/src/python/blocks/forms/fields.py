@@ -265,3 +265,15 @@ class GeoLocationField(Field):
 #	def formfield(self, **kwargs):
 #		kwargs['widget'] = widgets.HTMLWidget
 #		return super(HTMLField, self).formfield(**defaults)
+
+
+try:
+	from south.modelsinspector import add_introspection_rules
+except:
+	pass
+else:
+	rules = [
+	    ((BlocksImageField,), [], {},),
+	    ((GeoLocationField,), [], {'max_length':['max_length',{'max_length':30}]},),
+	]
+	add_introspection_rules(rules, ["^blocks\.forms\.fields"])
