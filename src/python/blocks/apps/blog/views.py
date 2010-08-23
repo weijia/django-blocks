@@ -8,7 +8,6 @@ from models import BlogEntry
 def entries_bytag(request, tag, page=1):
 	
 	entries = TaggedItem.objects.get_by_model(BlogEntry, tag)
-	entries = entries.order_by('-publish_date')
 
 	t = loader.get_template("blog/blogentry_bytag.html")
 	
