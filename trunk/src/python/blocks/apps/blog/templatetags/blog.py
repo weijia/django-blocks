@@ -7,7 +7,7 @@ class BlogEntryListNode(template.Node):
 		self.limit = limit
 
 	def render(self, context):
-		context[self.varname] = BlogEntry.objects.order_by('-publish_date')[:self.limit]
+		context[self.varname] = BlogEntry.objects.published()[:self.limit]
 		return ''
 
 def do_get_blog_list(parser, token):
@@ -27,6 +27,31 @@ def do_get_blog_list(parser, token):
 	else:
 		return BlogEntryListNode(bits[2], bits[4])
 
+class BlogEntryPromotedListNode(template.Node):
+	def __init__(self, varname, limit=10):
+		self.varname = varname
+		self.limit = limit
+
+	def render(self, context):
+		context[self.varname] = BlogEntry.objects.promoted()[:self.limit]
+		return ''
+
+def do_get_blog_promoted_list(parser, token):
+	"""
+	{% get_blog_promoted_list as feed_list [limit 10] %}
+	"""
+	bits = token.contents.split()
+	if len(bits) != 3 and len(bits) != 5:
+		raise template.TemplateSyntaxError, "'%s' tag takes two or four arguments" % bits[0]
+	if bits[1] != "as":
+		raise template.TemplateSyntaxError, "First argument to '%s' tag must be 'as'" % bits[0]
+	if len(bits) > 3 and bits[3] != "limit":
+		raise template.TemplateSyntaxError, "Third argument to '%s' tag must be 'limit'" % bits[0]
+	
+	if len(bits) == 3:
+		return BlogEntryPromotedListNode(bits[2])
+	else:
+		return BlogEntryPromotedListNode(bits[2], bits[4])
 
 class BlogEntryDatesListNode(template.Node):
 	def __init__(self, varname, limit=10):
@@ -64,6 +89,7 @@ def tagweight(value):
 # register tag on django
 register = template.Library()
 register.tag('get_blog_list', do_get_blog_list)
+register.tag('get_blog_promoted_list', do_get_blog_promoted_list)
 register.tag('get_blog_dates', do_get_blog_dates)
 register.filter(tagweight)
 

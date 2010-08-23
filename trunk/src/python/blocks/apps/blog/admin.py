@@ -9,9 +9,11 @@ class BlogEntryInline(MultiLanguageInline):
 	model = BlogEntryTranslation
 
 class BlogEntryAdmin(BaseContentAdmin):
+	prepopulated_fields = {"slug": ("name",)}
+
 	inlines = [BlogEntryInline]
 	fieldsets = (
-	   (None,					{'fields': ('name', 'comments_enabled', 'tag_list', )}),
+	   (None,					{'fields': ('name', 'slug', 'comments_enabled', 'tag_list', )}),
 	   BaseContentAdmin.PUBLISHING_OPTIONS,
 	)
 	list_filter = ('comments_enabled', 'status', 'promoted',)
