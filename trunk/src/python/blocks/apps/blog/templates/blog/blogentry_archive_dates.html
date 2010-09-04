@@ -3,7 +3,7 @@
 {% if dates_list %}
 <ul>
 	{% for item in dates_list %}
-   <li><a href="/blog/{{ item|date:"Y" }}/{{ item|date:"M"|lower }}/">{{ item|date:"F Y" }}</a></li>
+   <li><a href="/blog/{{ item|date:"Y" }}/{{ item|date:"m" }}/">{{ item|date:"F Y" }}</a></li>
    {% endfor %}
 </ul>
 {% else %}
