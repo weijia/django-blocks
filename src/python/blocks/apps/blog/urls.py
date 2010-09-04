@@ -24,8 +24,8 @@ idx_info_dict = {
 urlpatterns = patterns('',
 
    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<slug>[\w-]+)/$', object_detail, dict(info_dict, month_format='%m', slug_field='slug'), 'blog.details'),
-   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/$', archive_day, info_dict),
-   (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', archive_month, info_dict),
+   (r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', archive_day, dict(info_dict, month_format='%m')),
+   (r'^(?P<year>\d{4})/(?P<month>\d{1,2})/$', archive_month, dict(info_dict, month_format='%m')),
    (r'^(?P<year>\d{4})/$', archive_year, info_dict),
    url(r'^$', object_list, idx_info_dict, 'blog.index'),
    
