@@ -29,8 +29,8 @@ urlpatterns = patterns('',
    (r'^(?P<year>\d{4})/$', archive_year, info_dict),
    url(r'^$', object_list, idx_info_dict, 'blog.index'),
    
-   (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/$', entries_bytag), 
-   (r'^tag/(?P<tag>[-_A-Za-z0-9]+)/page/(?P<page>\d+)/$', entries_bytag),
+   (r'^tag/(?P<tag>[\w-]+)/$', entries_bytag), 
+   (r'^tag/(?P<tag>[\w-]+)/page/(?P<page>\d+)/$', entries_bytag),
 
    #(r'^(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
    
