@@ -44,7 +44,7 @@ class BlogEntryTranslation(models.Model):
 	
 	title = models.CharField(_('title'), max_length=200)
 	lead = models.TextField(_('lead'), max_length=255)
-	body = models.TextField(_('body'))
+	body = models.TextField(_('body'), blank=True)
 	
 	def __unicode__(self):
 		return u'%s: %s' % (self.article, self.language)
