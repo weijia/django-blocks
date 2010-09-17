@@ -81,7 +81,7 @@ class BlocksImageField(ImageField):
 		dir = os.path.dirname(filename)
 		return os.path.join(dir, "%s%s" % (name, ext))
 
-	def _resize_image(self, filename, size):
+	def _resize_image(self, filename, size, optimize=1):
 		'''
 		Resizes the image to specified width, height and force option
 		'''
@@ -113,7 +113,7 @@ class BlocksImageField(ImageField):
 				img = ImageOps.fit(img, (size['width'], size['height']), Image.ANTIALIAS, 0, self.mode)
 				
 			try:
-				img.save(filename, optimize=1)
+				img.save(filename, optimize=optimize)
 			except IOError:
 				img.save(filename)
 
@@ -129,7 +129,7 @@ class BlocksImageField(ImageField):
 	def _get_class_uuid(self, instance):
 		from hashlib import md5
 		m = md5()
-		m.update(instance.__class__.__name__)
+		m.update("%s%s" % (instance.__class__.__name__, self.name))
 		class_uuid = m.hexdigest()
 		return "%s%s%s" % (class_uuid, os.path.sep, instance._get_pk_val())
 
@@ -163,12 +163,12 @@ class BlocksImageField(ImageField):
 			if os.path.exists(filename):				
 				size_filename = self._get_thumbnail_filename(dst_fullpath, "thumbnail_adm")
 				shutil.copyfile(dst_fullpath, size_filename)
-				self._resize_image(size_filename, {'width': 70, 'height': 50})
+				self._resize_image(size_filename, {'width': 70, 'height': 50}, optimize=0)
 				
 				for size in self.sizes:
 					size_filename = self._get_thumbnail_filename(dst_fullpath, size['name'])
 					shutil.copyfile(dst_fullpath, size_filename)
-					self._resize_image(size_filename, size)
+					self._resize_image(size_filename, size, optimize=1)
 
 	def _delete_sizes(self, instance=None, **kwargs):
 		field = getattr(instance, self.name, None)
