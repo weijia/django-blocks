@@ -66,7 +66,12 @@ class BaseModel(models.Model):
 		return u'%s' % (self.name)
 	
 	def get_history(self):
-		 return LogEntry.objects.filter(content_type=ContentType.objects.get_for_model(self).id, object_id=self.pk)
+		lst = []		
+		try:
+			lst = LogEntry.objects.filter(content_type=ContentType.objects.get_for_model(self).id, object_id=self.pk)
+		except:
+			pass
+		return lst
 
 	def get_creation(self):
 		lst = self.get_history().order_by('action_time')
