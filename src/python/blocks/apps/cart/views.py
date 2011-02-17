@@ -98,5 +98,5 @@ def cart_confirm(request):
 	else:
 		return HttpResponseRedirect(reverse('blocks.cart_detail'))
 
-def cart_detail(request, queryset):
+def cart_detail(request):
 	return direct_to_template(request, template='cart/cart_detail.html', extra_context={'cart':  Cart(request),})
