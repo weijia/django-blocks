@@ -46,6 +46,8 @@ try:
 	admin_url = urlresolvers.reverse('%sadmin_index' % site.name)
 except urlresolvers.NoReverseMatch:
 	admin_url = '/%s' % site.root_path
+except:
+	admin_url = "/admin"
 
 for model, model_admin in site._registry.items():
 	isok = getattr(model, 'get_absolute_url', None) and getattr(model.objects, 'published', None)
@@ -70,8 +72,8 @@ urlpatterns += patterns('',
 		
 	# Uncomment the admin/doc line below and add 'django.contrib.admindocs'
 	# to INSTALLED_APPS to enable admin documentation:
-	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+	#(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	
 	# administration site
-	(r'^admin/', include(admin.site.urls)),
+	#(r'^admin/', include(admin.site.urls)),
 )
