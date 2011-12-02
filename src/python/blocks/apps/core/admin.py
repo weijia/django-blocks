@@ -4,6 +4,7 @@ from django.contrib.admin.util import unquote
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_unicode
 from django.conf import settings
+from django.core.urlresolvers import NoReverseMatch
 
 from blocks.apps.core.models import *
 from blocks.apps.core.menus import get_parent_choices, get_menus_choices, MenuItemChoiceField, move_item_or_clean_ranks
@@ -98,7 +99,11 @@ class MenuItemAdmin(BaseAdmin):
 		obj.save()
 
 	def response_add(self, request, obj, post_url_continue='../%s/'):
-		response = super(MenuItemAdmin, self).response_add(request, obj, post_url_continue)
+		try:
+			response = super(MenuItemAdmin, self).response_add(request, obj, post_url_continue)
+		except NoReverseMatch:
+			return HttpResponseRedirect("../../")
+		
 		if request.POST.has_key("_continue"):
 			return response
 		elif request.POST.has_key("_addanother"):
@@ -109,7 +114,10 @@ class MenuItemAdmin(BaseAdmin):
 			return HttpResponseRedirect("../../")
 
 	def response_change(self, request, obj):
-		response =  super(MenuItemAdmin, self).response_change(request, obj)
+		try:
+			response = super(MenuItemAdmin, self).response_change(request, obj)
+		except NoReverseMatch:
+			return HttpResponseRedirect("../../")
 		if request.POST.has_key("_continue"):
 			return HttpResponseRedirect(request.path)
 		elif request.POST.has_key("_addanother"):
