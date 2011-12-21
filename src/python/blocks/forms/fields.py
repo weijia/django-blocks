@@ -224,14 +224,16 @@ class BlocksImageField(ImageField):
 		#	print "delete images"
 
 
-	def get_db_prep_save(self, value):
+	def get_db_prep_save(self, value, connection):
 		'''
 			Overwrite get_db_prep_save to allow saving nothing to the database
 			if image has been deleted
 		'''
 		v = u''
 		if value:
-			v = super(BlocksImageField, self).get_db_prep_save(value)
+			v = super(BlocksImageField, self).get_db_prep_save(
+					value, 
+					connection)
 		return v
 
 	def contribute_to_class(self, cls, name):
