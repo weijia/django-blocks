@@ -1,4 +1,4 @@
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
 from blocks.apps.aggregator.models import FeedItem
 from django.conf import settings
 
